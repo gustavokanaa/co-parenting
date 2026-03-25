@@ -6,6 +6,7 @@ import Calendario from '../pages/Calendario'
 import Perfil from '../pages/Perfil'
 import Diario from '../pages/Diario'
 import Familia from '../pages/Familia'
+import CadastroCrianca from '../pages/CadastroCrianca'
 
 export default function AppRoutes() {
     return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/diario" element={<Diario />} />
         <Route path="/familia" element={<Familia />} />
+        <Route path="/cadastro-crianca" element={<CadastroCrianca />} />
         </Routes>
     </BrowserRouter>
     )

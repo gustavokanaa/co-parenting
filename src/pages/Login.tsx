@@ -29,7 +29,7 @@ export default function Login() {
     if (error) {
         setErro('E-mail ou senha incorretos.')
     } else {
-        navigate('/home')
+        navigate('/cadastro-crianca')
     }
     }
 
