@@ -93,7 +93,7 @@ return (
         <span className="text-xl">🏠</span>
         <span className="text-[10px] font-semibold text-[#3D8C8C]">Home</span>
         </button>
-        <button className="flex flex-col items-center gap-1 px-3 py-2">
+        <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
         <span className="text-xl">📅</span>
         <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
         </button>
