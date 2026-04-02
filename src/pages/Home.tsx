@@ -127,9 +127,22 @@ export default function Home() {
 
             {/* Header */}
             <div className="bg-[#1C2B2B] px-6 pt-12 pb-6">
-                <p className="text-white/60 text-sm">{getSaudacao()} 👋</p>
-                <h1 className="text-white text-2xl font-bold mt-1">{nomeUsuario}</h1>
+        <div className="flex justify-between items-start">
+            <div>
+            <p className="text-white/60 text-sm">{getSaudacao()} 👋</p>
+            <h1 className="text-white text-2xl font-bold mt-1">{nomeUsuario}</h1>
             </div>
+            <button
+            onClick={async () => {
+                await supabase.auth.signOut()
+                navigate('/login')
+            }}
+            className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-2 rounded-full mt-1 transition-all"
+            >
+            Sair
+            </button>
+        </div>
+        </div>
 
             {/* Card da criança */}
             {crianca && (
