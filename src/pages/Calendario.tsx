@@ -37,46 +37,35 @@ export default function Calendario() {
         quem_busca: '',
     })
 
-    const mesAtual = new Date().getMonth()
-    const anoAtual = new Date().getFullYear()
+    const hoje = new Date()
+    const [mes, setMes] = useState(hoje.getMonth())
+    const [ano, setAno] = useState(hoje.getFullYear())
     const diaAtual = new Date().getDate()
-    const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate()
-    const primeiroDiaSemana = new Date(anoAtual, mesAtual, 1).getDay()
-    const nomeMes = new Date(anoAtual, mesAtual).toLocaleString('pt-BR', { month: 'long' })
+    const diasNoMes = new Date(ano, mes + 1, 0).getDate()
+    const primeiroDiaSemana = new Date(ano, mes, 1).getDay()
+    const nomeMes = new Date(ano, mes).toLocaleString('pt-BR', { month: 'long' })
 
-    useEffect(() => {
-        async function carregarDados() {
-            const { data: userData } = await supabase.auth.getUser()
-            if (!userData.user) { navigate('/login'); return }
+        useEffect(() => {
+    async function carregarDados() {
+        const { data: userData } = await supabase.auth.getUser()
+        if (!userData.user) { navigate('/login'); return }
 
-            const { data: membroData } = await supabase
-                .from('membros_familia')
-                .select('crianca_id')
-                .eq('user_id', userData.user.id)
-                .eq('ativo', true)
-                .limit(1)
-                .single()
+        const { data: membroData } = await supabase
+        .from('membros_familia')
+        .select('crianca_id')
+        .eq('user_id', userData.user.id)
+        .eq('ativo', true)
+        .limit(1)
+        .single()
 
-            if (!membroData) { navigate('/cadastro-crianca'); return }
+        if (!membroData) { navigate('/cadastro-crianca'); return }
 
-            setCriancaId(membroData.crianca_id)
-            await carregarEventos(membroData.crianca_id)
-        }
-        carregarDados()
-    }, [navigate])
-
-    async function carregarEventos(cid: string) {
-        const inicioMes = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-01`
-        const fimMes = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-${diasNoMes}`
-        const { data } = await supabase
-            .from('eventos')
-            .select('*')
-            .eq('crianca_id', cid)
-            .gte('data_evento', inicioMes)
-            .lte('data_evento', fimMes)
-            .order('data_evento', { ascending: true })
-        if (data) setEventos(data)
+        setCriancaId(membroData.crianca_id)
+        await carregarEventos(membroData.crianca_id)
     }
+
+    carregarDados()
+    }, [navigate, mes, ano])
 
     async function salvarEvento() {
         if (!novoEvento.titulo || !novoEvento.data_evento) return
@@ -94,10 +83,29 @@ export default function Calendario() {
             quem_busca: novoEvento.quem_busca,
         })
 
-        await carregarEventos(criancaId)
-        setNovoEvento({ titulo: '', data_evento: '', hora_evento: '', quem_leva: '', quem_busca: '' })
-        setMostrarForm(false)
-        setLoading(false)
+        // Navega para o mês do evento salvo
+        const dataEvento = new Date(novoEvento.data_evento + 'T00:00:00')
+        const novoMes = dataEvento.getMonth()
+        const novoAno = dataEvento.getFullYear()
+
+        setMes(novoMes)
+        setAno(novoAno)
+
+// Recarrega eventos do mês do evento salvo
+    const inicioMes = `${novoAno}-${String(novoMes + 1).padStart(2, '0')}-01`
+    const fimMes = `${novoAno}-${String(novoMes + 1).padStart(2, '0')}-${new Date(novoAno, novoMes + 1, 0).getDate()}`
+    const { data } = await supabase
+    .from('eventos')
+    .select('*')
+    .eq('crianca_id', criancaId)
+    .gte('data_evento', inicioMes)
+    .lte('data_evento', fimMes)
+    .order('data_evento', { ascending: true })
+    if (data) setEventos(data)
+
+    setNovoEvento({ titulo: '', data_evento: '', hora_evento: '', quem_leva: '', quem_busca: '' })
+    setMostrarForm(false)
+    setLoading(false)
     }
 
     const diasComEvento = eventos.map(e => new Date(e.data_evento + 'T00:00:00').getDate())
@@ -111,8 +119,32 @@ export default function Calendario() {
 
             {/* Header com calendário */}
             <div className="bg-[#1C2B2B] px-6 pt-12 pb-0">
-                <h1 className="text-white text-2xl font-bold">Calendário</h1>
-                <p className="text-white/50 text-xs mt-1 capitalize">{nomeMes} {anoAtual}</p>
+                <div className="flex items-center justify-between">
+    <h1 className="text-white text-2xl font-bold">Calendário</h1>
+    </div>
+    <div className="flex items-center justify-between mt-1">
+    <button
+        onClick={() => {
+        if (mes === 0) { setMes(11); setAno(ano - 1) }
+        else setMes(mes - 1)
+        setDiaSelecionado(null)
+        }}
+        className="text-white/60 hover:text-white text-xl px-2"
+    >
+        ‹
+    </button>
+    <p className="text-white/70 text-sm capitalize">{nomeMes} {ano}</p>
+    <button
+        onClick={() => {
+        if (mes === 11) { setMes(0); setAno(ano + 1) }
+        else setMes(mes + 1)
+        setDiaSelecionado(null)
+        }}
+        className="text-white/60 hover:text-white text-xl px-2"
+    >
+        ›
+    </button>
+    </div>
 
                 <div className="grid grid-cols-7 mt-5">
                     {diasSemana.map((d, i) => (
@@ -216,7 +248,7 @@ export default function Calendario() {
             {/* FAB */}
             <button
                 onClick={() => setMostrarForm(true)}
-                className="fixed bottom-20 right-4 w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+                className="fixed bottom-24 right-[calc(50%-208px)] w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
             >
                 +
             </button>
