@@ -23,9 +23,12 @@ export default function Cadastro() {
 
     async function handleCadastro() {
     if (!vinculo) return setErro('Selecione seu vínculo com a criança.')
-    if (!nome) return setErro('Informe seu nome completo.')
-    if (!email) return setErro('Informe seu e-mail.')
+    if (!nome.trim()) return setErro('Informe seu nome completo.')
+    if (nome.trim().length < 3) return setErro('O nome deve ter pelo menos 3 caracteres.')
+    if (!email.trim()) return setErro('Informe seu e-mail.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErro('Informe um e-mail válido.')
     if (senha.length < 6) return setErro('A senha deve ter pelo menos 6 caracteres.')
+    if (senha.length > 50) return setErro('A senha deve ter no máximo 50 caracteres.')
 
     setErro('')
     setLoading(true)

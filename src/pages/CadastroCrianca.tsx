@@ -26,8 +26,13 @@ export default function CadastroCrianca() {
     const [professora, setProfessora] = useState('')
 
     async function handleSalvar() {
-    if (!nome) return setErro('Informe o nome da criança.')
+    if (!nome.trim()) return setErro('Informe o nome da criança.')
+    if (nome.trim().length < 2) return setErro('O nome deve ter pelo menos 2 caracteres.')
     if (!dataNascimento) return setErro('Informe a data de nascimento.')
+    const nascimento = new Date(dataNascimento)
+    const hoje = new Date()
+    if (nascimento > hoje) return setErro('A data de nascimento não pode ser no futuro.')
+    if (hoje.getFullYear() - nascimento.getFullYear() > 18) return setErro('Idade máxima permitida é 18 anos.')
 
     setErro('')
     setLoading(true)
@@ -199,6 +204,10 @@ export default function CadastroCrianca() {
                 onClick={() => {
                 if (step === 1 && !nome) return setErro('Informe o nome da criança.')
                 if (step === 1 && !dataNascimento) return setErro('Informe a data de nascimento.')
+                const nasc = new Date(dataNascimento)
+                const hoje = new Date()
+                if (nasc > hoje) return setErro('A data não pode ser no futuro.')
+                if (hoje.getFullYear() - nasc.getFullYear() > 18) return setErro('Idade máxima é 18 anos.')
                 setErro('')
                 setStep(step + 1)
                 }}

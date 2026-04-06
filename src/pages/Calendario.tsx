@@ -131,7 +131,14 @@
     }
 
     async function salvarEvento() {
-        if (!novoEvento.titulo || !novoEvento.data_evento) return
+        if (!novoEvento.titulo.trim()) {
+            alert('Informe o título do evento.')
+            return
+        }
+        if (!novoEvento.data_evento) {
+            alert('Informe a data do evento.')
+            return
+        }
         if (!criancaId) return
         setLoading(true)
         const { data: userData } = await supabase.auth.getUser()

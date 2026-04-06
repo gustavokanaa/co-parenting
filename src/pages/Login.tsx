@@ -13,8 +13,11 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
     const [loading, setLoading] = useState(false)
 
     async function handleLogin() {
-        if (!email) return setErro('Informe seu e-mail.')
-        if (!senha) return setErro('Informe sua senha.')
+    if (!email.trim()) return setErro('Informe seu e-mail.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErro('Informe um e-mail válido.')
+    if (!senha) return setErro('Informe sua senha.')
+    if (senha.length < 6) return setErro('A senha deve ter pelo menos 6 caracteres.')
+    if (senha.length > 50) return setErro('A senha deve ter no máximo 50 caracteres.')
 
         setErro('')
         setLoading(true)
