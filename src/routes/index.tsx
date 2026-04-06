@@ -7,6 +7,7 @@ import Perfil from '../pages/Perfil'
 import Diario from '../pages/Diario'
 import Familia from '../pages/Familia'
 import CadastroCrianca from '../pages/CadastroCrianca'
+import Convite from '../pages/Convites'
 
 export default function AppRoutes() {
     return (
@@ -21,6 +22,7 @@ export default function AppRoutes() {
         <Route path="/diario" element={<Diario />} />
         <Route path="/familia" element={<Familia />} />
         <Route path="/cadastro-crianca" element={<CadastroCrianca />} />
+        <Route path="/convite/:token" element={<Convite />} />
         </Routes>
     </BrowserRouter>
     )
