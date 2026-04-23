@@ -81,24 +81,29 @@
     }
 
     async function entrarNaFamilia(userId: string) {
-        // Verifica se já é membro
-        const { data: membroExistente } = await supabase
+        // Bloqueia se o usuário já pertence a qualquer família
+        const { data: familiaExistente } = await supabase
         .from('membros_familia')
         .select('id')
-        .eq('crianca_id', convite.crianca_id)
         .eq('user_id', userId)
-        .single()
+        .eq('ativo', true)
+        .limit(1)
+        .maybeSingle()
 
-        if (!membroExistente) {
-        await supabase.from('membros_familia').insert({
-            crianca_id: convite.crianca_id,
-            user_id: userId,
-            nome,
-            vinculo: convite.vinculo,
-            papel: convite.papel,
-            convidado_por: convite.criado_por,
-        })
+        if (familiaExistente) {
+        setErro('Você já pertence a uma família. No momento, cada usuário pode fazer parte de apenas uma família.')
+        setLoading(false)
+        return
         }
+
+        await supabase.from('membros_familia').insert({
+        crianca_id: convite.crianca_id,
+        user_id: userId,
+        nome,
+        vinculo: convite.vinculo,
+        papel: convite.papel,
+        convidado_por: convite.criado_por,
+        })
 
         // Marca convite como usado
         await supabase

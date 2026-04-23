@@ -27,6 +27,7 @@
     const [crianca, setCrianca] = useState<Crianca | null>(null)
     const [membros, setMembros] = useState<Membro[]>([])
     const [loading, setLoading] = useState(true)
+    const [papel, setPapel] = useState<string | null>(null)
 
     // ── EDIÇÃO ────────────────────────────────────────────────────────
     const [mostrarEdicao, setMostrarEdicao] = useState(false)
@@ -66,6 +67,15 @@
         .single()
 
         if (!membroData) { navigate('/cadastro-crianca'); return }
+
+        const { data: membroCompleto } = await supabase
+        .from('membros_familia')
+        .select('papel')
+        .eq('user_id', userData.user.id)
+        .eq('crianca_id', membroData.crianca_id)
+        .single()
+
+        if (membroCompleto) setPapel(membroCompleto.papel)
 
         const { data: criancaData } = await supabase
         .from('criancas')
@@ -172,12 +182,14 @@
             </div>
 
             {/* ── NOVO — Botão editar ── */}
+            {papel === 'responsavel_principal' && (
             <button
             onClick={() => { setMostrarEdicao(true); setStepEdicao(1) }}
             className="mt-4 bg-white/20 hover:bg-white/30 text-white text-xs font-semibold px-4 py-2 rounded-full transition-all"
             >
             ✏️ Editar dados
             </button>
+            )}
         </div>
 
         {/* Conteúdo */}

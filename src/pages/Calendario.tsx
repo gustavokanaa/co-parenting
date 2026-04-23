@@ -42,6 +42,7 @@
     const [diaSelecionado, setDiaSelecionado] = useState<number | null>(null)
     const [mostrarForm, setMostrarForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [papel, setPapel] = useState<String | null>(null)
     const [novoEvento, setNovoEvento] = useState<NovoEvento>({
         titulo: '', data_evento: '', hora_evento: '', quem_leva: '', quem_busca: '',
     })
@@ -104,6 +105,16 @@
         if (!membroData) { navigate('/cadastro-crianca'); return }
 
         setCriancaId(membroData.crianca_id)
+
+        const { data: membroCompleto} = await supabase
+            .from('membros_familia')
+            .select('papel')
+            .eq('user_id', userData.user.id)
+            .eq('crianca_id', membroData.crianca_id)
+            .single()
+
+        if (membroCompleto) setPapel(membroCompleto.papel)
+
         await carregarEventos(membroData.crianca_id, mes, ano)
         await carregarConfirmacoes(membroData.crianca_id, mes, ano)
         }
@@ -131,6 +142,7 @@
     }
 
     async function salvarEvento() {
+        if (papel !== 'responsavel_principal') return
         if (!novoEvento.titulo.trim()) {
             alert('Informe o título do evento.')
             return
@@ -331,10 +343,14 @@
         )}
 
         {/* FAB */}
-        <button onClick={() => setMostrarForm(true)}
-            className="fixed bottom-24 right-[calc(50%-208px)] w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10">
+        {papel === 'responsavel_principal' && (
+        <button
+            onClick={() => setMostrarForm(true)}
+            className="fixed bottom-24 right-[calc(50%-208px)] w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+        >
             +
         </button>
+        )}
 
         {/* Bottom nav */}
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
