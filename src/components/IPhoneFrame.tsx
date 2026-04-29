@@ -115,6 +115,7 @@ export default function IPhoneFrame({ children }: { children: ReactNode }) {
               overflowX: 'hidden',
               position: 'relative',
               scrollbarWidth: 'none',
+              transform: 'translateZ(0)',
             }}
           >
             {children}
@@ -149,21 +150,6 @@ export default function IPhoneFrame({ children }: { children: ReactNode }) {
             </span>
           </div>
 
-          {/* Dynamic Island */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 12,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 120,
-              height: 34,
-              background: '#000',
-              borderRadius: 20,
-              zIndex: 60,
-              pointerEvents: 'none',
-            }}
-          />
         </div>
       </div>
     </div>

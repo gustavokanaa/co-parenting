@@ -362,7 +362,7 @@
         {papel === 'responsavel_principal' && (
         <button
             onClick={() => setMostrarForm(true)}
-            className="fixed bottom-24 right-[calc(50%-208px)] w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+            className="fixed bottom-24 right-4 w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
         >
             +
         </button>

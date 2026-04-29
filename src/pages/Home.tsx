@@ -29,6 +29,7 @@ export default function Home() {
     const [membros, setMembros] = useState<Membro[]>([])
     const [eventos, setEventos] = useState<Evento[]>([])
     const [loading, setLoading] = useState(true)
+    const [papel, setPapel] = useState<string | null>(null)
 
     function calcularIdade(dataNascimento: string) {
         const hoje = new Date()
@@ -78,6 +79,15 @@ export default function Home() {
             }
 
             const criancaId = membroData.crianca_id
+
+            const { data: membroCompleto } = await supabase
+                .from('membros_familia')
+                .select('papel')
+                .eq('user_id', user.id)
+                .eq('crianca_id', criancaId)
+                .single()
+
+            if (membroCompleto) setPapel(membroCompleto.papel)
 
             // Busca dados da criança
             const { data: criancaData } = await supabase
@@ -183,12 +193,14 @@ export default function Home() {
                     <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
                         <p className="text-3xl mb-2">📭</p>
                         <p className="text-sm text-[#8FA3A3]">Nenhum evento próximo</p>
-                        <button
-                            onClick={() => navigate('/calendario')}
-                            className="mt-3 text-xs font-semibold text-[#3D8C8C]"
-                        >
-                            + Criar evento
-                        </button>
+                        {papel === 'responsavel_principal' && (
+                            <button
+                                onClick={() => navigate('/calendario')}
+                                className="mt-3 text-xs font-semibold text-[#3D8C8C]"
+                            >
+                                + Criar evento
+                            </button>
+                        )}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">

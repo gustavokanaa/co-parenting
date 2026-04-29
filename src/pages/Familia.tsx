@@ -13,17 +13,7 @@
     voce?: boolean
     }
 
-    const permissoes = [
-    { acao: 'Ver calendário', principal: true, familiar: true },
-    { acao: 'Criar eventos', principal: true, familiar: false },
-    { acao: 'Ver diário', principal: true, familiar: true },
-    { acao: 'Postar no diário', principal: true, familiar: true },
-    { acao: 'Editar perfil da criança', principal: true, familiar: false },
-    { acao: 'Ver documentos', principal: true, familiar: false },
-    { acao: 'Convidar membros', principal: true, familiar: false },
-    ]
-
-    export default function Familia() {
+export default function Familia() {
     const navigate = useNavigate()
     const [responsaveis, setResponsaveis] = useState<Membro[]>([])
     const [participantes, setParticipantes] = useState<Membro[]>([])
@@ -199,26 +189,6 @@
                 </div>
             </div>
             )}
-
-            <div>
-            <h2 className="text-sm font-bold text-[#1C2B2B] mb-3">Tabela de permissões</h2>
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <div className="grid grid-cols-3 bg-[#1C2B2B] px-4 py-2">
-                <span className="text-[10px] font-bold text-white/60 uppercase">Ação</span>
-                <span className="text-[10px] font-bold text-white text-center uppercase">Principal</span>
-                <span className="text-[10px] font-bold text-white text-center uppercase">Familiar</span>
-                </div>
-                {permissoes.map((p, i) => (
-                <div key={i} className="grid grid-cols-3 px-4 py-3 border-b border-[#E2EEEE] last:border-0 items-center">
-                    <span className="text-xs text-[#4A5E5E]">{p.acao}</span>
-                    <span className="text-center text-sm font-bold text-[#3D8C8C]">{p.principal ? '✓' : ''}</span>
-                    <span className="text-center text-sm font-bold" style={{ color: p.familiar ? '#3D8C8C' : '#E0A0A0' }}>
-                    {p.familiar ? '✓' : '✕'}
-                    </span>
-                </div>
-                ))}
-            </div>
-            </div>
 
         </div>
 
