@@ -1,17 +1,6 @@
 import { useState, useEffect, type ReactNode } from 'react'
 
-function useTime() {
-  const fmt = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-  const [time, setTime] = useState(fmt)
-  useEffect(() => {
-    const id = setInterval(() => setTime(fmt()), 60000)
-    return () => clearInterval(id)
-  }, [])
-  return time
-}
-
 export default function IPhoneFrame({ children }: { children: ReactNode }) {
-  const time = useTime()
   const [desktop, setDesktop] = useState(() => window.innerWidth >= 768)
 
   useEffect(() => {
@@ -119,35 +108,6 @@ export default function IPhoneFrame({ children }: { children: ReactNode }) {
             }}
           >
             {children}
-          </div>
-
-          {/* Status bar — overlaid */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 54,
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-start',
-              padding: '0 28px 10px',
-              pointerEvents: 'none',
-              zIndex: 50,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 15,
-                fontWeight: 700,
-                color: '#fff',
-                letterSpacing: '-0.3px',
-                textShadow: '0 1px 4px rgba(0,0,0,0.6)',
-              }}
-            >
-              {time}
-            </span>
           </div>
 
         </div>

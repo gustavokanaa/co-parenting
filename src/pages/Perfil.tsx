@@ -194,7 +194,7 @@
         </div>
 
         {/* Conteúdo */}
-            <div className="flex-1 px-5 pt-5 pb-24 flex flex-col gap-4 overflow-y-scroll">
+            <div className="flex-1 px-5 pt-5 pb-32 flex flex-col gap-4 overflow-y-scroll">
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">

@@ -332,11 +332,11 @@
                 <h2 className="text-lg font-bold text-[#1C2B2B] mb-5">Novo evento</h2>
                 <div className="flex flex-col gap-4">
                 {[
-                    { label: 'Título', key: 'titulo', placeholder: 'Ex: Consulta pediatra', type: 'text' },
+                    { label: 'Título', key: 'titulo', placeholder: '', type: 'text' },
                     { label: 'Data', key: 'data_evento', placeholder: '', type: 'date' },
                     { label: 'Horário', key: 'hora_evento', placeholder: '', type: 'time' },
-                    { label: 'Quem leva', key: 'quem_leva', placeholder: 'Ex: Ana', type: 'text' },
-                    { label: 'Quem busca', key: 'quem_busca', placeholder: 'Ex: Carlos', type: 'text' },
+                    { label: 'Quem leva', key: 'quem_leva', placeholder: '', type: 'text' },
+                    { label: 'Quem busca', key: 'quem_busca', placeholder: '', type: 'text' },
                 ].map(field => (
                     <div key={field.key}>
                     <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>
