@@ -111,7 +111,7 @@ export default function Diario() {
     }
 
     return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
             {/* Header */}
             <div className="bg-[#F5EDE3] border-b border-[#EDE3D8] px-6 pt-12 pb-5">
@@ -208,7 +208,7 @@ export default function Diario() {
             </div>
 
             {/* Bottom nav */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+            <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
                 <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
                     <span className="text-xl">🏠</span>
                     <span className="text-[10px] text-[#8FA3A3]">Home</span>

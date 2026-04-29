@@ -101,14 +101,14 @@ export default function Familia() {
 
     if (loading) {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
+        <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
             <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
         </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
         <div className="bg-gradient-to-br from-[#1C2B2B] to-[#2A4E4E] px-6 pt-12 pb-6">
             <h1 className="text-white text-2xl font-bold">
@@ -117,7 +117,7 @@ export default function Familia() {
             <p className="text-white/50 text-xs mt-1">Gerencie quem acompanha a vida dela</p>
         </div>
 
-        <div className="flex-1 px-5 pt-5 pb-36 flex flex-col gap-5 overflow-y-auto">
+        <div className="flex-1 px-5 pt-5 pb-4 flex flex-col gap-5 overflow-y-auto">
 
             <div className="bg-[#EAF4F4] rounded-xl px-4 py-3">
             <p className="text-xs text-[#3D8C8C] leading-relaxed">
@@ -265,7 +265,7 @@ export default function Familia() {
         )}
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-10">
+        <div className="w-full shrink-0">
             <div className="px-5 pt-3 pb-2 bg-[#FFFCF8]">
             <button
                 onClick={() => { setMostrarConvite(true); setLinkGerado('') }}

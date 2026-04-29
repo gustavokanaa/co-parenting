@@ -202,7 +202,7 @@
         : eventos
 
     return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto relative">
 
         {/* Header */}
         <div className="bg-[#1C2B2B] px-6 pt-12 pb-0">
@@ -249,7 +249,7 @@
         </div>
 
         {/* Lista de eventos */}
-        <div className="flex-1 px-5 pt-5 pb-28 flex flex-col gap-4 overflow-y-auto">
+        <div className="flex-1 px-5 pt-5 pb-32 flex flex-col gap-4 overflow-y-auto">
             <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest">
             {diaSelecionado ? `${diaSelecionado} de ${nomeMes}` : 'Todos os eventos do mês'}
             </p>
@@ -398,14 +398,14 @@
         {papel === 'responsavel_principal' && (
         <button
             onClick={() => setMostrarForm(true)}
-            className="fixed bottom-24 right-4 w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+            className="absolute bottom-24 right-4 w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
         >
             +
         </button>
         )}
 
         {/* Bottom nav */}
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">🏠</span>
             <span className="text-[10px] text-[#8FA3A3]">Home</span>

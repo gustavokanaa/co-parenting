@@ -127,14 +127,14 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
+            <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
                 <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
             {/* Header */}
             <div className="bg-[#1C2B2B] px-6 pt-12 pb-6">
@@ -154,6 +154,8 @@ export default function Home() {
             </button>
         </div>
         </div>
+
+            <div className="flex-1 overflow-y-auto pb-4">
 
             {/* Card da criança */}
             {crianca && (
@@ -226,10 +228,10 @@ export default function Home() {
                 )}
             </div>
 
-            <div style={{ height: 80 }} />
+            </div>
 
             {/* Bottom nav */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+            <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
                 <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
                     <span className="text-xl">🏠</span>
                     <span className="text-[10px] font-semibold text-[#3D8C8C]">Home</span>

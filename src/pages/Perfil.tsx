@@ -156,14 +156,14 @@
 
     if (loading) {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
+        <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
             <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
         </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
         {/* Header */}
         <div className="bg-gradient-to-br from-[#1C2B2B] to-[#3D8C8C] px-6 pt-12 pb-8 flex flex-col items-center">
@@ -194,7 +194,7 @@
         </div>
 
         {/* Conteúdo */}
-            <div className="flex-1 px-5 pt-5 pb-32 flex flex-col gap-4 overflow-y-scroll">
+            <div className="flex-1 px-5 pt-5 pb-40 flex flex-col gap-4 overflow-y-auto">
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">
@@ -329,7 +329,7 @@
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
         {/* Bottom nav */}
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">🏠</span>
             <span className="text-[10px] text-[#8FA3A3]">Home</span>
