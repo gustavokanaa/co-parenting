@@ -178,19 +178,19 @@
             <div className="flex flex-col gap-4">
             <div>
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Seu nome</p>
-                <input type="text" placeholder="Ana Silva" value={nome}
+                <input type="text" placeholder="" value={nome}
                 onChange={e => setNome(e.target.value)}
                 className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
             </div>
             <div>
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">E-mail</p>
-                <input type="email" placeholder="ana@email.com" value={email}
+                <input type="email" placeholder="" value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
             </div>
             <div>
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Senha</p>
-                <input type="password" placeholder="••••••••" value={senha}
+                <input type="password" placeholder="" value={senha}
                 onChange={e => setSenha(e.target.value)}
                 className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
             </div>

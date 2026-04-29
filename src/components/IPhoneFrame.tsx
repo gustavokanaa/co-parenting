@@ -4,7 +4,7 @@ function useTime() {
   const fmt = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
   const [time, setTime] = useState(fmt)
   useEffect(() => {
-    const id = setInterval(() => setTime(fmt()), 1000)
+    const id = setInterval(() => setTime(fmt()), 60000)
     return () => clearInterval(id)
   }, [])
   return time
@@ -130,7 +130,7 @@ export default function IPhoneFrame({ children }: { children: ReactNode }) {
               height: 54,
               display: 'flex',
               alignItems: 'flex-end',
-              justifyContent: 'space-between',
+              justifyContent: 'flex-start',
               padding: '0 28px 10px',
               pointerEvents: 'none',
               zIndex: 50,
@@ -147,27 +147,6 @@ export default function IPhoneFrame({ children }: { children: ReactNode }) {
             >
               {time}
             </span>
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              {/* Signal bars */}
-              <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
-                <rect x="0" y="9" width="3" height="3" rx="0.5" />
-                <rect x="4.7" y="6" width="3" height="6" rx="0.5" />
-                <rect x="9.4" y="3" width="3" height="9" rx="0.5" />
-                <rect x="14.1" y="0" width="3" height="12" rx="0.5" />
-              </svg>
-              {/* WiFi */}
-              <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                <circle cx="8" cy="11" r="1.5" fill="white" />
-                <path d="M4.5 7.5C5.5 6.4 6.7 5.8 8 5.8s2.5.6 3.5 1.7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M1.5 4.5C3.2 2.8 5.5 1.8 8 1.8s4.8 1 6.5 2.7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              {/* Battery */}
-              <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
-                <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="white" strokeOpacity="0.4" />
-                <rect x="2" y="2" width="17" height="8" rx="2" fill="white" />
-                <path d="M23 3.8v4.4a2.2 2.2 0 0 0 0-4.4z" fill="white" fillOpacity="0.35" />
-              </svg>
-            </div>
           </div>
 
           {/* Dynamic Island */}

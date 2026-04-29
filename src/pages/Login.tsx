@@ -85,7 +85,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">E-mail</p>
                 <input
                 type="email"
-                placeholder="ana@email.com"
+                placeholder=""
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
@@ -95,7 +95,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Senha</p>
                 <input
                 type="password"
-                placeholder="••••••••"
+                placeholder=""
                 value={senha}
                 onChange={e => setSenha(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleLogin()}

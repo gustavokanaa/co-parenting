@@ -1,6 +1,7 @@
     import { useEffect, useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
+    import { VINCULOS, labelVinculo, emojiVinculo, corVinculo } from '../lib/vinculos'
 
     interface Membro {
     id: string
@@ -105,22 +106,8 @@
     }
     // ── FIM NOVO ──────────────────────────────────────────────────────
 
-    function getEmoji(vinculo: string) {
-        const map: Record<string, string> = {
-        'Mãe': '👩', 'Pai': '👨', 'Avó': '👵', 'Avô': '👴',
-        'Tia': '👩‍👧', 'Tio': '👨‍👧', 'Responsável': '🧑‍⚖️',
-        }
-        return map[vinculo] || '👤'
-    }
-
-    function getCorAvatar(vinculo: string) {
-        const map: Record<string, string> = {
-        'Mãe': '#EAF4F4', 'Pai': '#FCEEE9', 'Avó': '#F3EAF8',
-        'Avô': '#F3EAF8', 'Tia': '#E8F4EC', 'Tio': '#E8F4EC',
-        'Responsável': '#FFF8E1',
-        }
-        return map[vinculo] || '#F0F0F0'
-    }
+    function getEmoji(vinculo: string) { return emojiVinculo(vinculo) }
+    function getCorAvatar(vinculo: string) { return corVinculo(vinculo) }
 
     if (loading) {
         return (
@@ -173,7 +160,7 @@
                             <span className="bg-[#3D8C8C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
                         )}
                         </div>
-                        <p className="text-xs text-[#3D8C8C] font-medium capitalize">{m.vinculo} · Responsável Principal</p>
+                        <p className="text-xs text-[#3D8C8C] font-medium">{labelVinculo(m.vinculo)} · Responsável Principal</p>
                         <p className="text-[10px] text-[#8FA3A3] mt-0.5">Desde {m.desde}</p>
                     </div>
                     </div>
@@ -204,7 +191,7 @@
                             <span className="bg-[#3D8C8C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
                         )}
                         </div>
-                        <p className="text-xs text-[#3D8C8C] font-medium capitalize">{m.vinculo} · Participante Familiar</p>
+                        <p className="text-xs text-[#3D8C8C] font-medium">{labelVinculo(m.vinculo)} · Participante Familiar</p>
                         <p className="text-[10px] text-[#8FA3A3] mt-0.5">Desde {m.desde}</p>
                     </div>
                     </div>
@@ -256,14 +243,7 @@
                     <div>
                         <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-2">Vínculo</p>
                         <div className="grid grid-cols-3 gap-2">
-                        {[
-                            { id: 'Mãe', label: 'Mãe', emoji: '👩' },
-                            { id: 'Pai', label: 'Pai', emoji: '👨' },
-                            { id: 'Avó', label: 'Avó', emoji: '👵' },
-                            { id: 'Avô', label: 'Avô', emoji: '👴' },
-                            { id: 'Tia', label: 'Tia', emoji: '👩‍👧' },
-                            { id: 'Tio', label: 'Tio', emoji: '👨‍👧' },
-                        ].map(v => (
+                        {VINCULOS.filter(v => v.id !== 'responsavel').map(v => (
                             <button key={v.id} onClick={() => setVinculoConvite(v.id)}
                             className={`rounded-xl py-3 flex flex-col items-center border-2 transition-all ${
                                 vincuoConvite === v.id ? 'border-[#3D8C8C] bg-[#EAF4F4]' : 'border-[#E2EEEE] bg-white'

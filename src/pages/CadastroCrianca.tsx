@@ -117,7 +117,7 @@ export default function CadastroCrianca() {
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Nome completo</p>
                 <input
                 type="text"
-                placeholder="Sofia Silva"
+                placeholder=""
                 value={nome}
                 onChange={e => setNome(e.target.value)}
                 className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
@@ -141,11 +141,11 @@ export default function CadastroCrianca() {
             <h2 className="text-lg font-bold text-[#1C2B2B]">Informações de saúde</h2>
             <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
             {[
-                { label: 'Tipo sanguíneo', value: tipoSanguineo, set: setTipoSanguineo, placeholder: 'Ex: A+' },
-                { label: 'Alergias', value: alergias, set: setAlergias, placeholder: 'Ex: Amendoim, Dipirona' },
-                { label: 'Medicamentos em uso', value: medicamentos, set: setMedicamentos, placeholder: 'Ex: Zyrtec 5ml/noite' },
-                { label: 'Pediatra', value: pediatra, set: setPediatra, placeholder: 'Ex: Dr. Mendes' },
-                { label: 'Telefone do pediatra', value: pediatraTelefone, set: setPediatraTelefone, placeholder: 'Ex: (11) 99999-9999' },
+                { label: 'Tipo sanguíneo', value: tipoSanguineo, set: setTipoSanguineo, placeholder: '' },
+                { label: 'Alergias', value: alergias, set: setAlergias, placeholder: '' },
+                { label: 'Medicamentos em uso', value: medicamentos, set: setMedicamentos, placeholder: '' },
+                { label: 'Pediatra', value: pediatra, set: setPediatra, placeholder: '' },
+                { label: 'Telefone do pediatra', value: pediatraTelefone, set: setPediatraTelefone, placeholder: '' },
             ].map((field, i) => (
                 <div key={i}>
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>
@@ -167,10 +167,10 @@ export default function CadastroCrianca() {
             <h2 className="text-lg font-bold text-[#1C2B2B]">Escola</h2>
             <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
             {[
-                { label: 'Nome da escola', value: escola, set: setEscola, placeholder: 'Ex: EM João de Barro' },
-                { label: 'Série', value: serie, set: setSerie, placeholder: 'Ex: 2º ano' },
-                { label: 'Período', value: periodo, set: setPeriodo, placeholder: 'Ex: Tarde' },
-                { label: 'Professora', value: professora, set: setProfessora, placeholder: 'Ex: Profa. Márcia' },
+                { label: 'Nome da escola', value: escola, set: setEscola, placeholder: '' },
+                { label: 'Série', value: serie, set: setSerie, placeholder: '' },
+                { label: 'Período', value: periodo, set: setPeriodo, placeholder: '' },
+                { label: 'Professora', value: professora, set: setProfessora, placeholder: '' },
             ].map((field, i) => (
                 <div key={i}>
                 <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>

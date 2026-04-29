@@ -1,6 +1,7 @@
     import { useEffect, useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
+    import { labelVinculo } from '../lib/vinculos'
 
     interface Crianca {
     id: string
@@ -176,7 +177,7 @@
             <div className="flex gap-2 mt-3 flex-wrap justify-center">
             {membros.map((m, i) => (
                 <span key={i} className="bg-white/15 text-white text-xs px-3 py-1 rounded-full">
-                {m.nome.split(' ')[0]} · {m.vinculo}
+                {m.nome.split(' ')[0]} · {labelVinculo(m.vinculo)}
                 </span>
             ))}
             </div>
@@ -271,7 +272,7 @@
 
                 {stepEdicao === 1 && (
                 <div className="flex flex-col gap-4">
-                    {campo('Nome completo', 'nome', 'Sofia Silva')}
+                    {campo('Nome completo', 'nome', '')}
                     {campo('Data de nascimento', 'data_nascimento', '', 'date')}
                 </div>
                 )}
@@ -279,21 +280,21 @@
                 {stepEdicao === 2 && (
                 <div className="flex flex-col gap-4">
                     <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
-                    {campo('Tipo sanguíneo', 'tipo_sanguineo', 'Ex: A+')}
-                    {campo('Alergias', 'alergias', 'Ex: Amendoim, Dipirona')}
-                    {campo('Medicamentos em uso', 'medicamentos', 'Ex: Zyrtec 5ml/noite')}
-                    {campo('Pediatra', 'pediatra', 'Ex: Dr. Mendes')}
-                    {campo('Telefone do pediatra', 'pediatra_telefone', 'Ex: (11) 99999-9999')}
+                    {campo('Tipo sanguíneo', 'tipo_sanguineo', '')}
+                    {campo('Alergias', 'alergias', '')}
+                    {campo('Medicamentos em uso', 'medicamentos', '')}
+                    {campo('Pediatra', 'pediatra', '')}
+                    {campo('Telefone do pediatra', 'pediatra_telefone', '')}
                 </div>
                 )}
 
                 {stepEdicao === 3 && (
                 <div className="flex flex-col gap-4">
                     <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
-                    {campo('Nome da escola', 'escola', 'Ex: EM João de Barro')}
-                    {campo('Série', 'serie', 'Ex: 2º ano')}
-                    {campo('Período', 'periodo', 'Ex: Tarde')}
-                    {campo('Professora', 'professora', 'Ex: Profa. Márcia')}
+                    {campo('Nome da escola', 'escola', '')}
+                    {campo('Série', 'serie', '')}
+                    {campo('Período', 'periodo', '')}
+                    {campo('Professora', 'professora', '')}
                 </div>
                 )}
 

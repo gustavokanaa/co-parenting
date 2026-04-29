@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+import { labelVinculo } from '../lib/vinculos'
 
 interface Crianca {
     id: string
@@ -60,7 +61,7 @@ export default function Home() {
 
             const user = userData.user
             const nome = user.user_metadata?.nome_completo || 'Responsável'
-            setNomeUsuario(nome.split(' ')[0])
+            setNomeUsuario(nome)
 
             // Busca o membro para encontrar a criança
             const { data: membroData } = await supabase
@@ -158,7 +159,7 @@ export default function Home() {
                         <div className="flex gap-2 mt-2 flex-wrap">
                             {membros.map((m, i) => (
                                 <span key={i} className="bg-white/15 text-white text-xs px-2 py-0.5 rounded-full">
-                                    {m.nome.split(' ')[0]} · {m.vinculo}
+                                    {m.nome.split(' ')[0]} · {labelVinculo(m.vinculo)}
                                 </span>
                             ))}
                         </div>
