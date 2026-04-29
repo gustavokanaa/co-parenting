@@ -43,6 +43,7 @@
     const [mostrarForm, setMostrarForm] = useState(false)
     const [loading, setLoading] = useState(false)
     const [papel, setPapel] = useState<String | null>(null)
+    const [modalExcluir, setModalExcluir] = useState<string | null>(null)
     const [novoEvento, setNovoEvento] = useState<NovoEvento>({
         titulo: '', data_evento: '', hora_evento: '', quem_leva: '', quem_busca: '',
     })
@@ -141,11 +142,16 @@
         if (criancaId) await carregarConfirmacoes(criancaId, mes, ano)
     }
 
-    async function excluirEvento(eventoId: string) {
-        if (!window.confirm('Deseja excluir este evento?')) return
-        await supabase.from('eventos').delete().eq('id', eventoId)
-        setEventos(prev => prev.filter(e => e.id !== eventoId))
-        setConfirmacoes(prev => prev.filter(c => c.evento_id !== eventoId))
+    function excluirEvento(eventoId: string) {
+        setModalExcluir(eventoId)
+    }
+
+    async function confirmarExclusao() {
+        if (!modalExcluir) return
+        await supabase.from('eventos').delete().eq('id', modalExcluir)
+        setEventos(prev => prev.filter(e => e.id !== modalExcluir))
+        setConfirmacoes(prev => prev.filter(c => c.evento_id !== modalExcluir))
+        setModalExcluir(null)
     }
 
     async function salvarEvento() {
@@ -352,6 +358,36 @@
                 <button onClick={salvarEvento} disabled={loading}
                     className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
                     {loading ? 'Salvando...' : 'Salvar'}
+                </button>
+                </div>
+            </div>
+            </div>
+        )}
+
+        {/* Modal de confirmação de exclusão */}
+        {modalExcluir && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-30 px-5">
+            <div className="bg-[#FFFCF8] rounded-2xl p-6 w-full max-w-sm shadow-xl">
+                <div className="flex flex-col items-center text-center gap-3">
+                <span className="text-4xl">🗑️</span>
+                <h2 className="text-lg font-bold text-[#1C2B2B]">Excluir evento?</h2>
+                <p className="text-sm text-[#8FA3A3] leading-relaxed">
+                    Esta ação não pode ser desfeita. O evento será removido para todos os membros da família.
+                </p>
+                </div>
+                <div className="flex gap-3 mt-6">
+                <button
+                    onClick={() => setModalExcluir(null)}
+                    className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm"
+                >
+                    Cancelar
+                </button>
+                <button
+                    onClick={confirmarExclusao}
+                    className="flex-1 text-white font-semibold py-4 rounded-full text-sm"
+                    style={{ backgroundColor: '#E07A5F' }}
+                >
+                    Excluir
                 </button>
                 </div>
             </div>

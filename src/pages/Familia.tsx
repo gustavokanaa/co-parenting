@@ -117,7 +117,7 @@ export default function Familia() {
             <p className="text-white/50 text-xs mt-1">Gerencie quem acompanha a vida dela</p>
         </div>
 
-        <div className="flex-1 px-5 pt-5 pb-32 flex flex-col gap-5 overflow-y-auto">
+        <div className="flex-1 px-5 pt-5 pb-36 flex flex-col gap-5 overflow-y-auto">
 
             <div className="bg-[#EAF4F4] rounded-xl px-4 py-3">
             <p className="text-xs text-[#3D8C8C] leading-relaxed">
@@ -190,16 +190,6 @@ export default function Familia() {
             </div>
             )}
 
-        </div>
-
-        {/* ── NOVO — Botão convidar ──────────────────────────────────── */}
-        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 w-full max-w-md px-5 pb-2 bg-[#FFFCF8]">
-            <button
-            onClick={() => { setMostrarConvite(true); setLinkGerado('') }}
-            className="w-full bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm flex items-center justify-center gap-2"
-            >
-            👋 Convidar novo membro
-            </button>
         </div>
 
         {/* ── NOVO — Modal de convite ────────────────────────────────── */}
@@ -275,27 +265,37 @@ export default function Familia() {
         )}
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-10">
+            <div className="px-5 pt-3 pb-2 bg-[#FFFCF8]">
+            <button
+                onClick={() => { setMostrarConvite(true); setLinkGerado('') }}
+                className="w-full bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm flex items-center justify-center gap-2"
+            >
+                👋 Convidar novo membro
+            </button>
+            </div>
+            <div className="border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">🏠</span>
-            <span className="text-[10px] text-[#8FA3A3]">Home</span>
+                <span className="text-xl">🏠</span>
+                <span className="text-[10px] text-[#8FA3A3]">Home</span>
             </button>
             <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">📅</span>
-            <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
+                <span className="text-xl">📅</span>
+                <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
             </button>
             <button onClick={() => navigate('/perfil')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">👤</span>
-            <span className="text-[10px] text-[#8FA3A3]">Perfil</span>
+                <span className="text-xl">👤</span>
+                <span className="text-[10px] text-[#8FA3A3]">Perfil</span>
             </button>
             <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">📖</span>
-            <span className="text-[10px] text-[#8FA3A3]">Diário</span>
+                <span className="text-xl">📖</span>
+                <span className="text-[10px] text-[#8FA3A3]">Diário</span>
             </button>
             <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
-            <span className="text-xl">👨‍👩‍👧</span>
-            <span className="text-[10px] font-semibold text-[#3D8C8C]">Família</span>
+                <span className="text-xl">👨‍👩‍👧</span>
+                <span className="text-[10px] font-semibold text-[#3D8C8C]">Família</span>
             </button>
+            </div>
         </div>
 
         </div>
