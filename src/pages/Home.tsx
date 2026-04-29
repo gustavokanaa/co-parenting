@@ -116,7 +116,7 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center">
+            <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
                 <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
             </div>
         )

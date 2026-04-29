@@ -51,7 +51,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
     }
 
     return (
-        <div className="min-h-screen bg-[#3D8C8C] flex flex-col">
+        <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
 
         {/* Hero */}
         <div className="flex flex-col items-center pt-16 pb-10 px-6">

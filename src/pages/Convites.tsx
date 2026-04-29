@@ -116,7 +116,7 @@
 
     if (status === 'carregando') {
         return (
-        <div className="min-h-screen bg-[#3D8C8C] flex items-center justify-center">
+        <div className="min-h-screen bg-[#3D8C8C] flex items-center justify-center max-w-md mx-auto">
             <p className="text-white font-semibold">Verificando convite...</p>
         </div>
         )
@@ -124,7 +124,7 @@
 
     if (status === 'invalido') {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center">
+        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
             <span className="text-5xl mb-4">❌</span>
             <h1 className="text-xl font-bold text-[#1C2B2B]">Convite inválido</h1>
             <p className="text-sm text-[#8FA3A3] mt-2">Este link não existe ou expirou.</p>
@@ -138,7 +138,7 @@
 
     if (status === 'usado') {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center">
+        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
             <span className="text-5xl mb-4">✅</span>
             <h1 className="text-xl font-bold text-[#1C2B2B]">Convite já utilizado</h1>
             <p className="text-sm text-[#8FA3A3] mt-2">Este link já foi usado. Faça login para acessar.</p>
@@ -151,7 +151,7 @@
     }
 
     return (
-        <div className="min-h-screen bg-[#3D8C8C] flex flex-col">
+        <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
 
         {/* Hero */}
         <div className="flex flex-col items-center pt-16 pb-8 px-6">

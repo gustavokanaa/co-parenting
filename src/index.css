@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    background: linear-gradient(160deg, #1C2B2B 0%, #244040 45%, #3D8C8C 100%);
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  /* Hide scrollbar inside iPhone frame */
+  @media (min-width: 768px) {
+    #root > * [style*="overflow"] {
+      scrollbar-width: none;
+    }
+
+    #root > * [style*="overflow"]::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

@@ -107,24 +107,24 @@
 
     function getEmoji(vinculo: string) {
         const map: Record<string, string> = {
-        mae: '👩', pai: '👨', avo: '👵', avop: '👴',
-        tia: '👩‍👧', tio: '👨‍👧', responsavel: '🧑‍⚖️',
+        'Mãe': '👩', 'Pai': '👨', 'Avó': '👵', 'Avô': '👴',
+        'Tia': '👩‍👧', 'Tio': '👨‍👧', 'Responsável': '🧑‍⚖️',
         }
         return map[vinculo] || '👤'
     }
 
     function getCorAvatar(vinculo: string) {
         const map: Record<string, string> = {
-        mae: '#EAF4F4', pai: '#FCEEE9', avo: '#F3EAF8',
-        avop: '#F3EAF8', tia: '#E8F4EC', tio: '#E8F4EC',
-        responsavel: '#FFF8E1',
+        'Mãe': '#EAF4F4', 'Pai': '#FCEEE9', 'Avó': '#F3EAF8',
+        'Avô': '#F3EAF8', 'Tia': '#E8F4EC', 'Tio': '#E8F4EC',
+        'Responsável': '#FFF8E1',
         }
         return map[vinculo] || '#F0F0F0'
     }
 
     if (loading) {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center">
+        <div className="min-h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
             <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
         </div>
         )
@@ -257,12 +257,12 @@
                         <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-2">Vínculo</p>
                         <div className="grid grid-cols-3 gap-2">
                         {[
-                            { id: 'mae', label: 'Mãe', emoji: '👩' },
-                            { id: 'pai', label: 'Pai', emoji: '👨' },
-                            { id: 'avo', label: 'Avó', emoji: '👵' },
-                            { id: 'avop', label: 'Avô', emoji: '👴' },
-                            { id: 'tia', label: 'Tia', emoji: '👩‍👧' },
-                            { id: 'tio', label: 'Tio', emoji: '👨‍👧' },
+                            { id: 'Mãe', label: 'Mãe', emoji: '👩' },
+                            { id: 'Pai', label: 'Pai', emoji: '👨' },
+                            { id: 'Avó', label: 'Avó', emoji: '👵' },
+                            { id: 'Avô', label: 'Avô', emoji: '👴' },
+                            { id: 'Tia', label: 'Tia', emoji: '👩‍👧' },
+                            { id: 'Tio', label: 'Tio', emoji: '👨‍👧' },
                         ].map(v => (
                             <button key={v.id} onClick={() => setVinculoConvite(v.id)}
                             className={`rounded-xl py-3 flex flex-col items-center border-2 transition-all ${

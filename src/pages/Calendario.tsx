@@ -141,6 +141,13 @@
         if (criancaId) await carregarConfirmacoes(criancaId, mes, ano)
     }
 
+    async function excluirEvento(eventoId: string) {
+        if (!window.confirm('Deseja excluir este evento?')) return
+        await supabase.from('eventos').delete().eq('id', eventoId)
+        setEventos(prev => prev.filter(e => e.id !== eventoId))
+        setConfirmacoes(prev => prev.filter(c => c.evento_id !== eventoId))
+    }
+
     async function salvarEvento() {
         if (papel !== 'responsavel_principal') return
         if (!novoEvento.titulo.trim()) {
@@ -252,7 +259,16 @@
             const minhaConfirmacao = getMinhasConfirmacao(ev.id)
             const todasConfirmacoes = getConfirmacoesPorEvento(ev.id)
             return (
-                <div key={ev.id} className="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-[#3D8C8C]">
+                <div key={ev.id} className="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-[#3D8C8C] relative">
+                {papel === 'responsavel_principal' && (
+                    <button
+                    onClick={() => excluirEvento(ev.id)}
+                    className="absolute top-3 right-3 text-[#C4C4C4] hover:text-[#C0392B] transition-colors text-base leading-none"
+                    title="Excluir evento"
+                    >
+                    🗑
+                    </button>
+                )}
                 <p className="text-sm font-bold text-[#1C2B2B]">{ev.titulo}</p>
                 <p className="text-xs text-[#8FA3A3] mt-1">
                     {ev.hora_evento ? ev.hora_evento.slice(0, 5) + 'h' : 'Dia inteiro'}
