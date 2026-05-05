@@ -103,6 +103,7 @@
         vinculo: convite.vinculo,
         papel: convite.papel,
         convidado_por: convite.criado_por,
+        ativo: true,
         })
 
         // Marca convite como usado

@@ -76,6 +76,7 @@ export default function CadastroCrianca() {
         nome: nomeCompleto,
         vinculo,
         papel: 'responsavel_principal',
+        ativo: true,
     })
 
     setLoading(false)
