@@ -215,12 +215,11 @@
                 </span>
                 </div>
             ))}
-            {!crianca?.tipo_sanguineo && !crianca?.alergias && !crianca?.medicamentos && (
+            {!crianca?.tipo_sanguineo && !crianca?.alergias && !crianca?.medicamentos && !crianca?.pediatra && !crianca?.pediatra_telefone && (
                 <div className="px-4 py-4 text-xs text-[#8FA3A3] text-center">Nenhuma informação cadastrada</div>
             )}
             </div>
 
-            {(crianca?.escola || crianca?.serie) && (
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
                 <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">
                 <span>🏫</span>
@@ -237,8 +236,10 @@
                     <span className="text-xs font-semibold text-[#1C2B2B]">{item.valor}</span>
                 </div>
                 ))}
+                {!crianca?.escola && !crianca?.serie && !crianca?.periodo && !crianca?.professora && (
+                <div className="px-4 py-4 text-xs text-[#8FA3A3] text-center">Nenhuma informação cadastrada</div>
+                )}
             </div>
-            )}
 
             <div className="flex justify-between items-center mt-2">
             <h2 className="text-sm font-bold text-[#1C2B2B]">Documentos</h2>
