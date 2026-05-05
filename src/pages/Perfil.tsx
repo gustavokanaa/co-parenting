@@ -166,7 +166,7 @@
         <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#1C2B2B] to-[#3D8C8C] px-6 pt-12 pb-8 flex flex-col items-center">
+        <div className="bg-gradient-to-br from-[#1C2B2B] to-[#3D8C8C] px-6 pt-12 pb-8 flex flex-col items-center shrink-0">
             <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl border-2 border-white/30 mb-3">
             🧒
             </div>
@@ -181,20 +181,20 @@
                 </span>
             ))}
             </div>
-
-            {/* ── NOVO — Botão editar ── */}
-            {papel === 'responsavel_principal' && (
-            <button
-            onClick={() => { setMostrarEdicao(true); setStepEdicao(1) }}
-            className="mt-4 bg-white/20 hover:bg-white/30 text-white text-xs font-semibold px-4 py-2 rounded-full transition-all"
-            >
-            ✏️ Editar dados
-            </button>
-            )}
         </div>
 
         {/* Conteúdo */}
-            <div className="flex-1 px-5 pt-5 pb-40 flex flex-col gap-4 overflow-y-auto">
+        <div className="flex-1 px-5 pt-5 pb-40 flex flex-col gap-4 overflow-y-auto">
+
+            {/* Botão Editar dados */}
+            {papel === 'responsavel_principal' && (
+            <button
+                onClick={() => { setMostrarEdicao(true); setStepEdicao(1) }}
+                className="w-full bg-[#EAF4F4] text-[#3D8C8C] text-sm font-semibold px-4 py-3 rounded-2xl border border-[#D0E6E6] flex items-center justify-center gap-2 transition-all hover:bg-[#D5ECEC]"
+            >
+                ✏️ Editar dados
+            </button>
+            )}
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">

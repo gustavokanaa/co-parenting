@@ -114,7 +114,7 @@ export default function Diario() {
         <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
 
             {/* Header */}
-            <div className="bg-[#F5EDE3] border-b border-[#EDE3D8] px-6 pt-12 pb-5">
+            <div className="bg-[#F5EDE3] border-b border-[#EDE3D8] px-6 pt-12 pb-5 shrink-0">
                 <h1 className="text-[#1C2B2B] text-2xl font-bold">
                     Diário {criancaNome ? `de ${criancaNome}` : ''}
                 </h1>
@@ -122,7 +122,7 @@ export default function Diario() {
             </div>
 
             {/* Compose */}
-            <div className="mx-5 mt-4 bg-white rounded-2xl p-4 border border-[#E2EEEE]">
+            <div className="mx-5 mt-4 bg-white rounded-2xl p-4 border border-[#E2EEEE] shrink-0">
                 <textarea
                     value={texto}
                     onChange={e => setTexto(e.target.value)}
@@ -158,7 +158,7 @@ export default function Diario() {
             </div>
 
             {/* Feed */}
-            <div className="flex-1 px-5 pt-4 pb-24 flex flex-col gap-4 overflow-y-auto">
+            <div className="flex-1 px-5 pt-4 pb-40 flex flex-col gap-4 overflow-y-auto">
                 {posts.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="text-4xl mb-3">📖</span>
