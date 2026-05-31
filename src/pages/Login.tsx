@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 
@@ -51,74 +51,76 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
     }
 
     return (
-        <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
+        <div className="min-h-screen flex flex-col max-w-md mx-auto" style={{ background: 'linear-gradient(160deg, #F0EBF9, #FFF7EC, #EBF8F5)' }}>
 
         {/* Hero */}
         <div className="flex flex-col items-center pt-16 pb-10 px-6">
-            <h1 className="text-4xl font-bold text-white tracking-tight">Linkar</h1>
-            <p className="text-white/70 text-sm mt-1">Conectados pelo que mais importa</p>
-            <div className="mt-6 w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl">
+            <h1 className="text-4xl font-bold tracking-tight flex items-center">
+              <span style={{ color: '#A391E6' }}>E</span><span style={{ color: '#7FCDBA' }}>l</span><span style={{ color: '#FFB89C' }}>l</span><span style={{ color: '#FFB89C' }}>♥</span>
+            </h1>
+            <p className="text-[#9B8FA8] text-sm mt-1">Cuidar juntos, mesmo em casas diferentes.</p>
+            <div className="mt-6 w-20 h-20 rounded-full flex items-center justify-center text-4xl" style={{ background: 'rgba(163,145,230,0.15)' }}>
             🤝
             </div>
         </div>
 
         {/* Card */}
-        <div className="flex-1 bg-[#FFFCF8] rounded-t-3xl px-6 pt-8 pb-10">
+        <div className="flex-1 bg-[#FFF7EC] rounded-t-3xl px-6 pt-8 pb-10">
 
             {cadastroOk && (
-            <div className="bg-[#EAF4F4] border border-[#3D8C8C] rounded-xl px-4 py-3 mb-6">
-                <p className="text-sm text-[#3D8C8C] font-semibold">
+            <div className="bg-[#EDEAF8] border border-[#A391E6] rounded-xl px-4 py-3 mb-6">
+                <p className="text-sm text-[#A391E6] font-semibold">
                 ✅ Conta criada! Faça login para continuar.
                 </p>
             </div>
             )}
 
-            <h2 className="text-2xl font-bold text-[#1C2B2B] mb-1">
+            <h2 className="text-2xl font-bold text-[#3D3560] mb-1">
             Bem-vindo de volta
             </h2>
-            <p className="text-sm text-[#8FA3A3] mb-8">
+            <p className="text-sm text-[#9B8FA8] mb-8">
             Entre para acompanhar a vida do seu filho
             </p>
 
             <div className="flex flex-col gap-4">
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">E-mail</p>
+                <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">E-mail</p>
                 <input
                 type="email"
                 placeholder=""
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white"
                 />
             </div>
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Senha</p>
+                <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">Senha</p>
                 <input
                 type="password"
                 placeholder=""
                 value={senha}
                 onChange={e => setSenha(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleLogin()}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white"
                 />
             </div>
             </div>
 
             {erro && (
-            <p className="text-sm text-[#E07A5F] mt-3 font-medium">{erro}</p>
+            <p className="text-sm text-[#FFB89C] mt-3 font-medium">{erro}</p>
             )}
 
             <button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full mt-6 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
+            className="w-full mt-6 bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
             >
             {loading ? 'Entrando...' : 'Entrar →'}
             </button>
 
             <div className="mt-4 text-center">
-            <span className="text-sm text-[#8FA3A3]">Não tem conta? </span>
-            <Link to="/cadastro" className="text-sm font-semibold text-[#3D8C8C]">
+            <span className="text-sm text-[#9B8FA8]">Não tem conta? </span>
+            <Link to="/cadastro" className="text-sm font-semibold text-[#A391E6]">
                 Criar conta
             </Link>
             </div>

@@ -1,4 +1,4 @@
-    import { useEffect, useState } from 'react'
+﻿    import { useEffect, useState } from 'react'
     import { useNavigate, useParams } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
 
@@ -117,20 +117,20 @@
 
     if (status === 'carregando') {
         return (
-        <div className="min-h-screen bg-[#3D8C8C] flex items-center justify-center max-w-md mx-auto">
-            <p className="text-white font-semibold">Verificando convite...</p>
+        <div className="min-h-screen flex items-center justify-center max-w-md mx-auto" style={{ background: 'linear-gradient(160deg, #F0EBF9, #FFF7EC, #EBF8F5)' }}>
+            <p className="text-[#3D3560] font-semibold">Verificando convite...</p>
         </div>
         )
     }
 
     if (status === 'invalido') {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
+        <div className="min-h-screen bg-[#FFF7EC] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
             <span className="text-5xl mb-4">❌</span>
-            <h1 className="text-xl font-bold text-[#1C2B2B]">Convite inválido</h1>
-            <p className="text-sm text-[#8FA3A3] mt-2">Este link não existe ou expirou.</p>
+            <h1 className="text-xl font-bold text-[#3D3560]">Convite inválido</h1>
+            <p className="text-sm text-[#9B8FA8] mt-2">Este link não existe ou expirou.</p>
             <button onClick={() => navigate('/login')}
-            className="mt-6 bg-[#3D8C8C] text-white font-semibold py-3 px-8 rounded-full text-sm">
+            className="mt-6 bg-[#A391E6] text-white font-semibold py-3 px-8 rounded-full text-sm">
             Ir para o login
             </button>
         </div>
@@ -139,12 +139,12 @@
 
     if (status === 'usado') {
         return (
-        <div className="min-h-screen bg-[#FFFCF8] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
+        <div className="min-h-screen bg-[#FFF7EC] flex flex-col items-center justify-center px-6 text-center max-w-md mx-auto">
             <span className="text-5xl mb-4">✅</span>
-            <h1 className="text-xl font-bold text-[#1C2B2B]">Convite já utilizado</h1>
-            <p className="text-sm text-[#8FA3A3] mt-2">Este link já foi usado. Faça login para acessar.</p>
+            <h1 className="text-xl font-bold text-[#3D3560]">Convite já utilizado</h1>
+            <p className="text-sm text-[#9B8FA8] mt-2">Este link já foi usado. Faça login para acessar.</p>
             <button onClick={() => navigate('/login')}
-            className="mt-6 bg-[#3D8C8C] text-white font-semibold py-3 px-8 rounded-full text-sm">
+            className="mt-6 bg-[#A391E6] text-white font-semibold py-3 px-8 rounded-full text-sm">
             Fazer login
             </button>
         </div>
@@ -152,59 +152,61 @@
     }
 
     return (
-        <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
+        <div className="min-h-screen flex flex-col max-w-md mx-auto" style={{ background: 'linear-gradient(160deg, #F0EBF9, #FFF7EC, #EBF8F5)' }}>
 
         {/* Hero */}
         <div className="flex flex-col items-center pt-16 pb-8 px-6">
-            <h1 className="text-3xl font-bold text-white">Linkar</h1>
-            <p className="text-white/70 text-sm mt-1">Você foi convidado!</p>
-            <div className="mt-6 w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl">
+            <h1 className="text-3xl font-bold flex items-center">
+              <span style={{ color: '#A391E6' }}>E</span><span style={{ color: '#7FCDBA' }}>l</span><span style={{ color: '#FFB89C' }}>l</span><span style={{ color: '#FFB89C' }}>♥</span>
+            </h1>
+            <p className="text-[#9B8FA8] text-sm mt-1">Você foi convidado!</p>
+            <div className="mt-6 w-20 h-20 rounded-full flex items-center justify-center text-4xl" style={{ background: 'rgba(163,145,230,0.15)' }}>
             👋
             </div>
         </div>
 
         {/* Card */}
-        <div className="flex-1 bg-[#FFFCF8] rounded-t-3xl px-6 pt-8 pb-10">
+        <div className="flex-1 bg-[#FFF7EC] rounded-t-3xl px-6 pt-8 pb-10">
 
-            <div className="bg-[#EAF4F4] rounded-xl px-4 py-3 mb-6">
-            <p className="text-sm text-[#3D8C8C] font-semibold text-center">
+            <div className="bg-[#EDEAF8] rounded-xl px-4 py-3 mb-6">
+            <p className="text-sm text-[#A391E6] font-semibold text-center">
                 Você foi convidado para acompanhar{' '}
                 <span className="font-bold">{criancaNome}</span>
             </p>
-            <p className="text-xs text-[#8FA3A3] text-center mt-1 capitalize">
+            <p className="text-xs text-[#9B8FA8] text-center mt-1 capitalize">
                 Papel: {convite.papel === 'responsavel_principal' ? 'Responsável Principal' : 'Participante Familiar'}
             </p>
             </div>
 
             <div className="flex flex-col gap-4">
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Seu nome</p>
+                <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">Seu nome</p>
                 <input type="text" placeholder="" value={nome}
                 onChange={e => setNome(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
+                className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white" />
             </div>
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">E-mail</p>
+                <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">E-mail</p>
                 <input type="email" placeholder="" value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
+                className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white" />
             </div>
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Senha</p>
+                <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">Senha</p>
                 <input type="password" placeholder="" value={senha}
                 onChange={e => setSenha(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white" />
+                className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white" />
             </div>
             </div>
 
-            {erro && <p className="text-sm text-[#E07A5F] mt-3 font-medium">{erro}</p>}
+            {erro && <p className="text-sm text-[#FFB89C] mt-3 font-medium">{erro}</p>}
 
             <button onClick={handleAceitar} disabled={loading}
-            className="w-full mt-6 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
+            className="w-full mt-6 bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
             {loading ? 'Entrando...' : 'Aceitar convite →'}
             </button>
 
-            <p className="text-xs text-[#8FA3A3] text-center mt-4">
+            <p className="text-xs text-[#9B8FA8] text-center mt-4">
             Já tem conta? Use o mesmo e-mail e senha para entrar.
             </p>
         </div>

@@ -1,4 +1,4 @@
-    import { useEffect, useState } from 'react'
+﻿    import { useEffect, useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
     import { VINCULOS, labelVinculo, emojiVinculo, corVinculo } from '../lib/vinculos'
@@ -101,16 +101,16 @@ export default function Familia() {
 
     if (loading) {
         return (
-        <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
-            <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
+        <div className="h-screen bg-[#FFF7EC] flex items-center justify-center max-w-md mx-auto">
+            <p className="text-[#A391E6] font-semibold">Carregando...</p>
         </div>
         )
     }
 
     return (
-        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFF7EC] flex flex-col max-w-md mx-auto">
 
-        <div className="bg-gradient-to-br from-[#1C2B2B] to-[#2A4E4E] px-6 pt-12 pb-6">
+        <div className="bg-gradient-to-br from-[#3D3560] to-[#7F6BC4] px-6 pt-12 pb-6">
             <h1 className="text-white text-2xl font-bold">
             Família {criancaNome ? `de ${criancaNome}` : ''}
             </h1>
@@ -119,8 +119,8 @@ export default function Familia() {
 
         <div className="flex-1 px-5 pt-5 pb-4 flex flex-col gap-5 overflow-y-auto">
 
-            <div className="bg-[#EAF4F4] rounded-xl px-4 py-3">
-            <p className="text-xs text-[#3D8C8C] leading-relaxed">
+            <div className="bg-[#EDEAF8] rounded-xl px-4 py-3">
+            <p className="text-xs text-[#A391E6] leading-relaxed">
                 <span className="font-bold">Responsável Principal</span> — controle total (máx. 2).{' '}
                 <span className="font-bold">Participante Familiar</span> — visualiza e posta no diário.
             </p>
@@ -128,30 +128,30 @@ export default function Familia() {
 
             <div>
             <div className="flex justify-between items-center mb-3">
-                <h2 className="text-sm font-bold text-[#1C2B2B]">Responsáveis Principais</h2>
-                <span className="bg-[#EAF4F4] text-[#3D8C8C] text-xs font-bold px-2 py-0.5 rounded-full">
+                <h2 className="text-sm font-bold text-[#3D3560]">Responsáveis Principais</h2>
+                <span className="bg-[#EDEAF8] text-[#A391E6] text-xs font-bold px-2 py-0.5 rounded-full">
                 {responsaveis.length} / 2
                 </span>
             </div>
             {responsaveis.length === 0 ? (
-                <p className="text-xs text-[#8FA3A3]">Nenhum responsável cadastrado</p>
+                <p className="text-xs text-[#9B8FA8]">Nenhum responsável cadastrado</p>
             ) : (
                 <div className="flex flex-col gap-3">
                 {responsaveis.map(m => (
-                    <div key={m.id} className="bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border-l-4 border-[#3D8C8C]">
+                    <div key={m.id} className="bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border-l-4 border-[#A391E6]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0"
                         style={{ background: getCorAvatar(m.vinculo) }}>
                         {getEmoji(m.vinculo)}
                     </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-[#1C2B2B]">{m.nome}</p>
+                        <p className="text-sm font-semibold text-[#3D3560]">{m.nome}</p>
                         {m.voce && (
-                            <span className="bg-[#3D8C8C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
+                            <span className="bg-[#A391E6] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
                         )}
                         </div>
-                        <p className="text-xs text-[#3D8C8C] font-medium">{labelVinculo(m.vinculo)} · Responsável Principal</p>
-                        <p className="text-[10px] text-[#8FA3A3] mt-0.5">Desde {m.desde}</p>
+                        <p className="text-xs text-[#A391E6] font-medium">{labelVinculo(m.vinculo)} · Responsável Principal</p>
+                        <p className="text-[10px] text-[#9B8FA8] mt-0.5">Desde {m.desde}</p>
                     </div>
                     </div>
                 ))}
@@ -162,27 +162,27 @@ export default function Familia() {
             {participantes.length > 0 && (
             <div>
                 <div className="flex justify-between items-center mb-3">
-                <h2 className="text-sm font-bold text-[#1C2B2B]">Participantes Familiares</h2>
+                <h2 className="text-sm font-bold text-[#3D3560]">Participantes Familiares</h2>
                 <span className="bg-[#F5EDE3] text-[#8B6A3E] text-xs font-bold px-2 py-0.5 rounded-full">
                     {participantes.length} membro{participantes.length > 1 ? 's' : ''}
                 </span>
                 </div>
                 <div className="flex flex-col gap-3">
                 {participantes.map(m => (
-                    <div key={m.id} className="bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border-l-4 border-[#E2EEEE]">
+                    <div key={m.id} className="bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border-l-4 border-[#E8E4F4]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0"
                         style={{ background: getCorAvatar(m.vinculo) }}>
                         {getEmoji(m.vinculo)}
                     </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-[#1C2B2B]">{m.nome}</p>
+                        <p className="text-sm font-semibold text-[#3D3560]">{m.nome}</p>
                         {m.voce && (
-                            <span className="bg-[#3D8C8C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
+                            <span className="bg-[#A391E6] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">você</span>
                         )}
                         </div>
-                        <p className="text-xs text-[#3D8C8C] font-medium">{labelVinculo(m.vinculo)} · Participante Familiar</p>
-                        <p className="text-[10px] text-[#8FA3A3] mt-0.5">Desde {m.desde}</p>
+                        <p className="text-xs text-[#A391E6] font-medium">{labelVinculo(m.vinculo)} · Participante Familiar</p>
+                        <p className="text-[10px] text-[#9B8FA8] mt-0.5">Desde {m.desde}</p>
                     </div>
                     </div>
                 ))}
@@ -195,27 +195,27 @@ export default function Familia() {
         {/* ── NOVO — Modal de convite ────────────────────────────────── */}
         {mostrarConvite && (
             <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-20">
-            <div className="bg-[#FFFCF8] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md">
-                <h2 className="text-lg font-bold text-[#1C2B2B] mb-5">Convidar membro</h2>
+            <div className="bg-[#FFF7EC] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md">
+                <h2 className="text-lg font-bold text-[#3D3560] mb-5">Convidar membro</h2>
                 {!linkGerado ? (
                 <>
                     <div className="flex flex-col gap-4">
                     <div>
-                        <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-2">Vínculo</p>
+                        <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-2">Vínculo</p>
                         <div className="grid grid-cols-3 gap-2">
                         {VINCULOS.filter(v => v.id !== 'responsavel').map(v => (
                             <button key={v.id} onClick={() => setVinculoConvite(v.id)}
                             className={`rounded-xl py-3 flex flex-col items-center border-2 transition-all ${
-                                vincuoConvite === v.id ? 'border-[#3D8C8C] bg-[#EAF4F4]' : 'border-[#E2EEEE] bg-white'
+                                vincuoConvite === v.id ? 'border-[#A391E6] bg-[#EDEAF8]' : 'border-[#E8E4F4] bg-white'
                             }`}>
                             <span className="text-xl">{v.emoji}</span>
-                            <span className="text-xs font-semibold text-[#1C2B2B] mt-1">{v.label}</span>
+                            <span className="text-xs font-semibold text-[#3D3560] mt-1">{v.label}</span>
                             </button>
                         ))}
                         </div>
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-2">Papel</p>
+                        <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-2">Papel</p>
                         <div className="grid grid-cols-2 gap-2">
                         {[
                             { id: 'responsavel_principal', label: 'Responsável Principal', desc: 'Controle total' },
@@ -223,10 +223,10 @@ export default function Familia() {
                         ].map(p => (
                             <button key={p.id} onClick={() => setPapelConvite(p.id)}
                             className={`rounded-xl py-3 px-3 flex flex-col items-start border-2 transition-all ${
-                                papelConvite === p.id ? 'border-[#3D8C8C] bg-[#EAF4F4]' : 'border-[#E2EEEE] bg-white'
+                                papelConvite === p.id ? 'border-[#A391E6] bg-[#EDEAF8]' : 'border-[#E8E4F4] bg-white'
                             }`}>
-                            <span className="text-xs font-bold text-[#1C2B2B]">{p.label}</span>
-                            <span className="text-[10px] text-[#8FA3A3] mt-0.5">{p.desc}</span>
+                            <span className="text-xs font-bold text-[#3D3560]">{p.label}</span>
+                            <span className="text-[10px] text-[#9B8FA8] mt-0.5">{p.desc}</span>
                             </button>
                         ))}
                         </div>
@@ -234,28 +234,28 @@ export default function Familia() {
                     </div>
                     <div className="flex gap-3 mt-6">
                     <button onClick={() => setMostrarConvite(false)}
-                        className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm">
+                        className="flex-1 border-2 border-[#E8E4F4] text-[#9B8FA8] font-semibold py-4 rounded-full text-sm">
                         Cancelar
                     </button>
                     <button onClick={gerarConvite} disabled={gerando}
-                        className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
+                        className="flex-1 bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
                         {gerando ? 'Gerando...' : 'Gerar link →'}
                     </button>
                     </div>
                 </>
                 ) : (
                 <>
-                    <div className="bg-[#EAF4F4] rounded-xl p-4 mb-4">
-                    <p className="text-xs font-bold text-[#3D8C8C] mb-2">Link gerado! Compartilhe:</p>
-                    <p className="text-xs text-[#1C2B2B] break-all">{linkGerado}</p>
+                    <div className="bg-[#EDEAF8] rounded-xl p-4 mb-4">
+                    <p className="text-xs font-bold text-[#A391E6] mb-2">Link gerado! Compartilhe:</p>
+                    <p className="text-xs text-[#3D3560] break-all">{linkGerado}</p>
                     </div>
                     <button
                     onClick={() => { navigator.clipboard.writeText(linkGerado); alert('Link copiado!') }}
-                    className="w-full bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm mb-3">
+                    className="w-full bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm mb-3">
                     📋 Copiar link
                     </button>
                     <button onClick={() => setMostrarConvite(false)}
-                    className="w-full border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-3 rounded-full text-sm">
+                    className="w-full border-2 border-[#E8E4F4] text-[#9B8FA8] font-semibold py-3 rounded-full text-sm">
                     Fechar
                     </button>
                 </>
@@ -266,34 +266,34 @@ export default function Familia() {
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
         <div className="w-full shrink-0">
-            <div className="px-5 pt-3 pb-2 bg-[#FFFCF8]">
+            <div className="px-5 pt-3 pb-2 bg-[#FFF7EC]">
             <button
                 onClick={() => { setMostrarConvite(true); setLinkGerado('') }}
-                className="w-full bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm flex items-center justify-center gap-2"
+                className="w-full bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm flex items-center justify-center gap-2"
             >
                 👋 Convidar novo membro
             </button>
             </div>
-            <div className="border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center">
+            <div className="border-t border-[#E8E4F4] bg-white px-4 py-3 flex justify-around items-center">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
                 <span className="text-xl">🏠</span>
-                <span className="text-[10px] text-[#8FA3A3]">Home</span>
+                <span className="text-[10px] text-[#9B8FA8]">Home</span>
             </button>
             <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
                 <span className="text-xl">📅</span>
-                <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
+                <span className="text-[10px] text-[#9B8FA8]">Calendário</span>
             </button>
             <button onClick={() => navigate('/perfil')} className="flex flex-col items-center gap-1 px-3 py-2">
                 <span className="text-xl">👤</span>
-                <span className="text-[10px] text-[#8FA3A3]">Perfil</span>
+                <span className="text-[10px] text-[#9B8FA8]">Perfil</span>
             </button>
             <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
                 <span className="text-xl">📖</span>
-                <span className="text-[10px] text-[#8FA3A3]">Diário</span>
+                <span className="text-[10px] text-[#9B8FA8]">Diário</span>
             </button>
-            <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
+            <button className="flex flex-col items-center gap-1 bg-[#EDEAF8] px-3 py-2 rounded-xl">
                 <span className="text-xl">👨‍👩‍👧</span>
-                <span className="text-[10px] font-semibold text-[#3D8C8C]">Família</span>
+                <span className="text-[10px] font-semibold text-[#A391E6]">Família</span>
             </button>
             </div>
         </div>

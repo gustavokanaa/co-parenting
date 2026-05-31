@@ -1,4 +1,4 @@
-    import { useEffect, useState } from 'react'
+﻿    import { useEffect, useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
 
@@ -202,10 +202,10 @@
         : eventos
 
     return (
-        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto relative">
+        <div className="h-screen overflow-hidden bg-[#FFF7EC] flex flex-col max-w-md mx-auto relative">
 
         {/* Header */}
-        <div className="bg-[#1C2B2B] px-6 pt-12 pb-0">
+        <div className="px-6 pt-12 pb-0" style={{ background: 'linear-gradient(135deg, #3D3560 0%, #A391E6 100%)' }}>
             <div className="flex items-center justify-between">
             <h1 className="text-white text-2xl font-bold">Calendário</h1>
             </div>
@@ -236,12 +236,12 @@
                 return (
                 <button key={dia} onClick={() => setDiaSelecionado(selecionado ? null : dia)}
                     className={`relative flex flex-col items-center justify-center aspect-square rounded-full text-sm mx-auto w-8 transition-all
-                    ${ehHoje ? 'bg-[#3D8C8C] text-white font-bold' : ''}
+                    ${ehHoje ? 'bg-[#A391E6] text-white font-bold' : ''}
                     ${selecionado && !ehHoje ? 'bg-white/20 text-white font-bold' : ''}
                     ${!ehHoje && !selecionado ? 'text-white/60' : ''}
                     `}>
                     {dia}
-                    {temEvento && <span className="absolute bottom-0.5 w-1 h-1 rounded-full bg-[#E07A5F]" />}
+                    {temEvento && <span className="absolute bottom-0.5 w-1 h-1 rounded-full bg-[#FFB89C]" />}
                 </button>
                 )
             })}
@@ -250,14 +250,14 @@
 
         {/* Lista de eventos */}
         <div className="flex-1 px-5 pt-5 pb-32 flex flex-col gap-4 overflow-y-auto">
-            <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest">
+            <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest">
             {diaSelecionado ? `${diaSelecionado} de ${nomeMes}` : 'Todos os eventos do mês'}
             </p>
 
             {eventosFiltrados.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
                 <span className="text-4xl mb-3">📭</span>
-                <p className="text-sm text-[#8FA3A3]">Nenhum evento{diaSelecionado ? ' neste dia' : ' este mês'}</p>
+                <p className="text-sm text-[#9B8FA8]">Nenhum evento{diaSelecionado ? ' neste dia' : ' este mês'}</p>
             </div>
             )}
 
@@ -265,7 +265,7 @@
             const minhaConfirmacao = getMinhasConfirmacao(ev.id)
             const todasConfirmacoes = getConfirmacoesPorEvento(ev.id)
             return (
-                <div key={ev.id} className="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-[#3D8C8C] relative">
+                <div key={ev.id} className="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-[#A391E6] relative">
                 {papel === 'responsavel_principal' && (
                     <button
                     onClick={() => excluirEvento(ev.id)}
@@ -275,8 +275,8 @@
                     🗑
                     </button>
                 )}
-                <p className="text-sm font-bold text-[#1C2B2B]">{ev.titulo}</p>
-                <p className="text-xs text-[#8FA3A3] mt-1">
+                <p className="text-sm font-bold text-[#3D3560]">{ev.titulo}</p>
+                <p className="text-xs text-[#9B8FA8] mt-1">
                     {ev.hora_evento ? ev.hora_evento.slice(0, 5) + 'h' : 'Dia inteiro'}
                     {ev.quem_leva ? ` · ${ev.quem_leva} leva` : ''}
                     {ev.quem_busca ? ` · ${ev.quem_busca} busca` : ''}
@@ -328,8 +328,8 @@
         {/* Modal novo evento */}
         {mostrarForm && (
             <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-20">
-            <div className="bg-[#FFFCF8] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md">
-                <h2 className="text-lg font-bold text-[#1C2B2B] mb-5">Novo evento</h2>
+            <div className="bg-[#FFF7EC] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md">
+                <h2 className="text-lg font-bold text-[#3D3560] mb-5">Novo evento</h2>
                 <div className="flex flex-col gap-4">
                 {[
                     { label: 'Título', key: 'titulo', placeholder: '', type: 'text' },
@@ -339,24 +339,24 @@
                     { label: 'Quem busca', key: 'quem_busca', placeholder: '', type: 'text' },
                 ].map(field => (
                     <div key={field.key}>
-                    <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>
+                    <p className="text-xs font-bold text-[#9B8FA8] uppercase tracking-widest mb-1">{field.label}</p>
                     <input
                         type={field.type}
                         placeholder={field.placeholder}
                         value={novoEvento[field.key as keyof NovoEvento]}
                         onChange={e => setNovoEvento({ ...novoEvento, [field.key]: e.target.value })}
-                        className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                        className="w-full border-2 border-[#E8E4F4] rounded-xl px-4 py-3 text-sm text-[#3D3560] outline-none focus:border-[#A391E6] bg-white"
                     />
                     </div>
                 ))}
                 </div>
                 <div className="flex gap-3 mt-6">
                 <button onClick={() => setMostrarForm(false)}
-                    className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm">
+                    className="flex-1 border-2 border-[#E8E4F4] text-[#9B8FA8] font-semibold py-4 rounded-full text-sm">
                     Cancelar
                 </button>
                 <button onClick={salvarEvento} disabled={loading}
-                    className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
+                    className="flex-1 bg-[#A391E6] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60">
                     {loading ? 'Salvando...' : 'Salvar'}
                 </button>
                 </div>
@@ -367,25 +367,25 @@
         {/* Modal de confirmação de exclusão */}
         {modalExcluir && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-30 px-5">
-            <div className="bg-[#FFFCF8] rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <div className="bg-[#FFF7EC] rounded-2xl p-6 w-full max-w-sm shadow-xl">
                 <div className="flex flex-col items-center text-center gap-3">
                 <span className="text-4xl">🗑️</span>
-                <h2 className="text-lg font-bold text-[#1C2B2B]">Excluir evento?</h2>
-                <p className="text-sm text-[#8FA3A3] leading-relaxed">
+                <h2 className="text-lg font-bold text-[#3D3560]">Excluir evento?</h2>
+                <p className="text-sm text-[#9B8FA8] leading-relaxed">
                     Esta ação não pode ser desfeita. O evento será removido para todos os membros da família.
                 </p>
                 </div>
                 <div className="flex gap-3 mt-6">
                 <button
                     onClick={() => setModalExcluir(null)}
-                    className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm"
+                    className="flex-1 border-2 border-[#E8E4F4] text-[#9B8FA8] font-semibold py-4 rounded-full text-sm"
                 >
                     Cancelar
                 </button>
                 <button
                     onClick={confirmarExclusao}
                     className="flex-1 text-white font-semibold py-4 rounded-full text-sm"
-                    style={{ backgroundColor: '#E07A5F' }}
+                    style={{ backgroundColor: '#FFB89C' }}
                 >
                     Excluir
                 </button>
@@ -398,33 +398,33 @@
         {papel === 'responsavel_principal' && (
         <button
             onClick={() => setMostrarForm(true)}
-            className="absolute bottom-24 right-4 w-12 h-12 bg-[#E07A5F] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+            className="absolute bottom-24 right-4 w-12 h-12 bg-[#FFB89C] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
         >
             +
         </button>
         )}
 
         {/* Bottom nav */}
-        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
+        <div className="w-full border-t border-[#E8E4F4] bg-white px-4 py-3 flex justify-around items-center shrink-0">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">🏠</span>
-            <span className="text-[10px] text-[#8FA3A3]">Home</span>
+            <span className="text-[10px] text-[#9B8FA8]">Home</span>
             </button>
-            <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
+            <button className="flex flex-col items-center gap-1 bg-[#EDEAF8] px-3 py-2 rounded-xl">
             <span className="text-xl">📅</span>
-            <span className="text-[10px] font-semibold text-[#3D8C8C]">Calendário</span>
+            <span className="text-[10px] font-semibold text-[#A391E6]">Calendário</span>
             </button>
             <button onClick={() => navigate('/perfil')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">👤</span>
-            <span className="text-[10px] text-[#8FA3A3]">Perfil</span>
+            <span className="text-[10px] text-[#9B8FA8]">Perfil</span>
             </button>
             <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">📖</span>
-            <span className="text-[10px] text-[#8FA3A3]">Diário</span>
+            <span className="text-[10px] text-[#9B8FA8]">Diário</span>
             </button>
             <button onClick={() => navigate('/familia')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">👨‍👩‍👧</span>
-            <span className="text-[10px] text-[#8FA3A3]">Família</span>
+            <span className="text-[10px] text-[#9B8FA8]">Família</span>
             </button>
         </div>
 

@@ -1,5 +1,5 @@
-export const VINCULOS = [
-  { id: 'mae', label: 'Mãe', emoji: '👩', cor: '#EAF4F4' },
+﻿export const VINCULOS = [
+  { id: 'mae', label: 'Mãe', emoji: '👩', cor: '#EDEAF8' },
   { id: 'pai', label: 'Pai', emoji: '👨', cor: '#FCEEE9' },
   { id: 'avo', label: 'Avó', emoji: '👵', cor: '#F3EAF8' },
   { id: 'avop', label: 'Avô', emoji: '👴', cor: '#F3EAF8' },
