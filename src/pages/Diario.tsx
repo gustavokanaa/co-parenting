@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
@@ -111,34 +111,34 @@ export default function Diario() {
     }
 
     return (
-        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto">
 
             {/* Header */}
-            <div className="bg-[#F5EDE3] border-b border-[#EDE3D8] px-6 pt-12 pb-5 shrink-0">
-                <h1 className="text-[#1C2B2B] text-2xl font-bold">
+            <div className="px-6 pt-12 pb-5 shrink-0" style={{ background: 'linear-gradient(135deg, #2A1F3D 0%, #9B7FD4 100%)' }}>
+                <h1 className="text-white text-2xl font-bold">
                     Diário {criancaNome ? `de ${criancaNome}` : ''}
                 </h1>
-                <p className="text-[#8FA3A3] text-xs mt-1">Memórias compartilhadas pela família</p>
+                <p className="text-white/60 text-xs mt-1">Memórias compartilhadas pela família</p>
             </div>
 
             {/* Compose */}
-            <div className="mx-5 mt-4 bg-white rounded-2xl p-4 border border-[#E2EEEE] shrink-0">
+            <div className="mx-5 mt-4 bg-white rounded-2xl p-4 border border-[#E8D5F0] shrink-0">
                 <textarea
                     value={texto}
                     onChange={e => setTexto(e.target.value)}
                     placeholder={`O que aconteceu hoje${criancaNome ? ` com ${criancaNome}` : ''}? 🌟`}
-                    className="w-full text-sm text-[#1C2B2B] placeholder-[#C5D0D0] outline-none resize-none h-16 bg-transparent"
+                    className="w-full text-sm text-[#2A1F3D] placeholder-[#C5B8D8] outline-none resize-none h-16 bg-transparent"
                 />
 
                 {/* Tags */}
-                <div className="flex gap-2 flex-wrap mt-2 pt-2 border-t border-[#E2EEEE]">
+                <div className="flex gap-2 flex-wrap mt-2 pt-2 border-t border-[#E8D5F0]">
                     {tags.map(t => (
                         <button
                             key={t}
                             onClick={() => setTag(tag === t ? '' : t)}
                             className={`text-xs px-2 py-1 rounded-full border transition-all ${tag === t
-                                    ? 'bg-[#3D8C8C] text-white border-[#3D8C8C]'
-                                    : 'bg-white text-[#8FA3A3] border-[#E2EEEE]'
+                                    ? 'bg-[#9B7FD4] text-white border-[#9B7FD4]'
+                                    : 'bg-white text-[#8A7A9B] border-[#E8D5F0]'
                                 }`}
                         >
                             {t}
@@ -150,7 +150,7 @@ export default function Diario() {
                     <button
                         onClick={publicarPost}
                         disabled={!texto.trim() || loading}
-                        className="bg-[#3D8C8C] text-white text-xs font-semibold px-4 py-2 rounded-full disabled:opacity-40"
+                        className="bg-[#9B7FD4] text-white text-xs font-semibold px-4 py-2 rounded-full disabled:opacity-40"
                     >
                         {loading ? 'Publicando...' : 'Publicar'}
                     </button>
@@ -162,8 +162,8 @@ export default function Diario() {
                 {posts.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="text-4xl mb-3">📖</span>
-                        <p className="text-sm text-[#8FA3A3]">Nenhum registro ainda</p>
-                        <p className="text-xs text-[#8FA3A3] mt-1">Seja o primeiro a registrar um momento!</p>
+                        <p className="text-sm text-[#8A7A9B]">Nenhum registro ainda</p>
+                        <p className="text-xs text-[#8A7A9B] mt-1">Seja o primeiro a registrar um momento!</p>
                     </div>
                 )}
 
@@ -177,10 +177,10 @@ export default function Diario() {
                                 👤
                             </div>
                             <div>
-                                <p className="text-sm font-semibold text-[#1C2B2B]">
+                                <p className="text-sm font-semibold text-[#2A1F3D]">
                                     {post.autor_nome} · {post.autor_vinculo}
                                 </p>
-                                <p className="text-[10px] text-[#8FA3A3]">
+                                <p className="text-[10px] text-[#8A7A9B]">
                                     {formatarTempo(post.created_at)} · {post.autor_papel === 'responsavel_principal' ? 'Responsável Principal' : 'Participante Familiar'}
                                 </p>
                             </div>
@@ -188,18 +188,18 @@ export default function Diario() {
 
                         <div className="px-4 pb-3">
                             {post.tag && (
-                                <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-2 bg-[#EAF4F4] text-[#3D8C8C]">
+                                <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-2 bg-[#EDE5F8] text-[#9B7FD4]">
                                     {post.tag}
                                 </span>
                             )}
-                            <p className="text-sm text-[#4A5E5E] leading-relaxed">{post.texto}</p>
+                            <p className="text-sm text-[#4A3A6E] leading-relaxed">{post.texto}</p>
                         </div>
 
-                        <div className="flex gap-4 px-4 py-3 border-t border-[#E2EEEE]">
-                            <button className="flex items-center gap-1 text-xs text-[#8FA3A3]">
+                        <div className="flex gap-4 px-4 py-3 border-t border-[#E8D5F0]">
+                            <button className="flex items-center gap-1 text-xs text-[#8A7A9B]">
                                 <span>❤️</span> {post.reacoes}
                             </button>
-                            <button className="flex items-center gap-1 text-xs text-[#8FA3A3]">
+                            <button className="flex items-center gap-1 text-xs text-[#8A7A9B]">
                                 <span>💬</span> Responder
                             </button>
                         </div>
@@ -208,26 +208,26 @@ export default function Diario() {
             </div>
 
             {/* Bottom nav */}
-            <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
+            <div className="w-full border-t border-[#E8D5F0] bg-white px-4 py-3 flex justify-around items-center shrink-0">
                 <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
                     <span className="text-xl">🏠</span>
-                    <span className="text-[10px] text-[#8FA3A3]">Home</span>
+                    <span className="text-[10px] text-[#8A7A9B]">Home</span>
                 </button>
                 <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
                     <span className="text-xl">📅</span>
-                    <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
+                    <span className="text-[10px] text-[#8A7A9B]">Calendário</span>
                 </button>
                 <button onClick={() => navigate('/perfil')} className="flex flex-col items-center gap-1 px-3 py-2">
                     <span className="text-xl">👤</span>
-                    <span className="text-[10px] text-[#8FA3A3]">Perfil</span>
+                    <span className="text-[10px] text-[#8A7A9B]">Perfil</span>
                 </button>
-                <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
+                <button className="flex flex-col items-center gap-1 bg-[#EDE5F8] px-3 py-2 rounded-xl">
                     <span className="text-xl">📖</span>
-                    <span className="text-[10px] font-semibold text-[#3D8C8C]">Diário</span>
+                    <span className="text-[10px] font-semibold text-[#9B7FD4]">Diário</span>
                 </button>
                 <button onClick={() => navigate('/familia')} className="flex flex-col items-center gap-1 px-3 py-2">
                     <span className="text-xl">👨‍👩‍👧</span>
-                    <span className="text-[10px] text-[#8FA3A3]">Família</span>
+                    <span className="text-[10px] text-[#8A7A9B]">Família</span>
                 </button>
             </div>
 

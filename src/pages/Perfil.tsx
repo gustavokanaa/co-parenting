@@ -1,4 +1,4 @@
-    import { useEffect, useState } from 'react'
+﻿    import { useEffect, useState } from 'react'
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
     import { labelVinculo } from '../lib/vinculos'
@@ -142,13 +142,13 @@
     function campo(label: string, key: keyof typeof form, placeholder: string, type = 'text') {
         return (
         <div>
-            <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{label}</p>
+            <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">{label}</p>
             <input
             type={type}
             placeholder={placeholder}
             value={form[key]}
             onChange={e => setForm({ ...form, [key]: e.target.value })}
-            className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+            className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
             />
         </div>
         )
@@ -156,17 +156,17 @@
 
     if (loading) {
         return (
-        <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
-            <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
+        <div className="h-screen bg-[#FFF8F2] flex items-center justify-center max-w-md mx-auto">
+            <p className="text-[#9B7FD4] font-semibold">Carregando...</p>
         </div>
         )
     }
 
     return (
-        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#1C2B2B] to-[#3D8C8C] px-6 pt-12 pb-8 flex flex-col items-center shrink-0">
+        <div className="bg-gradient-to-br from-[#2A1F3D] to-[#9B7FD4] px-6 pt-12 pb-8 flex flex-col items-center shrink-0">
             <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl border-2 border-white/30 mb-3">
             🧒
             </div>
@@ -190,16 +190,16 @@
             {papel === 'responsavel_principal' && (
             <button
                 onClick={() => { setMostrarEdicao(true); setStepEdicao(1) }}
-                className="w-full bg-[#EAF4F4] text-[#3D8C8C] text-sm font-semibold px-4 py-3 rounded-2xl border border-[#D0E6E6] flex items-center justify-center gap-2 transition-all hover:bg-[#D5ECEC]"
+                className="w-full bg-[#EDE5F8] text-[#9B7FD4] text-sm font-semibold px-4 py-3 rounded-2xl border border-[#D8C5F0] flex items-center justify-center gap-2 transition-all hover:bg-[#D5ECEC]"
             >
                 ✏️ Editar dados
             </button>
             )}
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-            <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">
+            <div className="bg-[#EDE5F8] px-4 py-3 flex items-center gap-2">
                 <span>🏥</span>
-                <span className="text-xs font-bold text-[#3D8C8C] uppercase tracking-wide">Saúde</span>
+                <span className="text-xs font-bold text-[#9B7FD4] uppercase tracking-wide">Saúde</span>
             </div>
             {[
                 { label: 'Tipo sanguíneo', valor: crianca?.tipo_sanguineo },
@@ -208,22 +208,22 @@
                 { label: 'Pediatra', valor: crianca?.pediatra },
                 { label: 'Telefone', valor: crianca?.pediatra_telefone },
             ].filter(item => item.valor).map((item, i) => (
-                <div key={i} className="px-4 py-3 flex justify-between items-center border-b border-[#E2EEEE] last:border-0">
-                <span className="text-xs text-[#8FA3A3]">{item.label}</span>
-                <span className={`text-xs font-semibold ${item.destaque ? 'text-[#E07A5F] bg-[#FCEEE9] px-2 py-0.5 rounded-full' : 'text-[#1C2B2B]'}`}>
+                <div key={i} className="px-4 py-3 flex justify-between items-center border-b border-[#E8D5F0] last:border-0">
+                <span className="text-xs text-[#8A7A9B]">{item.label}</span>
+                <span className={`text-xs font-semibold ${item.destaque ? 'text-[#FF7B54] bg-[#FCEEE9] px-2 py-0.5 rounded-full' : 'text-[#2A1F3D]'}`}>
                     {item.valor}
                 </span>
                 </div>
             ))}
             {!crianca?.tipo_sanguineo && !crianca?.alergias && !crianca?.medicamentos && !crianca?.pediatra && !crianca?.pediatra_telefone && (
-                <div className="px-4 py-4 text-xs text-[#8FA3A3] text-center">Nenhuma informação cadastrada</div>
+                <div className="px-4 py-4 text-xs text-[#8A7A9B] text-center">Nenhuma informação cadastrada</div>
             )}
             </div>
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <div className="bg-[#EAF4F4] px-4 py-3 flex items-center gap-2">
+                <div className="bg-[#EDE5F8] px-4 py-3 flex items-center gap-2">
                 <span>🏫</span>
-                <span className="text-xs font-bold text-[#3D8C8C] uppercase tracking-wide">Escola</span>
+                <span className="text-xs font-bold text-[#9B7FD4] uppercase tracking-wide">Escola</span>
                 </div>
                 {[
                 { label: 'Escola', valor: crianca?.escola },
@@ -231,23 +231,23 @@
                 { label: 'Período', valor: crianca?.periodo },
                 { label: 'Professora', valor: crianca?.professora },
                 ].filter(item => item.valor).map((item, i) => (
-                <div key={i} className="px-4 py-3 flex justify-between items-center border-b border-[#E2EEEE] last:border-0">
-                    <span className="text-xs text-[#8FA3A3]">{item.label}</span>
-                    <span className="text-xs font-semibold text-[#1C2B2B]">{item.valor}</span>
+                <div key={i} className="px-4 py-3 flex justify-between items-center border-b border-[#E8D5F0] last:border-0">
+                    <span className="text-xs text-[#8A7A9B]">{item.label}</span>
+                    <span className="text-xs font-semibold text-[#2A1F3D]">{item.valor}</span>
                 </div>
                 ))}
                 {!crianca?.escola && !crianca?.serie && !crianca?.periodo && !crianca?.professora && (
-                <div className="px-4 py-4 text-xs text-[#8FA3A3] text-center">Nenhuma informação cadastrada</div>
+                <div className="px-4 py-4 text-xs text-[#8A7A9B] text-center">Nenhuma informação cadastrada</div>
                 )}
             </div>
 
             <div className="flex justify-between items-center mt-2">
-            <h2 className="text-sm font-bold text-[#1C2B2B]">Documentos</h2>
-            <span className="text-xs font-semibold text-[#3D8C8C]">+ Adicionar</span>
+            <h2 className="text-sm font-bold text-[#2A1F3D]">Documentos</h2>
+            <span className="text-xs font-semibold text-[#9B7FD4]">+ Adicionar</span>
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <p className="text-3xl mb-2">📁</p>
-            <p className="text-sm text-[#8FA3A3]">Em breve</p>
+            <p className="text-sm text-[#8A7A9B]">Em breve</p>
             </div>
 
         </div>
@@ -255,17 +255,17 @@
         {/* ── NOVO — Modal de edição ────────────────────────────────── */}
         {mostrarEdicao && (
             <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
-            <div className="bg-[#FFFCF8] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="bg-[#FFF8F2] rounded-t-3xl px-6 pt-6 pb-10 w-full max-w-md max-h-[90vh] overflow-y-auto">
 
                 {/* Steps */}
                 <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold text-[#1C2B2B]">
+                <h2 className="text-lg font-bold text-[#2A1F3D]">
                     {stepEdicao === 1 ? 'Dados básicos' : stepEdicao === 2 ? 'Saúde' : 'Escola'}
                 </h2>
                 <div className="flex gap-1.5">
                     {[1, 2, 3].map(s => (
                     <div key={s} className={`h-1.5 rounded-full transition-all ${
-                        s === stepEdicao ? 'w-6 bg-[#3D8C8C]' : 'w-3 bg-[#E2EEEE]'
+                        s === stepEdicao ? 'w-6 bg-[#9B7FD4]' : 'w-3 bg-[#E8D5F0]'
                     }`} />
                     ))}
                 </div>
@@ -280,7 +280,7 @@
 
                 {stepEdicao === 2 && (
                 <div className="flex flex-col gap-4">
-                    <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
+                    <p className="text-xs text-[#8A7A9B] -mt-2">Todos os campos são opcionais</p>
                     {campo('Tipo sanguíneo', 'tipo_sanguineo', '')}
                     {campo('Alergias', 'alergias', '')}
                     {campo('Medicamentos em uso', 'medicamentos', '')}
@@ -291,7 +291,7 @@
 
                 {stepEdicao === 3 && (
                 <div className="flex flex-col gap-4">
-                    <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
+                    <p className="text-xs text-[#8A7A9B] -mt-2">Todos os campos são opcionais</p>
                     {campo('Nome da escola', 'escola', '')}
                     {campo('Série', 'serie', '')}
                     {campo('Período', 'periodo', '')}
@@ -302,14 +302,14 @@
                 <div className="flex gap-3 mt-6">
                 <button
                     onClick={() => stepEdicao > 1 ? setStepEdicao(stepEdicao - 1) : setMostrarEdicao(false)}
-                    className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm"
+                    className="flex-1 border-2 border-[#E8D5F0] text-[#8A7A9B] font-semibold py-4 rounded-full text-sm"
                 >
                     {stepEdicao > 1 ? '← Voltar' : 'Cancelar'}
                 </button>
                 {stepEdicao < 3 ? (
                     <button
                     onClick={() => setStepEdicao(stepEdicao + 1)}
-                    className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm"
+                    className="flex-1 bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm"
                     >
                     Continuar →
                     </button>
@@ -317,7 +317,7 @@
                     <button
                     onClick={salvarEdicao}
                     disabled={salvando}
-                    className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
+                    className="flex-1 bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
                     >
                     {salvando ? 'Salvando...' : 'Salvar →'}
                     </button>
@@ -330,26 +330,26 @@
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
         {/* Bottom nav */}
-        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
+        <div className="w-full border-t border-[#E8D5F0] bg-white px-4 py-3 flex justify-around items-center shrink-0">
             <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">🏠</span>
-            <span className="text-[10px] text-[#8FA3A3]">Home</span>
+            <span className="text-[10px] text-[#8A7A9B]">Home</span>
             </button>
             <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">📅</span>
-            <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
+            <span className="text-[10px] text-[#8A7A9B]">Calendário</span>
             </button>
-            <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
+            <button className="flex flex-col items-center gap-1 bg-[#EDE5F8] px-3 py-2 rounded-xl">
             <span className="text-xl">👤</span>
-            <span className="text-[10px] font-semibold text-[#3D8C8C]">Perfil</span>
+            <span className="text-[10px] font-semibold text-[#9B7FD4]">Perfil</span>
             </button>
             <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">📖</span>
-            <span className="text-[10px] text-[#8FA3A3]">Diário</span>
+            <span className="text-[10px] text-[#8A7A9B]">Diário</span>
             </button>
             <button onClick={() => navigate('/familia')} className="flex flex-col items-center gap-1 px-3 py-2">
             <span className="text-xl">👨‍👩‍👧</span>
-            <span className="text-[10px] text-[#8FA3A3]">Família</span>
+            <span className="text-[10px] text-[#8A7A9B]">Família</span>
             </button>
         </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate, Link } from 'react-router-dom'
 
@@ -51,22 +51,24 @@ export default function Cadastro() {
     }
 
     return (
-    <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
+    <div className="min-h-screen flex flex-col max-w-md mx-auto" style={{ background: 'linear-gradient(165deg, #2A1F3D 0%, #4A2E6A 40%, #9B7FD4 100%)' }}>
 
       {/* Hero */}
         <div className="flex flex-col items-center pt-16 pb-10 px-6">
-        <h1 className="text-4xl font-bold text-white tracking-tight">Linkar</h1>
-        <p className="text-white/70 text-sm mt-1">Conectados pelo que mais importa</p>
+        <h1 className="text-4xl font-bold tracking-tight">
+          <span style={{ color: '#9B7FD4' }}>P</span><span style={{ color: '#FF7B54' }}>a</span><span style={{ color: '#5CC8B0' }}>r</span><span style={{ color: '#FFB830' }}>e</span><span style={{ color: '#FF9BB5' }}>n</span><span style={{ color: '#9B7FD4' }}>t</span><span style={{ color: '#FF7B54' }}>a</span>
+        </h1>
+        <p className="text-white/70 text-sm mt-1">Cuidar juntos, mesmo em casas diferentes.</p>
         <div className="mt-6 w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl">
             🤝    
         </div>
         </div>
 
       {/* Card */}
-        <div className="flex-1 bg-[#FFFCF8] rounded-t-3xl px-6 pt-8 pb-10">
+        <div className="flex-1 bg-[#FFF8F2] rounded-t-3xl px-6 pt-8 pb-10">
 
         {/* Vínculo */}
-        <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-3">
+        <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-3">
             Qual é o seu vínculo com a criança?
         </p>
         <div className="grid grid-cols-3 gap-2 mb-2">
@@ -76,12 +78,12 @@ export default function Cadastro() {
                 onClick={() => setVinculo(v.id)}
                 className={`rounded-xl py-3 flex flex-col items-center border-2 transition-all ${
                 vinculo === v.id
-                    ? 'border-[#3D8C8C] bg-[#EAF4F4]'
-                    : 'border-[#E2EEEE] bg-white'
+                    ? 'border-[#9B7FD4] bg-[#EDE5F8]'
+                    : 'border-[#E8D5F0] bg-white'
                 }`}
             >
                 <span className="text-2xl">{v.emoji}</span>
-                <span className="text-xs font-semibold text-[#1C2B2B] mt-1">{v.label}</span>
+                <span className="text-xs font-semibold text-[#2A1F3D] mt-1">{v.label}</span>
             </button>
             ))}
         </div>
@@ -89,21 +91,21 @@ export default function Cadastro() {
             onClick={() => setVinculo('responsavel')}
             className={`w-full rounded-xl py-3 px-4 flex items-center gap-3 border-2 transition-all mb-6 ${
             vinculo === 'responsavel'
-                ? 'border-[#3D8C8C] bg-[#EAF4F4]'
-                : 'border-[#E2EEEE] bg-white'
+                ? 'border-[#9B7FD4] bg-[#EDE5F8]'
+                : 'border-[#E8D5F0] bg-white'
             }`}
         >
             <span className="text-2xl">🧑‍⚖️</span>
             <div className="text-left">
-            <div className="text-sm font-semibold text-[#1C2B2B]">Responsável Legal / Tutor</div>
-            <div className="text-xs text-[#8FA3A3]">Guarda judicial ou tutela</div>
+            <div className="text-sm font-semibold text-[#2A1F3D]">Responsável Legal / Tutor</div>
+            <div className="text-xs text-[#8A7A9B]">Guarda judicial ou tutela</div>
             </div>
         </button>
 
         {/* Campos */}
         <div className="flex flex-col gap-4">
             <div>
-            <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">
+            <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">
                 Nome completo
             </p>
             <input
@@ -111,11 +113,11 @@ export default function Cadastro() {
                 placeholder=""
                 value={nome}
                 onChange={e => setNome(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
             />
             </div>
             <div>
-            <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">
+            <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">
                 E-mail
             </p>
             <input
@@ -123,11 +125,11 @@ export default function Cadastro() {
                 placeholder=""
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
             />
             </div>
             <div>
-            <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">
+            <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">
                 Senha
             </p>
             <input
@@ -135,29 +137,29 @@ export default function Cadastro() {
                 placeholder=""
                 value={senha}
                 onChange={e => setSenha(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
             />
             </div>
         </div>
 
         {/* Erro */}
         {erro && (
-            <p className="text-sm text-[#E07A5F] mt-3 font-medium">{erro}</p>
+            <p className="text-sm text-[#FF7B54] mt-3 font-medium">{erro}</p>
         )}
 
         {/* Botão */}
         <button
             onClick={handleCadastro}
             disabled={loading}
-            className="w-full mt-6 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
+            className="w-full mt-6 bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
         >
             {loading ? 'Criando conta...' : 'Criar minha conta →'}
         </button>
 
         {/* Login */}
         <div className="mt-4 text-center">
-            <span className="text-sm text-[#8FA3A3]">Já tem conta? </span>
-            <Link to="/login" className="text-sm font-semibold text-[#3D8C8C]">
+            <span className="text-sm text-[#8A7A9B]">Já tem conta? </span>
+            <Link to="/login" className="text-sm font-semibold text-[#9B7FD4]">
             Entrar
             </Link>
         </div>
