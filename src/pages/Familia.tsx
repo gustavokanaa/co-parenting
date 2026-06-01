@@ -24,7 +24,7 @@ export default function Familia() {
     const [criancaId, setCriancaId] = useState<string | null>(null)
     const [mostrarConvite, setMostrarConvite] = useState(false)
     const [linkGerado, setLinkGerado] = useState('')
-    const [vincuoConvite, setVinculoConvite] = useState('mae')
+    const [vinculoConvite, setVinculoConvite] = useState('mae')
     const [papelConvite, setPapelConvite] = useState('participante_familiar')
     const [gerando, setGerando] = useState(false)
     // ── FIM NOVO ──────────────────────────────────────────────────────
@@ -83,13 +83,18 @@ export default function Familia() {
         setGerando(true)
         const { data: userData } = await supabase.auth.getUser()
         const token = crypto.randomUUID()
-        await supabase.from('convites').insert({
+        const { error: erroConvite } = await supabase.from('convites').insert({
         crianca_id: criancaId,
         criado_por: userData.user?.id,
-        vinculo: vincuoConvite,
+        vinculo: vinculoConvite,
         papel: papelConvite,
         token,
         })
+        if (erroConvite) {
+        setGerando(false)
+        alert('Erro ao gerar convite. Tente novamente.')
+        return
+        }
         const link = `${window.location.origin}/convite/${token}`
         setLinkGerado(link)
         setGerando(false)
@@ -206,7 +211,7 @@ export default function Familia() {
                         {VINCULOS.filter(v => v.id !== 'responsavel').map(v => (
                             <button key={v.id} onClick={() => setVinculoConvite(v.id)}
                             className={`rounded-xl py-3 flex flex-col items-center border-2 transition-all ${
-                                vincuoConvite === v.id ? 'border-[#3D8C8C] bg-[#EAF4F4]' : 'border-[#E2EEEE] bg-white'
+                                vinculoConvite === v.id ? 'border-[#3D8C8C] bg-[#EAF4F4]' : 'border-[#E2EEEE] bg-white'
                             }`}>
                             <span className="text-xl">{v.emoji}</span>
                             <span className="text-xs font-semibold text-[#1C2B2B] mt-1">{v.label}</span>
