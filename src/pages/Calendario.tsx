@@ -44,6 +44,7 @@
     const [loading, setLoading] = useState(false)
     const [papel, setPapel] = useState<String | null>(null)
     const [modalExcluir, setModalExcluir] = useState<string | null>(null)
+    const [erroEvento, setErroEvento] = useState('')
     const [novoEvento, setNovoEvento] = useState<NovoEvento>({
         titulo: '', data_evento: '', hora_evento: '', quem_leva: '', quem_busca: '',
     })
@@ -157,17 +158,18 @@
     async function salvarEvento() {
         if (papel !== 'responsavel_principal') return
         if (!novoEvento.titulo.trim()) {
-            alert('Informe o título do evento.')
+            setErroEvento('Informe o título do evento.')
             return
         }
         if (!novoEvento.data_evento) {
-            alert('Informe a data do evento.')
+            setErroEvento('Informe a data do evento.')
             return
         }
         if (!criancaId) return
+        setErroEvento('')
         setLoading(true)
         const { data: userData } = await supabase.auth.getUser()
-        await supabase.from('eventos').insert({
+        const { error: erroInsert } = await supabase.from('eventos').insert({
         crianca_id: criancaId,
         criado_por: userData.user?.id,
         titulo: novoEvento.titulo,
@@ -176,6 +178,11 @@
         quem_leva: novoEvento.quem_leva,
         quem_busca: novoEvento.quem_busca,
         })
+        if (erroInsert) {
+        setErroEvento('Erro ao salvar evento. Tente novamente.')
+        setLoading(false)
+        return
+        }
         const dataEvento = new Date(novoEvento.data_evento + 'T00:00:00')
         const novoMes = dataEvento.getMonth()
         const novoAno = dataEvento.getFullYear()
@@ -350,7 +357,8 @@
                     </div>
                 ))}
                 </div>
-                <div className="flex gap-3 mt-6">
+                {erroEvento && <p className="text-sm text-[#E07A5F] mt-4 font-medium">{erroEvento}</p>}
+                <div className="flex gap-3 mt-4">
                 <button onClick={() => setMostrarForm(false)}
                     className="flex-1 border-2 border-[#E8E4F4] text-[#9B8FA8] font-semibold py-4 rounded-full text-sm">
                     Cancelar
@@ -397,7 +405,7 @@
         {/* FAB */}
         {papel === 'responsavel_principal' && (
         <button
-            onClick={() => setMostrarForm(true)}
+            onClick={() => { setMostrarForm(true); setErroEvento('') }}
             className="absolute bottom-24 right-4 w-12 h-12 bg-[#FFB89C] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
         >
             +
