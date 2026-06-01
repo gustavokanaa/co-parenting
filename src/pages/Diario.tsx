@@ -22,6 +22,7 @@ export default function Diario() {
     const [texto, setTexto] = useState('')
     const [tag, setTag] = useState('')
     const [loading, setLoading] = useState(false)
+    const [erroPost, setErroPost] = useState('')
     const [autorNome, setAutorNome] = useState('')
     const [autorVinculo, setAutorVinculo] = useState('')
     const [autorPapel, setAutorPapel] = useState('')
@@ -76,9 +77,10 @@ export default function Diario() {
     async function publicarPost() {
         if (!texto.trim() || !criancaId) return
         setLoading(true)
+        setErroPost('')
 
         const { data: userData } = await supabase.auth.getUser()
-        await supabase.from('posts_diario').insert({
+        const { error: erroInsert } = await supabase.from('posts_diario').insert({
             crianca_id: criancaId,
             autor_id: userData.user?.id,
             autor_nome: autorNome,
@@ -87,6 +89,12 @@ export default function Diario() {
             texto,
             tag: tag || null,
         })
+
+        if (erroInsert) {
+            setErroPost('Erro ao publicar. Tente novamente.')
+            setLoading(false)
+            return
+        }
 
         setTexto('')
         setTag('')
@@ -155,6 +163,7 @@ export default function Diario() {
                         {loading ? 'Publicando...' : 'Publicar'}
                     </button>
                 </div>
+                {erroPost && <p className="text-xs text-[#E07A5F] mt-2 font-medium">{erroPost}</p>}
             </div>
 
             {/* Feed */}

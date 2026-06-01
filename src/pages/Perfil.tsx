@@ -34,6 +34,7 @@
     const [mostrarEdicao, setMostrarEdicao] = useState(false)
     const [stepEdicao, setStepEdicao] = useState(1)
     const [salvando, setSalvando] = useState(false)
+    const [erroEdicao, setErroEdicao] = useState('')
     const [form, setForm] = useState({
         nome: '', data_nascimento: '',
         tipo_sanguineo: '', alergias: '', medicamentos: '',
@@ -116,7 +117,8 @@
     async function salvarEdicao() {
         if (!crianca) return
         setSalvando(true)
-        await supabase
+        setErroEdicao('')
+        const { error: erroUpdate } = await supabase
         .from('criancas')
         .update({
             nome: form.nome,
@@ -132,6 +134,12 @@
             professora: form.professora,
         })
         .eq('id', crianca.id)
+
+        if (erroUpdate) {
+        setSalvando(false)
+        setErroEdicao('Erro ao salvar dados. Tente novamente.')
+        return
+        }
 
         await carregarDados()
         setSalvando(false)
@@ -189,7 +197,7 @@
             {/* Botão Editar dados */}
             {papel === 'responsavel_principal' && (
             <button
-                onClick={() => { setMostrarEdicao(true); setStepEdicao(1) }}
+                onClick={() => { setMostrarEdicao(true); setStepEdicao(1); setErroEdicao('') }}
                 className="w-full bg-[#EDE5F8] text-[#9B7FD4] text-sm font-semibold px-4 py-3 rounded-2xl border border-[#D8C5F0] flex items-center justify-center gap-2 transition-all hover:bg-[#D5ECEC]"
             >
                 ✏️ Editar dados
@@ -299,6 +307,7 @@
                 </div>
                 )}
 
+                {erroEdicao && <p className="text-sm text-[#E07A5F] mb-3 font-medium">{erroEdicao}</p>}
                 <div className="flex gap-3 mt-6">
                 <button
                     onClick={() => stepEdicao > 1 ? setStepEdicao(stepEdicao - 1) : setMostrarEdicao(false)}
