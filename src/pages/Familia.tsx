@@ -22,11 +22,13 @@ export default function Familia() {
 
     // ── NOVO ──────────────────────────────────────────────────────────
     const [criancaId, setCriancaId] = useState<string | null>(null)
+    const [meuPapel, setMeuPapel] = useState('')
     const [mostrarConvite, setMostrarConvite] = useState(false)
     const [linkGerado, setLinkGerado] = useState('')
     const [vinculoConvite, setVinculoConvite] = useState('mae')
     const [papelConvite, setPapelConvite] = useState('participante_familiar')
     const [gerando, setGerando] = useState(false)
+    const [toastMsg, setToastMsg] = useState('')
     // ── FIM NOVO ──────────────────────────────────────────────────────
 
     useEffect(() => {
@@ -36,7 +38,7 @@ export default function Familia() {
 
         const { data: membroAtual } = await supabase
             .from('membros_familia')
-            .select('crianca_id')
+            .select('crianca_id, papel')
             .eq('user_id', userData.user.id)
             .eq('ativo', true)
             .limit(1)
@@ -46,6 +48,7 @@ export default function Familia() {
 
         const criancaId = membroAtual.crianca_id
         setCriancaId(criancaId) // ── NOVO ──
+        setMeuPapel(membroAtual.papel)
 
         const { data: criancaData } = await supabase
             .from('criancas')
@@ -78,6 +81,20 @@ export default function Familia() {
     }, [navigate])
 
     // ── NOVO ──────────────────────────────────────────────────────────
+    function mostrarToast(msg: string) {
+        setToastMsg(msg)
+        setTimeout(() => setToastMsg(''), 4000)
+    }
+
+    function handleAbrirConvite() {
+        if (meuPapel !== 'responsavel_principal') {
+            mostrarToast('Você não tem permissão para convidar novos membros. Apenas o responsável principal pode realizar convites.')
+            return
+        }
+        setMostrarConvite(true)
+        setLinkGerado('')
+    }
+
     async function gerarConvite() {
         if (!criancaId) return
         setGerando(true)
@@ -114,6 +131,14 @@ export default function Familia() {
 
     return (
         <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+
+        {toastMsg && (
+            <div className="fixed top-4 left-0 right-0 flex justify-center z-50 px-5 pointer-events-none">
+                <div className="w-full max-w-md bg-[#E07A5F] text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-lg leading-snug pointer-events-auto">
+                    {toastMsg}
+                </div>
+            </div>
+        )}
 
         <div className="bg-gradient-to-br from-[#1C2B2B] to-[#2A4E4E] px-6 pt-12 pb-6">
             <h1 className="text-white text-2xl font-bold">
@@ -273,7 +298,7 @@ export default function Familia() {
         <div className="w-full shrink-0">
             <div className="px-5 pt-3 pb-2 bg-[#FFFCF8]">
             <button
-                onClick={() => { setMostrarConvite(true); setLinkGerado('') }}
+                onClick={handleAbrirConvite}
                 className="w-full bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm flex items-center justify-center gap-2"
             >
                 👋 Convidar novo membro
