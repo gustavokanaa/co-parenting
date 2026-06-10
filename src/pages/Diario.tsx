@@ -167,7 +167,7 @@ export default function Diario() {
             </div>
 
             {/* Feed */}
-            <div className="flex-1 min-h-0 px-5 pt-4 pb-4 flex flex-col gap-4 overflow-y-auto">
+            <div className="flex-1 min-h-0 px-5 pt-4 pb-4 overflow-y-auto">
                 {posts.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="text-4xl mb-3">📖</span>
@@ -176,6 +176,7 @@ export default function Diario() {
                     </div>
                 )}
 
+                <div className="flex flex-col gap-4">
                 {posts.map(post => (
                     <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm">
                         <div className="flex items-center gap-3 px-4 pt-4 pb-2">
@@ -214,6 +215,7 @@ export default function Diario() {
                         </div>
                     </div>
                 ))}
+                </div>
             </div>
 
             {/* Bottom nav */}
