@@ -192,7 +192,8 @@
         </div>
 
         {/* Conteúdo */}
-        <div className="flex-1 px-5 pt-5 pb-40 flex flex-col gap-4 overflow-y-auto">
+        <div className="flex-1 px-5 pt-5 pb-4 overflow-y-auto">
+        <div className="flex flex-col gap-4">
 
             {/* Botão Editar dados */}
             {papel === 'responsavel_principal' && (
@@ -258,6 +259,7 @@
             <p className="text-sm text-[#9B8FA8]">Em breve</p>
             </div>
 
+        </div>
         </div>
 
         {/* ── NOVO — Modal de edição ────────────────────────────────── */}
