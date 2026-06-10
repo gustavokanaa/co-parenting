@@ -2,6 +2,7 @@
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
     import { labelVinculo } from '../lib/vinculos'
+    import BottomNav from '../components/BottomNav'
 
     interface Crianca {
     id: string
@@ -340,29 +341,7 @@
         )}
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
 
-        {/* Bottom nav */}
-        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-3 flex justify-around items-center shrink-0">
-            <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">🏠</span>
-            <span className="text-[10px] text-[#8FA3A3]">Home</span>
-            </button>
-            <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">📅</span>
-            <span className="text-[10px] text-[#8FA3A3]">Calendário</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 bg-[#EAF4F4] px-3 py-2 rounded-xl">
-            <span className="text-xl">👤</span>
-            <span className="text-[10px] font-semibold text-[#3D8C8C]">Perfil</span>
-            </button>
-            <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">📖</span>
-            <span className="text-[10px] text-[#8FA3A3]">Diário</span>
-            </button>
-            <button onClick={() => navigate('/familia')} className="flex flex-col items-center gap-1 px-3 py-2">
-            <span className="text-xl">👨‍👩‍👧</span>
-            <span className="text-[10px] text-[#8FA3A3]">Família</span>
-            </button>
-        </div>
+        <BottomNav />
 
         </div>
     )
