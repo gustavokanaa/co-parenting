@@ -167,7 +167,7 @@ export default function Diario() {
             </div>
 
             {/* Feed */}
-            <div className="flex-1 min-h-0 px-5 pt-4 pb-40 flex flex-col gap-4 overflow-y-auto">
+            <div className="flex-1 min-h-0 px-5 pt-4 pb-4 flex flex-col gap-4 overflow-y-auto">
                 {posts.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="text-4xl mb-3">📖</span>
