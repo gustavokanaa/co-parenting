@@ -2,6 +2,7 @@
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
     import { VINCULOS, labelVinculo, emojiVinculo, corVinculo } from '../lib/vinculos'
+    import BottomNav from '../components/BottomNav'
 
     interface Membro {
     id: string
@@ -304,28 +305,7 @@ export default function Familia() {
                 👋 Convidar novo membro
             </button>
             </div>
-            <div className="border-t border-[#E8D5F0] bg-white px-4 py-3 flex justify-around items-center">
-            <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 px-3 py-2">
-                <span className="text-xl">🏠</span>
-                <span className="text-[10px] text-[#8A7A9B]">Home</span>
-            </button>
-            <button onClick={() => navigate('/calendario')} className="flex flex-col items-center gap-1 px-3 py-2">
-                <span className="text-xl">📅</span>
-                <span className="text-[10px] text-[#8A7A9B]">Calendário</span>
-            </button>
-            <button onClick={() => navigate('/perfil')} className="flex flex-col items-center gap-1 px-3 py-2">
-                <span className="text-xl">👤</span>
-                <span className="text-[10px] text-[#8A7A9B]">Perfil</span>
-            </button>
-            <button onClick={() => navigate('/diario')} className="flex flex-col items-center gap-1 px-3 py-2">
-                <span className="text-xl">📖</span>
-                <span className="text-[10px] text-[#8A7A9B]">Diário</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 bg-[#EDE5F8] px-3 py-2 rounded-xl">
-                <span className="text-xl">👨‍👩‍👧</span>
-                <span className="text-[10px] font-semibold text-[#9B7FD4]">Família</span>
-            </button>
-            </div>
+            <BottomNav />
         </div>
 
         </div>
