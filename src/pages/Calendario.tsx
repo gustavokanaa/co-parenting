@@ -407,7 +407,7 @@
         {papel === 'responsavel_principal' && (
         <button
             onClick={() => { setMostrarForm(true); setErroEvento('') }}
-            className="absolute bottom-24 right-4 w-12 h-12 bg-[#FF7B54] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
+            className="absolute bottom-24 right-4 w-12 h-12 bg-[#9B7FD4] rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-10"
         >
             +
         </button>
