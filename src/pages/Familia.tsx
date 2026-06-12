@@ -30,6 +30,7 @@ export default function Familia() {
     const [papelConvite, setPapelConvite] = useState('participante_familiar')
     const [gerando, setGerando] = useState(false)
     const [toastMsg, setToastMsg] = useState('')
+    const [toastTipo, setToastTipo] = useState<'erro' | 'sucesso'>('erro')
     // ── FIM NOVO ──────────────────────────────────────────────────────
 
     useEffect(() => {
@@ -82,7 +83,8 @@ export default function Familia() {
     }, [navigate])
 
     // ── NOVO ──────────────────────────────────────────────────────────
-    function mostrarToast(msg: string) {
+    function mostrarToast(msg: string, tipo: 'erro' | 'sucesso' = 'erro') {
+        setToastTipo(tipo)
         setToastMsg(msg)
         setTimeout(() => setToastMsg(''), 4000)
     }
@@ -110,7 +112,7 @@ export default function Familia() {
         })
         if (erroConvite) {
         setGerando(false)
-        alert('Erro ao gerar convite. Tente novamente.')
+        mostrarToast('Erro ao gerar convite. Tente novamente.')
         return
         }
         const link = `${window.location.origin}/convite/${token}`
@@ -135,7 +137,10 @@ export default function Familia() {
 
         {toastMsg && (
             <div className="fixed top-4 left-0 right-0 flex justify-center z-50 px-5 pointer-events-none">
-                <div className="w-full max-w-md bg-[#E07A5F] text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-lg leading-snug pointer-events-auto">
+                <div
+                    className="w-full max-w-md text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-lg leading-snug pointer-events-auto"
+                    style={{ backgroundColor: toastTipo === 'sucesso' ? '#9B7FD4' : '#E07A5F' }}
+                >
                     {toastMsg}
                 </div>
             </div>
@@ -281,7 +286,7 @@ export default function Familia() {
                     <p className="text-xs text-[#2A1F3D] break-all">{linkGerado}</p>
                     </div>
                     <button
-                    onClick={() => { navigator.clipboard.writeText(linkGerado); alert('Link copiado!') }}
+                    onClick={() => { navigator.clipboard.writeText(linkGerado); mostrarToast('✓ Link copiado!', 'sucesso') }}
                     className="w-full bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm mb-3">
                     📋 Copiar link
                     </button>
