@@ -40,6 +40,10 @@ export default function Diario() {
     const [autorNome, setAutorNome] = useState('')
     const [autorVinculo, setAutorVinculo] = useState('')
     const [autorPapel, setAutorPapel] = useState('')
+    const [userId, setUserId] = useState<string | null>(null)
+    const [curtidos, setCurtidos] = useState<Set<string>>(new Set())
+    const [respondendo, setRespondendo] = useState<string | null>(null)
+    const [textoResposta, setTextoResposta] = useState<Record<string, string>>({})
 
     useEffect(() => {
         async function carregarDados() {
@@ -49,6 +53,7 @@ export default function Diario() {
             const user = userData.user
             const nome = user.user_metadata?.nome_completo || 'Responsável'
             setAutorNome(nome)
+            setUserId(user.id)
 
             const { data: membroData } = await supabase
                 .from('membros_familia')
@@ -112,6 +117,45 @@ export default function Diario() {
         setTag('')
         await carregarPosts(criancaId)
         setLoading(false)
+    }
+
+    async function toggleCurtida(post: Post) {
+        const jaCurtiu = curtidos.has(post.id)
+        const novasReacoes = jaCurtiu ? post.reacoes - 1 : post.reacoes + 1
+
+        // Atualiza UI imediatamente (optimistic update)
+        setCurtidos(prev => {
+            const novo = new Set(prev)
+            jaCurtiu ? novo.delete(post.id) : novo.add(post.id)
+            return novo
+        })
+        setPosts(prev => prev.map(p => p.id === post.id ? { ...p, reacoes: novasReacoes } : p))
+
+        await supabase
+            .from('posts_diario')
+            .update({ reacoes: novasReacoes })
+            .eq('id', post.id)
+    }
+
+    async function publicarResposta(postOriginal: Post) {
+        const texto = textoResposta[postOriginal.id]?.trim()
+        if (!texto || !criancaId || !userId) return
+
+        const { error } = await supabase.from('posts_diario').insert({
+            crianca_id: criancaId,
+            autor_id: userId,
+            autor_nome: autorNome,
+            autor_vinculo: autorVinculo,
+            autor_papel: autorPapel,
+            texto: `↩ ${postOriginal.autor_nome.split(' ')[0]}: ${texto}`,
+            tag: null,
+        })
+
+        if (!error) {
+            setRespondendo(null)
+            setTextoResposta(prev => ({ ...prev, [postOriginal.id]: '' }))
+            await carregarPosts(criancaId)
+        }
     }
 
     function formatarTempo(dateStr: string) {
@@ -237,13 +281,50 @@ export default function Diario() {
                                 </div>
 
                                 <div className="flex gap-4 px-4 py-3 border-t border-[#E8D5F0]">
-                                    <button className="flex items-center gap-1 text-xs text-[#8A7A9B]">
-                                        <IconHeart size={14} strokeWidth={1.5} /> {post.reacoes}
+                                    <button
+                                        onClick={() => toggleCurtida(post)}
+                                        className={`flex items-center gap-1 text-xs transition-colors ${curtidos.has(post.id) ? 'text-[#9B7FD4]' : 'text-[#8A7A9B]'}`}
+                                    >
+                                        <IconHeart
+                                            size={14}
+                                            strokeWidth={1.5}
+                                            fill={curtidos.has(post.id) ? '#9B7FD4' : 'none'}
+                                        />
+                                        {post.reacoes > 0 ? post.reacoes : ''}
                                     </button>
-                                    <button className="flex items-center gap-1 text-xs text-[#8A7A9B]">
+                                    <button
+                                        onClick={() => setRespondendo(respondendo === post.id ? null : post.id)}
+                                        className={`flex items-center gap-1 text-xs transition-colors ${respondendo === post.id ? 'text-[#9B7FD4]' : 'text-[#8A7A9B]'}`}
+                                    >
                                         <IconMessageCircle size={14} strokeWidth={1.5} /> Responder
                                     </button>
                                 </div>
+
+                                {respondendo === post.id && (
+                                    <div className="px-4 pb-4 pt-1">
+                                        <textarea
+                                            value={textoResposta[post.id] || ''}
+                                            onChange={e => setTextoResposta(prev => ({ ...prev, [post.id]: e.target.value }))}
+                                            placeholder={`Responder para ${post.autor_nome.split(' ')[0]}...`}
+                                            className="w-full text-sm text-[#2A1F3D] placeholder-[#C5B8D8] outline-none resize-none h-14 bg-[#FAF6FF] rounded-xl px-3 py-2 border border-[#E8D5F0]"
+                                        />
+                                        <div className="flex justify-end gap-2 mt-2">
+                                            <button
+                                                onClick={() => setRespondendo(null)}
+                                                className="text-xs text-[#8A7A9B] px-3 py-1.5"
+                                            >
+                                                Cancelar
+                                            </button>
+                                            <button
+                                                onClick={() => publicarResposta(post)}
+                                                disabled={!textoResposta[post.id]?.trim()}
+                                                className="bg-[#9B7FD4] text-white text-xs font-semibold px-4 py-1.5 rounded-full disabled:opacity-40"
+                                            >
+                                                Publicar
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )
                     })}
