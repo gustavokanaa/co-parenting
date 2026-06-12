@@ -118,6 +118,12 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
             {loading ? 'Entrando...' : 'Entrar →'}
             </button>
 
+            <div className="mt-3 text-center">
+            <Link to="/esqueci-senha" className="text-sm text-[#9B7FD4] font-medium">
+                Esqueci minha senha
+            </Link>
+            </div>
+
             <div className="mt-4 text-center">
             <span className="text-sm text-[#8A7A9B]">Não tem conta? </span>
             <Link to="/cadastro" className="text-sm font-semibold text-[#9B7FD4]">
