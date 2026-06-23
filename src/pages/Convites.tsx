@@ -80,6 +80,19 @@
     }
 
     async function entrarNaFamilia(userId: string) {
+        // Re-verifica status no momento do aceite (previne uso simultâneo do mesmo link)
+        const { data: conviteAtual } = await supabase
+        .from('convites')
+        .select('status')
+        .eq('id', convite.id)
+        .single()
+
+        if (conviteAtual?.status === 'usado') {
+        setErro('Este convite já foi utilizado por outra pessoa.')
+        setLoading(false)
+        return
+        }
+
         // Bloqueia se o usuário já pertence a qualquer família
         const { data: familiaExistente } = await supabase
         .from('membros_familia')
@@ -95,6 +108,20 @@
         return
         }
 
+        // Marca convite como usado ANTES de criar o membro
+        // .select() força erro explícito se RLS bloquear o update
+        const { error: erroMarcar } = await supabase
+        .from('convites')
+        .update({ status: 'usado' })
+        .eq('id', convite.id)
+        .select()
+
+        if (erroMarcar) {
+        setErro('Não foi possível validar o convite. Tente novamente.')
+        setLoading(false)
+        return
+        }
+
         await supabase.from('membros_familia').insert({
         crianca_id: convite.crianca_id,
         user_id: userId,
@@ -104,12 +131,6 @@
         convidado_por: convite.criado_por,
         ativo: true,
         })
-
-        // Marca convite como usado
-        await supabase
-        .from('convites')
-        .update({ status: 'usado' })
-        .eq('id', convite.id)
 
         navigate('/home')
     }
