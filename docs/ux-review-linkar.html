@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UX/UI Review — Linkar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:      #3D8C8C;
+      --teal-dark: #1C2B2B;
+      --teal-light:#E1F5EE;
+      --salmon:    #E07A5F;
+      --cream:     #FFFCF8;
+      --gray:      #8FA3A3;
+      --text:      #1C2B2B;
+      --border:    #E2EEEE;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: linear-gradient(135deg, #1C2B2B 0%, #3D8C8C 100%);
+      color: white;
+      padding: 72px 64px 56px;
+      min-height: 260px;
+      page-break-after: always;
+    }
+    .cover-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 20px;
+    }
+    .cover h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .cover h1 span { color: #7ECFBF; }
+    .cover-subtitle {
+      font-size: 15px;
+      color: rgba(255,255,255,.7);
+      max-width: 480px;
+    }
+    .cover-meta {
+      margin-top: 40px;
+      display: flex;
+      gap: 32px;
+    }
+    .cover-meta-item { font-size: 12px; color: rgba(255,255,255,.55); }
+    .cover-meta-item strong { display: block; color: white; font-size: 13px; margin-bottom: 2px; }
+
+    /* ── LAYOUT ── */
+    .page { padding: 52px 64px; max-width: 860px; margin: 0 auto; }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--teal-dark);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: var(--teal-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 13px;
+      color: var(--teal-dark);
+    }
+    .highlight strong { font-weight: 700; }
+
+    /* ── CARDS ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 12px;
+      color: #5A7070;
+      line-height: 1.55;
+    }
+
+    /* ── PRIORITY ITEMS ── */
+    .priority-list { list-style: none; margin: 20px 0; }
+    .priority-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .priority-item:last-child { border-bottom: none; }
+    .priority-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-top: 2px;
+    }
+    .badge-high   { background: #FCEEE9; color: #C0392B; }
+    .badge-medium { background: #FAEEDA; color: #8B5E00; }
+    .badge-diff   { background: var(--teal-light); color: #0F6E56; }
+
+    .priority-item-body h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 4px;
+    }
+    .priority-item-body p {
+      font-size: 12px;
+      color: #5A7070;
+      line-height: 1.55;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 12px;
+    }
+    thead tr {
+      background: var(--teal-dark);
+      color: white;
+    }
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: .05em;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td {
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) { background: #F7FAFA; }
+
+    .pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+    .pill-high   { background: #FCEEE9; color: #C0392B; }
+    .pill-medium { background: #FAEEDA; color: #8B5E00; }
+    .pill-low    { background: #EAF4F4; color: var(--teal); }
+    .pill-very-high { background: #EDE8FE; color: #534AB7; }
+
+    /* ── WHAT WORKS ── */
+    .works-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .works-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .works-item .icon { font-size: 24px; margin-bottom: 8px; }
+    .works-item h4 { font-size: 12px; font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
+    .works-item p  { font-size: 11px; color: #5A7070; line-height: 1.5; }
+
+    /* ── STRUCTURAL NOTE ── */
+    .structural {
+      background: #FFFBF0;
+      border: 1px solid #F0E0A0;
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 24px 0;
+    }
+    .structural-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #8B6A00;
+      margin-bottom: 6px;
+    }
+    .structural h3 { font-size: 15px; font-weight: 700; color: #4A3800; margin-bottom: 8px; }
+    .structural p  { font-size: 12.5px; color: #5A4A20; line-height: 1.65; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--teal-dark);
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 11px;
+      margin-top: 48px;
+    }
+    .footer strong { color: white; }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: white; }
+      .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .card, .works-item, .structural, table thead { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { padding: 40px 48px; }
+      .section-title { page-break-after: avoid; }
+      .priority-item, .card { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Análise UX/UI · Junho 2026</div>
+  <h1>Revisão de<br><span>Experiência &amp; Interface</span><br>Linkar</h1>
+  <p class="cover-subtitle">Diagnóstico completo do estado atual do aplicativo, pontos fortes, lacunas de funcionalidade e recomendações priorizadas.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Produto</strong>Linkar — Co-parenting App</div>
+    <div class="cover-meta-item"><strong>Plataforma</strong>Mobile Web (React/Vite)</div>
+    <div class="cover-meta-item"><strong>Telas analisadas</strong>9 páginas</div>
+    <div class="cover-meta-item"><strong>Data</strong>Junho 2026</div>
+  </div>
+</div>
+
+<!-- SECTION 1: VISÃO GERAL -->
+<div class="page">
+  <div class="section-label">Seção 01</div>
+  <div class="section-title">Visão Geral do Produto</div>
+
+  <p>O Linkar é um aplicativo mobile de co-parentalidade que centraliza a comunicação e o acompanhamento da vida de uma criança entre dois ou mais responsáveis. O produto resolve um problema real e cotidiano: a fragmentação de informações sobre saúde, escola, eventos e memórias que hoje vivem espalhadas em WhatsApp, blocos de notas e ligações telefônicas.</p>
+
+  <div class="highlight">
+    <strong>Proposta de valor central:</strong> Um espaço compartilhado e organizado onde co-pais, avós e familiares próximos acompanham a criança — sem conflito de informação e sem depender de um único canal de comunicação.
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Arquitetura de Navegação</div>
+  <p style="margin-bottom:16px;">O app é composto por 9 telas, divididas entre onboarding e área principal. A navegação principal se dá por um bottom nav persistente com 5 destinos.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🔑</div>
+      <h3>Onboarding (4 telas)</h3>
+      <p>Cadastro de usuário, login, cadastro da criança (multi-step) e aceitação de convite via token. Fluxo completo para novos usuários e convidados.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏠</div>
+      <h3>Home</h3>
+      <p>Dashboard principal. Exibe saudação, card da criança com membros da família e os 3 próximos eventos cadastrados.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Calendário</h3>
+      <p>Grade mensal com marcadores de eventos. Permite criar, visualizar, confirmar presença e excluir eventos. FAB para criação rápida.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h3>Perfil</h3>
+      <p>Informações da criança: dados básicos, saúde (tipo sanguíneo, alergias, medicamentos, pediatra) e escola (nome, série, período, professora).</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h3>Diário</h3>
+      <p>Feed compartilhado de memórias. Suporta postagens com texto e tags categorizadas (Manhã, Noite, Tarde, Conquista, Saúde, Especial).</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">👨‍👩‍👧</div>
+      <h3>Família</h3>
+      <p>Gestão de membros: visualização de responsáveis e participantes, envio de convites via link tokenizado e controle de papéis.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Sistema de Permissões</div>
+  <p style="margin-bottom:16px;">O app implementa dois níveis de acesso que determinam o que cada usuário pode fazer:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Ação</th>
+        <th>Responsável Principal</th>
+        <th>Participante Familiar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Editar dados da criança</td><td>✅ Sim</td><td>❌ Não</td></tr>
+      <tr><td>Criar / excluir eventos</td><td>✅ Sim</td><td>❌ Não</td></tr>
+      <tr><td>Confirmar presença em eventos</td><td>✅ Sim</td><td>✅ Sim</td></tr>
+      <tr><td>Convidar novos membros</td><td>✅ Sim</td><td>❌ Não (toast explicativo)</td></tr>
+      <tr><td>Postar no Diário</td><td>✅ Sim</td><td>✅ Sim</td></tr>
+      <tr><td>Visualizar perfil da criança</td><td>✅ Sim</td><td>✅ Sim</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 2: O QUE FUNCIONA -->
+<div class="page">
+  <div class="section-label">Seção 02</div>
+  <div class="section-title">O que o App faz Bem</div>
+
+  <div class="works-grid">
+    <div class="works-item">
+      <div class="icon">🎯</div>
+      <h4>Hierarquia clara</h4>
+      <p>Fluxo de cadastro multi-step bem cadenciado. Não sobrecarrega o usuário.</p>
+    </div>
+    <div class="works-item">
+      <div class="icon">🔒</div>
+      <h4>Permissões bem executadas</h4>
+      <p>Toast explicativo ao invés de esconder o botão. Educativo sem ser punitivo.</p>
+    </div>
+    <div class="works-item">
+      <div class="icon">🏷️</div>
+      <h4>Tags coloridas no Diário</h4>
+      <p>Sistema de categorização visual que facilita a leitura rápida do feed.</p>
+    </div>
+    <div class="works-item">
+      <div class="icon">💊</div>
+      <h4>Bottom nav com pill ativo</h4>
+      <p>Active state em pill horizontal resolve bem a orientação de tela atual.</p>
+    </div>
+    <div class="works-item">
+      <div class="icon">🕐</div>
+      <h4>Timestamps relativos</h4>
+      <p>"Há 5 min", "Ontem" — formato humano que cria sensação de feed vivo.</p>
+    </div>
+    <div class="works-item">
+      <div class="icon">🎨</div>
+      <h4>3 identidades visuais</h4>
+      <p>Main (teal), Ello (roxo) e Parenta (roxo) com paletas bem definidas e consistentes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: LACUNAS DE ALTA PRIORIDADE -->
+<div class="page">
+  <div class="section-label">Seção 03</div>
+  <div class="section-title">Lacunas de Alta Prioridade</div>
+
+  <p style="margin-bottom:20px;">Problemas que afetam diretamente a experiência atual e devem ser endereçados antes de novas funcionalidades.</p>
+
+  <ul class="priority-list">
+
+    <li class="priority-item">
+      <span class="priority-badge badge-high">Urgente</span>
+      <div class="priority-item-body">
+        <h4>Reações e respostas no Diário são decorativas</h4>
+        <p>O ícone de coração (curtida) e o botão "Responder" existem na interface mas não têm funcionalidade real. Usuário clica, nada acontece — isso quebra a confiança no produto. A regra é simples: ou implementa ou remove da UI imediatamente.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-high">Urgente</span>
+      <div class="priority-item-body">
+        <h4>Home muito vazia — tela principal sem conteúdo vivo</h4>
+        <p>Com zero eventos, a tela exibe apenas um card com "Nenhum evento próximo". É a primeira tela que o usuário vê toda vez que abre o app. Sem conteúdo dinâmico, não há razão para abrir o app com frequência. Sugestão: exibir último post do Diário, card de "quem está com a criança hoje" e destaque do próximo evento.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-high">Urgente</span>
+      <div class="priority-item-body">
+        <h4>Avatar da criança é sempre o emoji 🧒</h4>
+        <p>O aplicativo é sobre a criança, mas ela nunca tem rosto. A ausência de uma foto real é a principal barreira emocional para o usuário sentir que o app é "deles". Um upload simples — câmera ou galeria — transforma completamente o vínculo afetivo com o produto.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-high">Urgente</span>
+      <div class="priority-item-body">
+        <h4>Sem editar ou excluir post no Diário</h4>
+        <p>Autores não conseguem apagar o próprio post. Erros de digitação, posts duplicados e conteúdo publicado por engano geram frustração sem solução. Ação mínima: botão de excluir para o autor do post.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-medium">Média</span>
+      <div class="priority-item-body">
+        <h4>Sem perfil do próprio usuário logado</h4>
+        <p>Existe tela para editar dados da criança, mas nenhuma para o usuário alterar seu próprio nome, e-mail ou senha. Funcionalidade básica ausente que gera chamados de suporte desnecessários.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-medium">Média</span>
+      <div class="priority-item-body">
+        <h4>Documentos no Perfil está "Em breve" sem prazo</h4>
+        <p>A seção de documentos existe com um placeholder. Vacinas, receitas e carteirinha do plano são exatamente o tipo de conteúdo que torna o app indispensável. Um responsável procura a carteira de vacinação no WhatsApp hoje — se o Linkar resolver isso, vira referência.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-medium">Média</span>
+      <div class="priority-item-body">
+        <h4>Fotos no Diário não implementadas</h4>
+        <p>O campo <code>tem_foto</code> já existe no banco de dados — a estrutura está pronta. Um post com foto de um momento especial tem valor emocional completamente diferente de texto puro. Implementar upload de imagem no Diário é o próximo passo natural.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-medium">Média</span>
+      <div class="priority-item-body">
+        <h4>Calendário sem eventos recorrentes</h4>
+        <p>"Consulta com o pediatra todo mês", "escola às 7h todo dia útil" — sem recorrência, o usuário cria o mesmo evento manualmente toda semana. Esse atrito acumulado é a principal causa de abandono em apps de agenda.</p>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+<!-- SECTION 4: OPORTUNIDADES DE DIFERENCIAÇÃO -->
+<div class="page">
+  <div class="section-label">Seção 04</div>
+  <div class="section-title">Oportunidades de Diferenciação</div>
+
+  <p style="margin-bottom:20px;">Funcionalidades que não existem nos concorrentes ou que os concorrentes resolvem de forma insatisfatória. Aqui está o potencial de o Linkar se tornar referência no segmento.</p>
+
+  <ul class="priority-list">
+
+    <li class="priority-item">
+      <span class="priority-badge badge-diff">Diferencial</span>
+      <div class="priority-item-body">
+        <h4>"Quem está com a criança agora" — o core da co-parentalidade</h4>
+        <p>Este é o problema número um no dia a dia de co-pais: saber onde a criança está e quando acontece a próxima troca de guarda. Um card na Home do tipo <em>"Esta semana: com a mãe · próxima troca: sexta às 18h"</em> resolveria a maior dor cotidiana. Nenhum app popular do segmento faz isso de forma simples e visual.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-diff">Diferencial</span>
+      <div class="priority-item-body">
+        <h4>Registro rápido de medicação administrada</h4>
+        <p>"Dei o antialérgico às 8h" — a coordenação de remédios entre co-pais é crítica e ninguém quer ligar um para o outro para saber se já foi dado. Uma entrada rápida de medicamento + horário no feed do Diário (ou seção dedicada) com histórico do dia seria muito utilizada e reduziria erros de dupla medicação.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-diff">Diferencial</span>
+      <div class="priority-item-body">
+        <h4>Notificações push</h4>
+        <p>Sem notificações, o app não cria hábito de uso. Exemplos de valor imediato: "Ana postou no Diário", "Evento amanhã: Consulta com a Dra. Silva", "Pedro aceitou o convite". Cada notificação relevante traz o usuário de volta ao app de forma orgânica.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-diff">Diferencial</span>
+      <div class="priority-item-body">
+        <h4>Carteira de vacinação digital</h4>
+        <p>Pais perdem tempo procurando o cartão de vacinas em gavetas ou tirando foto para mandar no WhatsApp. Uma seção simples de vacinas com nome, data e próxima dose — dentro do Perfil — torna o Linkar o repositório de saúde da criança, não só um app de agenda.</p>
+      </div>
+    </li>
+
+    <li class="priority-item">
+      <span class="priority-badge badge-diff">Diferencial</span>
+      <div class="priority-item-body">
+        <h4>Humor/estado da criança no check-in de guarda</h4>
+        <p>Ao registrar uma troca de guarda, o responsável pode indicar o estado da criança: "estava agitada", "dormiu bem", "com febre baixa". Isso substitui uma ligação de transição e reduz conflitos de comunicação entre os co-pais.</p>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+<!-- SECTION 5: MATRIZ DE PRIORIDADE -->
+<div class="page">
+  <div class="section-label">Seção 05</div>
+  <div class="section-title">Matriz de Prioridade</div>
+
+  <p style="margin-bottom:20px;">Resumo executivo de todos os itens identificados, ordenados por impacto no usuário e esforço de implementação estimado.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Item</th>
+        <th>Esforço</th>
+        <th>Impacto</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Corrigir ou remover reações do Diário</td>
+        <td>Baixo</td>
+        <td><span class="pill pill-very-high">Muito Alto</span></td>
+        <td>Correção</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Home com conteúdo vivo (feed de atividade)</td>
+        <td>Médio</td>
+        <td><span class="pill pill-very-high">Muito Alto</span></td>
+        <td>Melhoria</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>"Quem está com a criança agora"</td>
+        <td>Médio</td>
+        <td><span class="pill pill-very-high">Muito Alto</span></td>
+        <td>Diferencial</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Foto da criança no perfil</td>
+        <td>Médio</td>
+        <td><span class="pill pill-high">Alto</span></td>
+        <td>Melhoria</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Excluir/editar post no Diário</td>
+        <td>Baixo</td>
+        <td><span class="pill pill-high">Alto</span></td>
+        <td>Correção</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Notificações push</td>
+        <td>Alto</td>
+        <td><span class="pill pill-high">Alto</span></td>
+        <td>Diferencial</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Registro de medicação administrada</td>
+        <td>Médio</td>
+        <td><span class="pill pill-high">Alto</span></td>
+        <td>Diferencial</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Documentos e vacinas no Perfil</td>
+        <td>Alto</td>
+        <td><span class="pill pill-high">Alto</span></td>
+        <td>Nova feature</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Perfil do usuário logado (editar nome/senha)</td>
+        <td>Baixo</td>
+        <td><span class="pill pill-medium">Médio</span></td>
+        <td>Correção</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Fotos no Diário (campo já existe no banco)</td>
+        <td>Médio</td>
+        <td><span class="pill pill-medium">Médio</span></td>
+        <td>Melhoria</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Eventos recorrentes no Calendário</td>
+        <td>Alto</td>
+        <td><span class="pill pill-medium">Médio</span></td>
+        <td>Nova feature</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Humor da criança no check-in de guarda</td>
+        <td>Médio</td>
+        <td><span class="pill pill-medium">Médio</span></td>
+        <td>Diferencial</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider" />
+
+  <div class="structural">
+    <div class="structural-label">Ponto de atenção estrutural</div>
+    <h3>A Home precisa ter vida própria</h3>
+    <p>A tela principal hoje é uma tela de passagem: o usuário abre, vê o card da criança, vê os próximos eventos e vai para outra aba. Ela não tem conteúdo que justifique ser aberta por prazer. O maior salto de retenção que o Linkar pode fazer no curto prazo é transformar a Home em um <strong>feed de atividade familiar</strong>: último post do Diário, próximo evento em destaque, quem está com a criança, última atualização de saúde. Isso faz o usuário abrir o app por prazer, não só por obrigação — e é o que separa apps usados diariamente de apps desinstalados em 30 dias.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Conclusão</div>
+  <p>O Linkar tem uma base técnica e visual sólida. O design system é consistente, o fluxo de permissões é bem resolvido e as três identidades visuais demonstram maturidade de produto. O próximo ciclo de desenvolvimento deve focar em <strong>aprofundar o que já existe</strong> — Diário com fotos e reações reais, Home com vida, Perfil com documentos — antes de adicionar novas telas. A funcionalidade de diferenciação mais valiosa e acessível é o <strong>"quem está com a criança agora"</strong>: resolve a dor número um da co-parentalidade e não existe em nenhum concorrente de forma simples.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Linkar — Análise UX/UI</strong> · Junho 2026 · Documento gerado para uso interno
+</div>
+
+</body>
+</html>

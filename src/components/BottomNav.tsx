@@ -14,7 +14,7 @@ export default function BottomNav() {
     const location = useLocation()
 
     return (
-        <div className="w-full border-t border-[#E2EEEE] bg-white px-4 py-2 flex justify-around items-center shrink-0">
+        <div className="w-full border-t border-[#E8D5F0] bg-white px-4 py-2 flex justify-around items-center shrink-0">
             {NAV_ITEMS.map(({ path, icon: Icon, label }) => {
                 const active = location.pathname === path
                 return (
@@ -23,13 +23,13 @@ export default function BottomNav() {
                         onClick={() => navigate(path)}
                         className="flex items-center gap-1.5 transition-all"
                         style={active
-                            ? { backgroundColor: '#E1F5EE', borderRadius: '999px', padding: '8px 16px' }
+                            ? { backgroundColor: '#EDE5F8', borderRadius: '999px', padding: '8px 16px' }
                             : { padding: '8px' }
                         }
                     >
-                        <Icon size={20} color={active ? '#0F6E56' : '#8FA3A3'} strokeWidth={1.75} />
+                        <Icon size={20} color={active ? '#9B7FD4' : '#8A7A9B'} strokeWidth={1.75} />
                         {active && (
-                            <span className="text-[11px] font-semibold" style={{ color: '#085041' }}>
+                            <span className="text-[11px] font-semibold" style={{ color: '#2A1F3D' }}>
                                 {label}
                             </span>
                         )}

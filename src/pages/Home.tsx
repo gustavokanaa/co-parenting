@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import { labelVinculo } from '../lib/vinculos'
@@ -128,17 +128,17 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="h-screen bg-[#FFFCF8] flex items-center justify-center max-w-md mx-auto">
-                <p className="text-[#3D8C8C] font-semibold">Carregando...</p>
+            <div className="h-screen bg-[#FFF8F2] flex items-center justify-center max-w-md mx-auto">
+                <p className="text-[#9B7FD4] font-semibold">Carregando...</p>
             </div>
         )
     }
 
     return (
-        <div className="h-screen overflow-hidden bg-[#FFFCF8] flex flex-col max-w-md mx-auto">
+        <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto">
 
             {/* Header */}
-            <div className="bg-[#1C2B2B] px-6 pt-12 pb-6">
+            <div className="px-6 pt-12 pb-6" style={{ background: 'linear-gradient(135deg, #2A1F3D 0%, #9B7FD4 100%)' }}>
         <div className="flex justify-between items-start">
             <div>
             <p className="text-white/60 text-sm">{getSaudacao()} 👋</p>
@@ -160,7 +160,7 @@ export default function Home() {
 
             {/* Card da criança */}
             {crianca && (
-                <div className="mx-5 mt-5 bg-gradient-to-br from-[#3D8C8C] to-[#2A6E6E] rounded-3xl p-5 flex items-center gap-4">
+                <div className="mx-5 mt-5 bg-gradient-to-br from-[#9B7FD4] to-[#7B5BB4] rounded-3xl p-5 flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-3xl flex-shrink-0">
                         🧒
                     </div>
@@ -183,10 +183,10 @@ export default function Home() {
             {/* Próximos eventos */}
             <div className="mx-5 mt-6">
                 <div className="flex justify-between items-center mb-3">
-                    <h2 className="text-[#1C2B2B] font-bold text-base">Próximos eventos</h2>
+                    <h2 className="text-[#2A1F3D] font-bold text-base">Próximos eventos</h2>
                     <span
                         onClick={() => navigate('/calendario')}
-                        className="text-xs font-semibold text-[#3D8C8C] cursor-pointer"
+                        className="text-xs font-semibold text-[#9B7FD4] cursor-pointer"
                     >
                         Ver todos
                     </span>
@@ -195,11 +195,11 @@ export default function Home() {
                 {eventos.length === 0 ? (
                     <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
                         <p className="text-3xl mb-2">📭</p>
-                        <p className="text-sm text-[#8FA3A3]">Nenhum evento próximo</p>
+                        <p className="text-sm text-[#8A7A9B]">Nenhum evento próximo</p>
                         {papel === 'responsavel_principal' && (
                             <button
                                 onClick={() => navigate('/calendario')}
-                                className="mt-3 text-xs font-semibold text-[#3D8C8C]"
+                                className="mt-3 text-xs font-semibold text-[#9B7FD4]"
                             >
                                 + Criar evento
                             </button>
@@ -211,13 +211,13 @@ export default function Home() {
                             const { dia, mes } = formatarData(ev.data_evento)
                             return (
                                 <div key={ev.id} className="bg-white rounded-xl p-4 flex items-center gap-3 shadow-sm">
-                                    <div className="w-10 h-11 bg-[#EAF4F4] rounded-xl flex flex-col items-center justify-center flex-shrink-0">
-                                        <span className="text-base font-bold text-[#3D8C8C] leading-none">{dia}</span>
-                                        <span className="text-[9px] text-[#6BB5B5] font-bold uppercase tracking-wide">{mes}</span>
+                                    <div className="w-10 h-11 bg-[#EDE5F8] rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                                        <span className="text-base font-bold text-[#9B7FD4] leading-none">{dia}</span>
+                                        <span className="text-[9px] text-[#9B7FD4] font-bold uppercase tracking-wide">{mes}</span>
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-sm font-semibold text-[#1C2B2B]">{ev.titulo}</p>
-                                        <p className="text-xs text-[#8FA3A3] mt-0.5">
+                                        <p className="text-sm font-semibold text-[#2A1F3D]">{ev.titulo}</p>
+                                        <p className="text-xs text-[#8A7A9B] mt-0.5">
                                             {ev.hora_evento ? ev.hora_evento.slice(0, 5) + 'h' : 'Dia inteiro'}
                                             {ev.quem_leva ? ` · ${ev.quem_leva} leva` : ''}
                                         </p>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentação Oficial — Parenta</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #9B7FD4;
+      --purple-dark:  #2A1F3D;
+      --purple-mid:   #4A2E6A;
+      --purple-light: #EDE5F8;
+      --purple-border:#E8D5F0;
+      --purple-muted: #8A7A9B;
+      --cream:        #FFF8F2;
+      --white:        #FFFFFF;
+      --text:         #2A1F3D;
+      --text-soft:    #5A4A70;
+      --accent-orange:#FF7B54;
+      --accent-teal:  #5CC8B0;
+      --accent-yellow:#FFB830;
+      --accent-pink:  #FF9BB5;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: linear-gradient(165deg, #2A1F3D 0%, #4A2E6A 45%, #9B7FD4 100%);
+      color: white;
+      padding: 72px 64px 60px;
+      min-height: 300px;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::after {
+      content: '🤝';
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 120px;
+      opacity: .12;
+    }
+    .cover-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 24px;
+    }
+    .cover-logo {
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+    .cover-logo .l1 { color: #9B7FD4; }
+    .cover-logo .l2 { color: #FF7B54; }
+    .cover-logo .l3 { color: #5CC8B0; }
+    .cover-logo .l4 { color: #FFB830; }
+    .cover-logo .l5 { color: #FF9BB5; }
+    .cover-tagline {
+      font-size: 16px;
+      color: rgba(255,255,255,.65);
+      font-style: italic;
+      margin-bottom: 36px;
+    }
+    .cover-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,.75);
+      max-width: 460px;
+      line-height: 1.65;
+      margin-bottom: 44px;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+    .cover-meta-item .label { font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; }
+    .cover-meta-item .value { font-size: 13px; color: white; font-weight: 600; }
+
+    /* ── LAYOUT ── */
+    .page { padding: 52px 64px; max-width: 900px; margin: 0 auto; }
+
+    /* ── INDEX ── */
+    .index-section { page-break-after: always; }
+    .index-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--purple-dark);
+      margin-bottom: 32px;
+      padding-bottom: 14px;
+      border-bottom: 3px solid var(--purple-light);
+    }
+    .index-list { list-style: none; }
+    .index-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--purple-border);
+      font-size: 13px;
+    }
+    .index-item:last-child { border-bottom: none; }
+    .index-item-left { display: flex; align-items: center; gap: 12px; }
+    .index-num {
+      width: 26px; height: 26px;
+      background: var(--purple-light);
+      color: var(--purple);
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .index-item-title { font-weight: 600; color: var(--text); }
+    .index-item-sub { font-size: 11px; color: var(--purple-muted); margin-top: 1px; }
+    .index-dots { flex: 1; border-bottom: 2px dotted var(--purple-border); margin: 0 12px; }
+    .index-page { font-size: 11px; font-weight: 700; color: var(--purple-muted); }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 5px;
+    }
+    .section-title {
+      font-size: 24px; font-weight: 800; color: var(--purple-dark);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--purple-border);
+    }
+    p { margin-bottom: 12px; color: var(--text-soft); }
+    p:last-child { margin-bottom: 0; }
+
+    hr.divider { border: none; border-top: 1px solid var(--purple-border); margin: 32px 0; }
+
+    /* ── HIGHLIGHT ── */
+    .highlight {
+      background: var(--purple-light);
+      border-left: 4px solid var(--purple);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      font-size: 13px;
+      color: var(--purple-dark);
+    }
+    .highlight strong { font-weight: 700; }
+
+    /* ── PILL TAGS ── */
+    .pill {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 9px; border-radius: 999px;
+    }
+    .pill-purple { background: var(--purple-light); color: var(--purple); }
+    .pill-orange { background: #FCEEE9; color: #C0392B; }
+    .pill-yellow { background: #FAEEDA; color: #8B5E00; }
+    .pill-green  { background: #E8F5E9; color: #2E7D32; }
+    .pill-gray   { background: #F0EEF5; color: var(--purple-muted); }
+
+    /* ── CARD GRID ── */
+    .card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+    .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 20px 0; }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .card-icon { font-size: 24px; margin-bottom: 8px; }
+    .card h3 { font-size: 13px; font-weight: 700; color: var(--purple-dark); margin-bottom: 5px; }
+    .card p  { font-size: 12px; color: var(--purple-muted); line-height: 1.55; margin: 0; }
+    .card-accent { border-left: 3px solid var(--purple); }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+    thead tr { background: var(--purple-dark); color: white; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: .04em; }
+    tbody tr { border-bottom: 1px solid var(--purple-border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 9px 14px; vertical-align: top; color: var(--text-soft); }
+    tbody tr:nth-child(even) { background: #FAF6FF; }
+
+    /* ── SCREEN DOCS ── */
+    .screen-block {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
+      page-break-inside: avoid;
+    }
+    .screen-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--purple-border);
+    }
+    .screen-icon {
+      width: 40px; height: 40px;
+      background: var(--purple-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .screen-header h3 { font-size: 15px; font-weight: 700; color: var(--purple-dark); margin-bottom: 2px; }
+    .screen-header p  { font-size: 11px; color: var(--purple-muted); margin: 0; }
+    .screen-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .screen-col h4 { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--purple); margin-bottom: 8px; }
+    .screen-col ul { list-style: none; padding: 0; }
+    .screen-col ul li {
+      font-size: 12px; color: var(--text-soft);
+      padding: 4px 0; padding-left: 14px;
+      border-bottom: 1px solid var(--purple-border);
+      position: relative;
+    }
+    .screen-col ul li:last-child { border-bottom: none; }
+    .screen-col ul li::before {
+      content: '·';
+      position: absolute; left: 0;
+      color: var(--purple);
+      font-weight: 700;
+    }
+
+    /* ── FLOW ── */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--purple-dark);
+      text-align: center;
+      min-width: 110px;
+    }
+    .flow-step small { display: block; font-size: 10px; font-weight: 400; color: var(--purple-muted); margin-top: 2px; }
+    .flow-arrow {
+      font-size: 16px;
+      color: var(--purple-muted);
+      padding: 0 6px;
+    }
+    .flow-step.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: white;
+    }
+    .flow-step.active small { color: rgba(255,255,255,.7); }
+
+    /* ── ROLE COMPARISON ── */
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .role-card {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .role-card-header {
+      padding: 14px 18px;
+      font-size: 13px; font-weight: 700;
+    }
+    .role-card-header.primary { background: var(--purple); color: white; }
+    .role-card-header.secondary { background: var(--purple-light); color: var(--purple-dark); }
+    .role-card-header p { font-size: 11px; font-weight: 400; margin-top: 2px; opacity: .75; margin-bottom: 0; color: inherit; }
+    .role-card ul { list-style: none; padding: 14px 18px; }
+    .role-card ul li { font-size: 12px; color: var(--text-soft); padding: 5px 0; border-bottom: 1px solid var(--purple-border); }
+    .role-card ul li:last-child { border-bottom: none; }
+    .role-card ul li span { margin-right: 6px; }
+
+    /* ── TECH STACK ── */
+    .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+    .stack-item {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stack-item .icon { font-size: 22px; margin-bottom: 6px; }
+    .stack-item h4 { font-size: 12px; font-weight: 700; color: var(--purple-dark); margin-bottom: 2px; }
+    .stack-item p  { font-size: 10px; color: var(--purple-muted); margin: 0; }
+
+    /* ── COLOR SWATCH ── */
+    .swatch-row { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+    .swatch {
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 11px; font-weight: 600;
+      min-width: 120px;
+    }
+    .swatch small { display: block; font-size: 10px; font-weight: 400; margin-top: 2px; opacity: .75; }
+
+    /* ── NOTE BOX ── */
+    .note {
+      background: #FFFBF0;
+      border: 1px solid #F0E0A0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 12.5px;
+      color: #4A3800;
+    }
+    .note strong { font-weight: 700; color: #6A5200; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--purple-dark);
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 24px;
+      font-size: 11px;
+      margin-top: 48px;
+    }
+    .footer strong { color: white; }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: white; }
+      .cover, .role-card-header.primary, thead tr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { padding: 38px 48px; }
+      .screen-block, .card, .role-card { page-break-inside: avoid; }
+      .index-section, .section-title { page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     CAPA
+══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-tag">Documentação Oficial · v1.0 · Junho 2026</div>
+  <div class="cover-logo">
+    <span class="l1">P</span><span class="l2">a</span><span class="l3">r</span><span class="l4">e</span><span class="l5">n</span><span class="l1">t</span><span class="l2">a</span>
+  </div>
+  <div class="cover-tagline">"Cuidar juntos, mesmo em casas diferentes."</div>
+  <div class="cover-desc">
+    Documentação completa do produto: visão geral, funcionalidades, fluxos de usuário, permissões, arquitetura de telas, identidade visual e stack tecnológica.
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="label">Produto</div>
+      <div class="value">Parenta — Co-parenting App</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Plataforma</div>
+      <div class="value">Mobile Web (PWA)</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Versão</div>
+      <div class="value">1.0.0</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Data</div>
+      <div class="value">Junho 2026</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     ÍNDICE
+══════════════════════════════════════════ -->
+<div class="page index-section">
+  <div class="index-title">Índice</div>
+  <ul class="index-list">
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">01</div>
+        <div><div class="index-item-title">Visão Geral do Produto</div><div class="index-item-sub">O que é, para quem é e qual problema resolve</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 1</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">02</div>
+        <div><div class="index-item-title">Funcionalidades</div><div class="index-item-sub">Resumo de todas as features disponíveis</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 2</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">03</div>
+        <div><div class="index-item-title">Papéis e Permissões</div><div class="index-item-sub">Sistema de acesso por papel de usuário</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 3</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">04</div>
+        <div><div class="index-item-title">Fluxos de Usuário</div><div class="index-item-sub">Onboarding, convite e navegação principal</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 4</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">05</div>
+        <div><div class="index-item-title">Arquitetura de Telas</div><div class="index-item-sub">Documentação detalhada de cada página</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 5</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">06</div>
+        <div><div class="index-item-title">Modelo de Dados</div><div class="index-item-sub">Tabelas Supabase e relacionamentos</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 6</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">07</div>
+        <div><div class="index-item-title">Identidade Visual</div><div class="index-item-sub">Paleta de cores, tipografia e componentes</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 7</div>
+      </div>
+    </li>
+    <li class="index-item">
+      <div class="index-item-left">
+        <div class="index-num">08</div>
+        <div><div class="index-item-title">Stack Tecnológica</div><div class="index-item-sub">Tecnologias, bibliotecas e infraestrutura</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex:1;margin-left:12px;">
+        <div class="index-dots"></div>
+        <div class="index-page">Seção 8</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 1 — VISÃO GERAL
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 01</div>
+  <div class="section-title">Visão Geral do Produto</div>
+
+  <p>O <strong>Parenta</strong> é um aplicativo mobile de co-parentalidade que centraliza em um único lugar tudo que envolve o acompanhamento e o cuidado de uma criança entre dois ou mais responsáveis. Projetado para funcionar em situações de separação, divórcio ou qualquer arranjo familiar onde múltiplos adultos compartilham responsabilidades sobre uma criança.</p>
+
+  <div class="highlight">
+    <strong>Proposta de valor:</strong> Substituir o caos de WhatsApp, planilhas e ligações por um espaço organizado, compartilhado e afetivo — onde co-pais e familiares acompanham a criança em harmonia.
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">O Problema que Resolve</div>
+  <div class="card-grid-3" style="margin-top:14px;">
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Informação fragmentada</h3>
+      <p>Dados de saúde, escola e agenda vivem espalhados em mensagens, e-mails e blocos de notas sem organização central.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Conflitos de agenda</h3>
+      <p>Falta de um calendário compartilhado causa desencontros em consultas, eventos escolares e trocas de guarda.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h3>Memórias perdidas</h3>
+      <p>Momentos importantes da criança ficam registrados apenas na memória de um dos responsáveis, sem acesso para os demais.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Público-Alvo</div>
+  <div class="card-grid-2" style="margin-top:14px;">
+    <div class="card card-accent">
+      <div class="card-icon">👨‍👩‍👧</div>
+      <h3>Responsáveis Principais</h3>
+      <p>Pais, mães ou responsáveis legais que dividem a guarda de uma criança. Têm controle total sobre o perfil da criança, eventos e membros da família.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon">👴</div>
+      <h3>Participantes Familiares</h3>
+      <p>Avós, tios, babás e outros familiares próximos convidados para acompanhar. Podem visualizar informações e contribuir com o Diário.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 2 — FUNCIONALIDADES
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 02</div>
+  <div class="section-title">Funcionalidades</div>
+
+  <div class="card-grid-2">
+
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <h3>Autenticação e Cadastro</h3>
+      <p>Criação de conta com vínculo familiar (mãe, pai, avó, tio etc.), login por e-mail e senha. Sistema de convite por link tokenizado para novos membros.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h3>Perfil da Criança</h3>
+      <p>Cadastro completo com dados básicos, informações de saúde (tipo sanguíneo, alergias, medicamentos, pediatra) e dados escolares (escola, série, professora).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Calendário Compartilhado</h3>
+      <p>Grade mensal com marcadores visuais de eventos. Criação, visualização e exclusão de eventos com campo de quem leva e quem busca a criança.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">✅</div>
+      <h3>Confirmação de Presença</h3>
+      <p>Cada membro da família pode confirmar ou recusar presença em eventos. Histórico de confirmações visível em cada evento do calendário.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h3>Diário Compartilhado</h3>
+      <p>Feed de memórias e atualizações da criança. Posts com texto, tags categorizadas por tipo de momento e reações. Avatares com iniciais do autor.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏷️</div>
+      <h3>Tags do Diário</h3>
+      <p>6 categorias visuais: Manhã, Tarde, Noite, Conquista, Saúde e Especial. Cada tag tem cor e ícone próprios para identificação rápida no feed.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">👨‍👩‍👧</div>
+      <h3>Gestão da Família</h3>
+      <p>Visualização de todos os membros ativos, separados por papel. Geração de links de convite com vínculo e papel pré-definidos, copiáveis para compartilhamento.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <h3>Sistema de Convites</h3>
+      <p>Convites por token único via link compartilhável. Aceitação com criação de conta ou login existente. Controle de uso: cada token é marcado como usado após aceite.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏠</div>
+      <h3>Dashboard (Home)</h3>
+      <p>Visão geral com saudação personalizada, card da criança com membros da família e lista dos próximos 3 eventos cadastrados.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">✏️</div>
+      <h3>Edição de Dados</h3>
+      <p>Responsável Principal pode editar todas as informações da criança a qualquer momento via formulário multi-step com validação por etapa.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 3 — PAPÉIS E PERMISSÕES
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 03</div>
+  <div class="section-title">Papéis e Permissões</div>
+
+  <p>O Parenta opera com dois papéis de usuário. O papel é definido no momento do convite e determina o nível de acesso de cada membro dentro da família.</p>
+
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-card-header primary">
+        Responsável Principal
+        <p>Máximo de 2 por família · Controle total</p>
+      </div>
+      <ul>
+        <li><span>✅</span>Editar dados da criança</li>
+        <li><span>✅</span>Criar e excluir eventos</li>
+        <li><span>✅</span>Confirmar presença em eventos</li>
+        <li><span>✅</span>Convidar novos membros</li>
+        <li><span>✅</span>Definir papel no convite</li>
+        <li><span>✅</span>Postar no Diário</li>
+        <li><span>✅</span>Visualizar todos os dados</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header secondary">
+        Participante Familiar
+        <p>Ilimitado por família · Acesso de visualização</p>
+      </div>
+      <ul>
+        <li><span>❌</span>Editar dados da criança</li>
+        <li><span>❌</span>Criar e excluir eventos</li>
+        <li><span>✅</span>Confirmar presença em eventos</li>
+        <li><span>❌</span>Convidar novos membros</li>
+        <li><span>—</span>Não pode convidar (toast informativo)</li>
+        <li><span>✅</span>Postar no Diário</li>
+        <li><span>✅</span>Visualizar todos os dados</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Regra de negócio:</strong> Ao tentar realizar uma ação restrita ao Responsável Principal, o Participante Familiar recebe uma notificação toast no topo da tela com explicação clara — a interface não esconde o elemento, ela educa o usuário sobre o motivo da restrição.
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Vínculos Familiares Disponíveis</div>
+  <p style="margin-top:8px;">No cadastro e no convite, o usuário seleciona seu vínculo com a criança. Os vínculos são apenas descritivos e não alteram permissões.</p>
+
+  <table>
+    <thead>
+      <tr><th>Emoji</th><th>Vínculo</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>👩</td><td>Mãe</td><td>Mãe biológica ou adotiva</td></tr>
+      <tr><td>👨</td><td>Pai</td><td>Pai biológico ou adotivo</td></tr>
+      <tr><td>👵</td><td>Avó</td><td>Avó materna ou paterna</td></tr>
+      <tr><td>👴</td><td>Avô</td><td>Avô materno ou paterno</td></tr>
+      <tr><td>👩‍🦱</td><td>Tia</td><td>Tia ou parente feminina próxima</td></tr>
+      <tr><td>👨‍🦱</td><td>Tio</td><td>Tio ou parente masculino próximo</td></tr>
+      <tr><td>⚖️</td><td>Responsável Legal</td><td>Tutor legal ou guardião oficial</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 4 — FLUXOS DE USUÁRIO
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 04</div>
+  <div class="section-title">Fluxos de Usuário</div>
+
+  <div class="section-label" style="margin-top:0;">Fluxo 1 — Cadastro de Novo Usuário (Responsável Principal)</div>
+  <div class="flow" style="margin-top:10px;">
+    <div class="flow-step active">Tela Inicial<small>/cadastro</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Selecionar vínculo<small>mãe, pai, avó…</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Dados pessoais<small>nome, e-mail, senha</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Criar conta<small>Supabase Auth</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Login automático<small>/login</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step active">Cadastro da criança<small>/cadastro-crianca</small></div>
+  </div>
+  <div class="flow" style="margin-top:8px;">
+    <div class="flow-step">Dados básicos<small>nome + nascimento</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Saúde<small>tipo sang., alergias…</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Escola<small>escola, série…</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step active">Home<small>/home</small></div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Fluxo 2 — Aceitação de Convite</div>
+  <div class="flow" style="margin-top:10px;">
+    <div class="flow-step">Link recebido<small>/convite/:token</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Validação do token<small>existe? já foi usado?</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Exibir convite<small>criança, papel, vínculo</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Criar conta<small>nome, e-mail, senha</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Token marcado<small>como "usado"</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step active">Home<small>/home</small></div>
+  </div>
+
+  <div class="note" style="margin-top:16px;">
+    <strong>Restrição:</strong> Um usuário já vinculado a uma família não pode aceitar um convite de outra família. O sistema bloqueia e exibe mensagem de erro informativa.
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Fluxo 3 — Geração de Convite</div>
+  <div class="flow" style="margin-top:10px;">
+    <div class="flow-step">Família<small>/familia</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Botão convidar<small>só Resp. Principal</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Selecionar vínculo<small>grid de opções</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Selecionar papel<small>principal ou familiar</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Gerar token<small>UUID único</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step active">Copiar link<small>para compartilhar</small></div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Navegação Principal</div>
+  <p style="margin-top:8px;margin-bottom:14px;">Após o onboarding, o usuário navega por 5 destinos via bottom navigation bar persistente. O item ativo é destacado com um pill horizontal colorido.</p>
+
+  <table>
+    <thead><tr><th>Ícone</th><th>Rota</th><th>Tela</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>🏠</td><td>/home</td><td>Home</td><td>Dashboard com visão geral da família e próximos eventos</td></tr>
+      <tr><td>📅</td><td>/calendario</td><td>Calendário</td><td>Grade mensal e gestão de eventos compartilhados</td></tr>
+      <tr><td>👤</td><td>/perfil</td><td>Perfil</td><td>Dados completos da criança: saúde, escola e documentos</td></tr>
+      <tr><td>📖</td><td>/diario</td><td>Diário</td><td>Feed compartilhado de memórias e atualizações</td></tr>
+      <tr><td>👨‍👩‍👧</td><td>/familia</td><td>Família</td><td>Membros ativos e gestão de convites</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 5 — ARQUITETURA DE TELAS
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 05</div>
+  <div class="section-title">Arquitetura de Telas</div>
+
+  <!-- HOME -->
+  <div class="screen-block">
+    <div class="screen-header">
+      <div class="screen-icon">🏠</div>
+      <div>
+        <h3>Home — Dashboard</h3>
+        <p>Rota: /home · Disponível para: todos os membros</p>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-col">
+        <h4>Conteúdo exibido</h4>
+        <ul>
+          <li>Saudação dinâmica (bom dia / boa tarde / boa noite)</li>
+          <li>Nome do usuário logado</li>
+          <li>Card da criança com nome, idade e membros</li>
+          <li>Até 3 próximos eventos (do dia atual em diante)</li>
+          <li>Botão de logout (canto superior direito)</li>
+        </ul>
+      </div>
+      <div class="screen-col">
+        <h4>Ações disponíveis</h4>
+        <ul>
+          <li>Navegar para Calendário via "Ver todos"</li>
+          <li>Criar evento (Responsável Principal)</li>
+          <li>Fazer logout da conta</li>
+          <li>Navegar via bottom nav</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDÁRIO -->
+  <div class="screen-block">
+    <div class="screen-header">
+      <div class="screen-icon">📅</div>
+      <div>
+        <h3>Calendário</h3>
+        <p>Rota: /calendario · Disponível para: todos os membros</p>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-col">
+        <h4>Conteúdo exibido</h4>
+        <ul>
+          <li>Grade mensal com dias da semana</li>
+          <li>Marcadores visuais em dias com eventos</li>
+          <li>Destaque no dia atual (fundo roxo)</li>
+          <li>Lista de eventos do mês ou dia selecionado</li>
+          <li>Status de confirmação por membro (✓/✕)</li>
+          <li>Campos: título, data, hora, quem leva, quem busca</li>
+        </ul>
+      </div>
+      <div class="screen-col">
+        <h4>Ações disponíveis</h4>
+        <ul>
+          <li>Navegar entre meses (anterior / próximo)</li>
+          <li>Clicar em dia para filtrar eventos</li>
+          <li>Confirmar ou recusar presença em evento</li>
+          <li>Criar evento (FAB — Resp. Principal)</li>
+          <li>Excluir evento com confirmação (Resp. Principal)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="screen-block">
+    <div class="screen-header">
+      <div class="screen-icon">👤</div>
+      <div>
+        <h3>Perfil da Criança</h3>
+        <p>Rota: /perfil · Disponível para: todos os membros</p>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-col">
+        <h4>Conteúdo exibido</h4>
+        <ul>
+          <li>Nome, idade e data de nascimento da criança</li>
+          <li>Membros ativos da família (pills no header)</li>
+          <li>Card Saúde: tipo sanguíneo, alergias (destaque), medicamentos, pediatra e telefone</li>
+          <li>Card Escola: nome da escola, série, período, professora</li>
+          <li>Seção Documentos: placeholder "Em breve"</li>
+        </ul>
+      </div>
+      <div class="screen-col">
+        <h4>Ações disponíveis</h4>
+        <ul>
+          <li>Editar dados (Responsável Principal)</li>
+          <li>Formulário multi-step: básico → saúde → escola</li>
+          <li>Navegar entre steps com indicador de progresso</li>
+          <li>Salvar com validação e feedback de carregamento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIÁRIO -->
+  <div class="screen-block">
+    <div class="screen-header">
+      <div class="screen-icon">📖</div>
+      <div>
+        <h3>Diário Compartilhado</h3>
+        <p>Rota: /diario · Disponível para: todos os membros</p>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-col">
+        <h4>Conteúdo exibido</h4>
+        <ul>
+          <li>Área de composição de novo post (textarea)</li>
+          <li>Seletor de tags com ícones Tabler coloridos</li>
+          <li>Feed de posts em ordem cronológica reversa</li>
+          <li>Avatar com iniciais do autor (cor por papel)</li>
+          <li>Nome, vínculo, papel e tempo relativo por post</li>
+          <li>Badge de tag colorida com ícone e label</li>
+          <li>Contagem de reações (coração) e botão Responder</li>
+          <li>Estado vazio com ícone e mensagem encorajadora</li>
+        </ul>
+      </div>
+      <div class="screen-col">
+        <h4>Ações disponíveis</h4>
+        <ul>
+          <li>Escrever e publicar post com texto</li>
+          <li>Selecionar tag opcional (toggle on/off)</li>
+          <li>Publicar (botão desabilitado se texto vazio)</li>
+          <li>Visualizar feed completo com scroll</li>
+        </ul>
+        <h4 style="margin-top:14px;">Tags disponíveis</h4>
+        <ul>
+          <li>☀️ Manhã (laranja)</li>
+          <li>🌙 Noite (azul)</li>
+          <li>🏠 Tarde (verde)</li>
+          <li>🚲 Conquista (roxo)</li>
+          <li>🏥 Saúde (vermelho)</li>
+          <li>🌟 Especial (teal)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAMÍLIA -->
+  <div class="screen-block">
+    <div class="screen-header">
+      <div class="screen-icon">👨‍👩‍👧</div>
+      <div>
+        <h3>Família</h3>
+        <p>Rota: /familia · Disponível para: todos os membros</p>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-col">
+        <h4>Conteúdo exibido</h4>
+        <ul>
+          <li>Banner explicativo dos papéis disponíveis</li>
+          <li>Seção Responsáveis Principais (máx. 2, contador visível)</li>
+          <li>Seção Participantes Familiares</li>
+          <li>Cards com emoji, nome, vínculo, papel e data de entrada</li>
+          <li>Badge "você" no próprio card do usuário</li>
+          <li>Borda esquerda colorida por papel (roxo / cinza)</li>
+        </ul>
+      </div>
+      <div class="screen-col">
+        <h4>Ações disponíveis</h4>
+        <ul>
+          <li>Convidar novo membro (Responsável Principal)</li>
+          <li>Selecionar vínculo no modal de convite</li>
+          <li>Selecionar papel no modal de convite</li>
+          <li>Gerar link tokenizado único</li>
+          <li>Copiar link para área de transferência</li>
+          <li>Toast explicativo para não-responsável</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 6 — MODELO DE DADOS
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 06</div>
+  <div class="section-title">Modelo de Dados</div>
+
+  <p>O Parenta utiliza o Supabase como backend. Os dados são organizados em 5 tabelas principais no PostgreSQL, com autenticação gerenciada pelo Supabase Auth.</p>
+
+  <div class="section-label" style="margin-top:20px;">Tabela: criancas</div>
+  <table>
+    <thead><tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Identificador único (PK)</td></tr>
+      <tr><td>nome</td><td>text</td><td>Nome completo da criança</td></tr>
+      <tr><td>data_nascimento</td><td>date</td><td>Data de nascimento</td></tr>
+      <tr><td>tipo_sanguineo</td><td>text</td><td>Tipo sanguíneo (opcional)</td></tr>
+      <tr><td>alergias</td><td>text</td><td>Alergias conhecidas (opcional)</td></tr>
+      <tr><td>medicamentos</td><td>text</td><td>Medicamentos em uso (opcional)</td></tr>
+      <tr><td>pediatra</td><td>text</td><td>Nome do pediatra (opcional)</td></tr>
+      <tr><td>pediatra_telefone</td><td>text</td><td>Telefone do pediatra (opcional)</td></tr>
+      <tr><td>escola</td><td>text</td><td>Nome da escola (opcional)</td></tr>
+      <tr><td>serie</td><td>text</td><td>Série/ano escolar (opcional)</td></tr>
+      <tr><td>periodo</td><td>text</td><td>Período escolar (opcional)</td></tr>
+      <tr><td>professora</td><td>text</td><td>Nome da professora (opcional)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-top:20px;">Tabela: membros_familia</div>
+  <table>
+    <thead><tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Identificador único (PK)</td></tr>
+      <tr><td>user_id</td><td>uuid</td><td>FK → Supabase Auth users</td></tr>
+      <tr><td>crianca_id</td><td>uuid</td><td>FK → criancas</td></tr>
+      <tr><td>nome</td><td>text</td><td>Nome do membro</td></tr>
+      <tr><td>vinculo</td><td>text</td><td>Vínculo com a criança (mae, pai, avo…)</td></tr>
+      <tr><td>papel</td><td>text</td><td>responsavel_principal | participante_familiar</td></tr>
+      <tr><td>ativo</td><td>boolean</td><td>Se o membro está ativo na família</td></tr>
+      <tr><td>created_at</td><td>timestamp</td><td>Data de entrada na família</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-top:20px;">Tabela: eventos</div>
+  <table>
+    <thead><tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Identificador único (PK)</td></tr>
+      <tr><td>crianca_id</td><td>uuid</td><td>FK → criancas</td></tr>
+      <tr><td>criado_por</td><td>uuid</td><td>FK → user_id do criador</td></tr>
+      <tr><td>titulo</td><td>text</td><td>Título do evento</td></tr>
+      <tr><td>data_evento</td><td>date</td><td>Data do evento</td></tr>
+      <tr><td>hora_evento</td><td>time</td><td>Hora do evento (opcional)</td></tr>
+      <tr><td>quem_leva</td><td>text</td><td>Quem leva a criança (opcional)</td></tr>
+      <tr><td>quem_busca</td><td>text</td><td>Quem busca a criança (opcional)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-top:20px;">Tabela: posts_diario</div>
+  <table>
+    <thead><tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Identificador único (PK)</td></tr>
+      <tr><td>crianca_id</td><td>uuid</td><td>FK → criancas</td></tr>
+      <tr><td>autor_id</td><td>uuid</td><td>FK → user_id do autor</td></tr>
+      <tr><td>autor_nome</td><td>text</td><td>Nome do autor no momento da publicação</td></tr>
+      <tr><td>autor_vinculo</td><td>text</td><td>Vínculo do autor com a criança</td></tr>
+      <tr><td>autor_papel</td><td>text</td><td>Papel do autor no momento da publicação</td></tr>
+      <tr><td>texto</td><td>text</td><td>Conteúdo do post</td></tr>
+      <tr><td>tag</td><td>text</td><td>Tag selecionada (opcional, ex: "☀️ Manhã")</td></tr>
+      <tr><td>tem_foto</td><td>boolean</td><td>Indica se o post tem foto anexada</td></tr>
+      <tr><td>reacoes</td><td>integer</td><td>Contador de reações (curtidas)</td></tr>
+      <tr><td>created_at</td><td>timestamp</td><td>Data e hora da publicação</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-top:20px;">Tabela: convites</div>
+  <table>
+    <thead><tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>id</td><td>uuid</td><td>Identificador único (PK)</td></tr>
+      <tr><td>crianca_id</td><td>uuid</td><td>FK → criancas</td></tr>
+      <tr><td>criado_por</td><td>uuid</td><td>FK → user_id do criador do convite</td></tr>
+      <tr><td>token</td><td>uuid</td><td>Token único para o link de convite</td></tr>
+      <tr><td>vinculo</td><td>text</td><td>Vínculo pré-definido no convite</td></tr>
+      <tr><td>papel</td><td>text</td><td>Papel pré-definido no convite</td></tr>
+      <tr><td>status</td><td>text</td><td>pendente | usado</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 7 — IDENTIDADE VISUAL
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 07</div>
+  <div class="section-title">Identidade Visual</div>
+
+  <div class="section-label">Logotipo</div>
+  <p style="margin-top:6px;margin-bottom:16px;">O nome <strong>Parenta</strong> é o próprio logotipo. Cada letra recebe uma cor da paleta de acentos, transmitindo diversidade familiar, leveza e afeto.</p>
+  <div style="background:linear-gradient(135deg,#2A1F3D,#9B7FD4);border-radius:16px;padding:28px 32px;display:inline-block;margin-bottom:20px;">
+    <div style="font-family:'Inter',sans-serif;font-size:42px;font-weight:800;letter-spacing:-.02em;line-height:1;">
+      <span style="color:#9B7FD4">P</span><span style="color:#FF7B54">a</span><span style="color:#5CC8B0">r</span><span style="color:#FFB830">e</span><span style="color:#FF9BB5">n</span><span style="color:#9B7FD4">t</span><span style="color:#FF7B54">a</span>
+    </div>
+    <div style="color:rgba(255,255,255,.6);font-size:12px;margin-top:6px;font-style:italic;">Cuidar juntos, mesmo em casas diferentes.</div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Paleta de Cores Principal</div>
+  <div class="swatch-row" style="margin-top:12px;">
+    <div class="swatch" style="background:#2A1F3D;color:white;">
+      Roxo Escuro<small>#2A1F3D</small>
+    </div>
+    <div class="swatch" style="background:#9B7FD4;color:white;">
+      Roxo Principal<small>#9B7FD4</small>
+    </div>
+    <div class="swatch" style="background:#EDE5F8;color:#2A1F3D;">
+      Roxo Claro<small>#EDE5F8</small>
+    </div>
+    <div class="swatch" style="background:#E8D5F0;color:#4A2E6A;">
+      Borda<small>#E8D5F0</small>
+    </div>
+    <div class="swatch" style="background:#8A7A9B;color:white;">
+      Texto Suave<small>#8A7A9B</small>
+    </div>
+    <div class="swatch" style="background:#FFF8F2;color:#2A1F3D;border:1px solid #E8D5F0;">
+      Fundo Creme<small>#FFF8F2</small>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px;">Paleta de Acentos (Logotipo e Tags)</div>
+  <div class="swatch-row" style="margin-top:12px;">
+    <div class="swatch" style="background:#FF7B54;color:white;">
+      Laranja<small>#FF7B54</small>
+    </div>
+    <div class="swatch" style="background:#5CC8B0;color:white;">
+      Teal<small>#5CC8B0</small>
+    </div>
+    <div class="swatch" style="background:#FFB830;color:#2A1F3D;">
+      Amarelo<small>#FFB830</small>
+    </div>
+    <div class="swatch" style="background:#FF9BB5;color:white;">
+      Rosa<small>#FF9BB5</small>
+    </div>
+    <div class="swatch" style="background:#E07A5F;color:white;">
+      Salmão (erro)<small>#E07A5F</small>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Tipografia</div>
+  <table style="margin-top:10px;">
+    <thead><tr><th>Uso</th><th>Peso</th><th>Tamanho</th><th>Exemplo</th></tr></thead>
+    <tbody>
+      <tr><td>Títulos de página</td><td>800 (Extra Bold)</td><td>24px</td><td>Diário de Ana</td></tr>
+      <tr><td>Subtítulos / cards</td><td>700 (Bold)</td><td>13–15px</td><td>Responsáveis Principais</td></tr>
+      <tr><td>Corpo de texto</td><td>400 (Regular)</td><td>13px</td><td>Memórias compartilhadas pela família</td></tr>
+      <tr><td>Labels / rótulos</td><td>700 (Bold)</td><td>10–11px uppercase</td><td>VÍNCULO · SAÚDE</td></tr>
+      <tr><td>Metadados</td><td>400 (Regular)</td><td>10px</td><td>Há 5 min · Responsável Principal</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider" />
+
+  <div class="section-label">Componentes de Interface</div>
+  <div class="card-grid-3" style="margin-top:12px;">
+    <div class="card">
+      <h3>Botões primários</h3>
+      <p>bg #9B7FD4, texto branco, rounded-full, padding py-4. Estado desabilitado: opacity-40.</p>
+    </div>
+    <div class="card">
+      <h3>Inputs de formulário</h3>
+      <p>border-2 #E8D5F0, rounded-xl, focus em #9B7FD4. Background branco, texto #2A1F3D.</p>
+    </div>
+    <div class="card">
+      <h3>Cards de conteúdo</h3>
+      <p>Background branco, rounded-2xl, shadow-sm, border opcional #E8D5F0.</p>
+    </div>
+    <div class="card">
+      <h3>Modais (bottom sheet)</h3>
+      <p>Overlay bg-black/50, painel com rounded-t-3xl, max-h-[90vh] com scroll interno.</p>
+    </div>
+    <div class="card">
+      <h3>Bottom Navigation</h3>
+      <p>Item ativo: pill horizontal com bg #EDE5F8, ícone #9B7FD4, texto #2A1F3D. Inativo: ícone #8A7A9B.</p>
+    </div>
+    <div class="card">
+      <h3>Toast de notificação</h3>
+      <p>Fixed top-4, bg salmão #E07A5F para erros/restrições. Desaparece após 4 segundos.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Ícones</div>
+  <p style="margin-top:8px;">Todos os ícones da interface utilizam a biblioteca <strong>@tabler/icons-react v3.44.0</strong>. Stroke-width padrão de 1.75, tamanho variando entre 14px (inline) e 48px (estados vazios).</p>
+  <table style="margin-top:10px;">
+    <thead><tr><th>Ícone</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td>IconHome</td><td>Bottom nav — Home</td></tr>
+      <tr><td>IconCalendarEvent</td><td>Bottom nav — Calendário</td></tr>
+      <tr><td>IconUser</td><td>Bottom nav — Perfil</td></tr>
+      <tr><td>IconNotebook</td><td>Bottom nav — Diário / estado vazio do Diário</td></tr>
+      <tr><td>IconUsersGroup</td><td>Bottom nav — Família</td></tr>
+      <tr><td>IconHeart</td><td>Reações nos posts do Diário</td></tr>
+      <tr><td>IconMessageCircle</td><td>Botão Responder no Diário</td></tr>
+      <tr><td>IconSun / IconMoon / IconSunset2</td><td>Tags Manhã, Noite e Tarde no Diário</td></tr>
+      <tr><td>IconTrophy</td><td>Tag Conquista no Diário</td></tr>
+      <tr><td>IconHeartRateMonitor</td><td>Tag Saúde no Diário</td></tr>
+      <tr><td>IconSparkles</td><td>Tag Especial no Diário</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 8 — STACK TECNOLÓGICA
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Seção 08</div>
+  <div class="section-title">Stack Tecnológica</div>
+
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="icon">⚛️</div>
+      <h4>React 19</h4>
+      <p>Biblioteca principal de UI</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">📘</div>
+      <h4>TypeScript</h4>
+      <p>Tipagem estática v5.9</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">⚡</div>
+      <h4>Vite 8</h4>
+      <p>Build tool e dev server</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🎨</div>
+      <h4>Tailwind CSS 4</h4>
+      <p>Estilização utility-first</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🗄️</div>
+      <h4>Supabase</h4>
+      <p>Backend, Auth e PostgreSQL</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🔀</div>
+      <h4>React Router v7</h4>
+      <p>Navegação client-side</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🔷</div>
+      <h4>Tabler Icons</h4>
+      <p>Ícones SVG v3.44</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🚀</div>
+      <h4>Vercel</h4>
+      <p>Deploy e hospedagem</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section-label">Estrutura de Arquivos</div>
+  <table style="margin-top:10px;">
+    <thead><tr><th>Caminho</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>src/pages/</td><td>Todas as telas da aplicação (Home, Diario, Familia, Perfil, Calendario, Login, Cadastro, CadastroCrianca, Convites)</td></tr>
+      <tr><td>src/components/</td><td>Componentes reutilizáveis (BottomNav, IPhoneFrame)</td></tr>
+      <tr><td>src/lib/supabase.ts</td><td>Instância e configuração do cliente Supabase</td></tr>
+      <tr><td>src/lib/vinculos.ts</td><td>Mapeamento de vínculos: label, emoji e cor por tipo</td></tr>
+      <tr><td>src/routes/index.tsx</td><td>Definição de todas as rotas da aplicação</td></tr>
+      <tr><td>vercel.json</td><td>Configuração de rewrites para SPA (todas as rotas → /)</td></tr>
+      <tr><td>docs/</td><td>Documentação do produto (este arquivo e review de UX/UI)</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider" />
+
+  <div class="section-label">Branches e Identidades Visuais</div>
+  <p style="margin-top:8px;margin-bottom:14px;">O repositório mantém três branches com identidades visuais distintas para o mesmo produto, permitindo testes de conceito em produção.</p>
+
+  <table>
+    <thead><tr><th>Branch</th><th>Nome</th><th>Cor Principal</th><th>Fundo</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>main</code></td>
+        <td>Linkar</td>
+        <td><span class="pill" style="background:#E1F5EE;color:#0F6E56;">#3D8C8C Teal</span></td>
+        <td>#FFFCF8</td>
+        <td><span class="pill pill-green">Produção</span></td>
+      </tr>
+      <tr>
+        <td><code>identidade/ello</code></td>
+        <td>Ello</td>
+        <td><span class="pill" style="background:#EDEAF8;color:#534AB7;">#A391E6 Roxo</span></td>
+        <td>#FFF7EC</td>
+        <td><span class="pill pill-yellow">Preview</span></td>
+      </tr>
+      <tr>
+        <td><code>identidade/parenta</code></td>
+        <td>Parenta</td>
+        <td><span class="pill pill-purple">#9B7FD4 Roxo</span></td>
+        <td>#FFF8F2</td>
+        <td><span class="pill pill-yellow">Preview</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider" />
+
+  <div class="highlight">
+    <strong>Nota sobre deploy:</strong> O deploy é realizado automaticamente pela Vercel a cada push em qualquer das três branches. A configuração <code>vercel.json</code> redireciona todas as rotas para o <code>index.html</code>, garantindo o funcionamento correto do roteamento client-side da SPA.
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Parenta</strong> — Documentação Oficial v1.0 · Junho 2026 · Documento para uso interno
+</div>
+
+</body>
+</html>

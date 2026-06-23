@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 
@@ -84,11 +84,13 @@ export default function CadastroCrianca() {
     }
 
     return (
-    <div className="min-h-screen bg-[#3D8C8C] flex flex-col max-w-md mx-auto">
+    <div className="min-h-screen flex flex-col max-w-md mx-auto" style={{ background: 'linear-gradient(165deg, #2A1F3D 0%, #4A2E6A 40%, #9B7FD4 100%)' }}>
 
       {/* Hero */}
         <div className="flex flex-col items-center pt-12 pb-8 px-6">
-        <h1 className="text-3xl font-bold text-white">Linkar</h1>
+        <h1 className="text-3xl font-bold">
+          <span style={{ color: '#9B7FD4' }}>P</span><span style={{ color: '#FF7B54' }}>a</span><span style={{ color: '#5CC8B0' }}>r</span><span style={{ color: '#FFB830' }}>e</span><span style={{ color: '#FF9BB5' }}>n</span><span style={{ color: '#9B7FD4' }}>t</span><span style={{ color: '#FF7B54' }}>a</span>
+        </h1>
         <p className="text-white/70 text-sm mt-1">Vamos conhecer sua criança</p>
 
         {/* Steps */}
@@ -108,29 +110,29 @@ export default function CadastroCrianca() {
         </div>
 
       {/* Card */}
-        <div className="flex-1 bg-[#FFFCF8] rounded-t-3xl px-6 pt-8 pb-10">
+        <div className="flex-1 bg-[#FFF8F2] rounded-t-3xl px-6 pt-8 pb-10">
 
         {/* STEP 1 — Dados básicos */}
         {step === 1 && (
             <div className="flex flex-col gap-4">
-            <h2 className="text-lg font-bold text-[#1C2B2B]">Dados da criança</h2>
+            <h2 className="text-lg font-bold text-[#2A1F3D]">Dados da criança</h2>
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Nome completo</p>
+                <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">Nome completo</p>
                 <input
                 type="text"
                 placeholder=""
                 value={nome}
                 onChange={e => setNome(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
                 />
             </div>
             <div>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">Data de nascimento</p>
+                <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">Data de nascimento</p>
                 <input
                 type="date"
                 value={dataNascimento}
                 onChange={e => setDataNascimento(e.target.value)}
-                className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
                 />
             </div>
             </div>
@@ -139,8 +141,8 @@ export default function CadastroCrianca() {
         {/* STEP 2 — Saúde */}
         {step === 2 && (
             <div className="flex flex-col gap-4">
-            <h2 className="text-lg font-bold text-[#1C2B2B]">Informações de saúde</h2>
-            <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
+            <h2 className="text-lg font-bold text-[#2A1F3D]">Informações de saúde</h2>
+            <p className="text-xs text-[#8A7A9B] -mt-2">Todos os campos são opcionais</p>
             {[
                 { label: 'Tipo sanguíneo', value: tipoSanguineo, set: setTipoSanguineo, placeholder: '' },
                 { label: 'Alergias', value: alergias, set: setAlergias, placeholder: '' },
@@ -149,13 +151,13 @@ export default function CadastroCrianca() {
                 { label: 'Telefone do pediatra', value: pediatraTelefone, set: setPediatraTelefone, placeholder: '' },
             ].map((field, i) => (
                 <div key={i}>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>
+                <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">{field.label}</p>
                 <input
                     type="text"
                     placeholder={field.placeholder}
                     value={field.value}
                     onChange={e => field.set(e.target.value)}
-                    className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                    className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
                 />
                 </div>
                 ))}
@@ -165,8 +167,8 @@ export default function CadastroCrianca() {
         {/* STEP 3 — Escola */}
         {step === 3 && (
             <div className="flex flex-col gap-4">
-            <h2 className="text-lg font-bold text-[#1C2B2B]">Escola</h2>
-            <p className="text-xs text-[#8FA3A3] -mt-2">Todos os campos são opcionais</p>
+            <h2 className="text-lg font-bold text-[#2A1F3D]">Escola</h2>
+            <p className="text-xs text-[#8A7A9B] -mt-2">Todos os campos são opcionais</p>
             {[
                 { label: 'Nome da escola', value: escola, set: setEscola, placeholder: '' },
                 { label: 'Série', value: serie, set: setSerie, placeholder: '' },
@@ -174,13 +176,13 @@ export default function CadastroCrianca() {
                 { label: 'Professora', value: professora, set: setProfessora, placeholder: '' },
             ].map((field, i) => (
                 <div key={i}>
-                <p className="text-xs font-bold text-[#8FA3A3] uppercase tracking-widest mb-1">{field.label}</p>
+                <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">{field.label}</p>
                 <input
                     type="text"
                     placeholder={field.placeholder}
                     value={field.value}
                     onChange={e => field.set(e.target.value)}
-                    className="w-full border-2 border-[#E2EEEE] rounded-xl px-4 py-3 text-sm text-[#1C2B2B] outline-none focus:border-[#3D8C8C] bg-white"
+                    className="w-full border-2 border-[#E8D5F0] rounded-xl px-4 py-3 text-sm text-[#2A1F3D] outline-none focus:border-[#9B7FD4] bg-white"
                 />
                 </div>
             ))}
@@ -188,14 +190,14 @@ export default function CadastroCrianca() {
             )}
 
         {/* Erro */}
-        {erro && <p className="text-sm text-[#E07A5F] mt-3 font-medium">{erro}</p>}
+        {erro && <p className="text-sm text-[#FF7B54] mt-3 font-medium">{erro}</p>}
 
         {/* Botões */}
         <div className="flex gap-3 mt-8">
             {step > 1 && (
                 <button
                 onClick={() => setStep(step - 1)}
-                className="flex-1 border-2 border-[#E2EEEE] text-[#8FA3A3] font-semibold py-4 rounded-full text-sm"
+                className="flex-1 border-2 border-[#E8D5F0] text-[#8A7A9B] font-semibold py-4 rounded-full text-sm"
             >
                 ← Voltar
             </button>
@@ -212,7 +214,7 @@ export default function CadastroCrianca() {
                 setErro('')
                 setStep(step + 1)
                 }}
-                className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm"
+                className="flex-1 bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm"
             >
                 Continuar →
             </button>
@@ -220,7 +222,7 @@ export default function CadastroCrianca() {
             <button
                 onClick={handleSalvar}
                 disabled={loading}
-                className="flex-1 bg-[#3D8C8C] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
+                className="flex-1 bg-[#9B7FD4] text-white font-semibold py-4 rounded-full text-sm disabled:opacity-60"
             >
                 {loading ? 'Salvando...' : 'Salvar e começar →'}
             </button>

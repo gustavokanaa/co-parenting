@@ -1,0 +1,224 @@
+[33mcommit d525c1dbb8b85def6e2dbce42c6ed11dad53ab7d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32midentidade/ello[m[33m, [m[1;31morigin/identidade/ello[m[33m)[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Mon Jun 1 00:13:42 2026 -0300
+
+    fix: corrigir typo vincuoConvite e falhas silenciosas do Supabase
+
+[33mcommit 866c26c942cf38d03280d75332317d080c33cf00[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun May 31 19:15:16 2026 -0300
+
+    feat: identidade visual Ello — cores, tipografia e nome
+
+[33mcommit 5833a44940198242660be16cc67e1111a120f4f1[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue May 5 03:03:34 2026 -0300
+
+    fix: corrigir cards Saúde/Escola no Perfil e scroll/bottom nav no Diário
+    
+    - Perfil: remove condicional que ocultava card de Escola quando campos são nulos; adiciona fallback 'Nenhuma informação cadastrada' para ambos os cards cobrindo todos os campos
+    - Diário: adiciona min-h-0 ao feed para permitir shrink correto do flexbox, restaurando scroll e visibilidade do bottom nav
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit f55ad26e90207a912dcc49e278dddfa1ab8abe74[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue May 5 02:44:04 2026 -0300
+
+    fix: remover frame iPhone e fundo gradiente do desktop
+    
+    Remove IPhoneFrame e background gradient do App.tsx e index.css.
+    App volta ao layout original: 100% no mobile, centralizado com max-w-md no desktop.
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit e26b46e04d8020059766f6b2cc1921b0d2a21ae8[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue May 5 02:31:55 2026 -0300
+
+    fix: correcao da tela de cadastro da crianca e convites
+
+[33mcommit 530396b244cbb28ca5e424ba8a0f53d651df2747[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue May 5 02:10:09 2026 -0300
+
+    fix: tela diario e perfil, resposividade.
+
+[33mcommit 23c4ac5bdb3fa417be5016f2eef8054c4d3f0435[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Wed Apr 29 00:19:29 2026 -0300
+
+    fix: corrigir responsividade geral e scroll interno em todas as páginas
+    
+    Substitui posicionamento `fixed` dos bottom navs e FAB por layout flex
+    `h-screen overflow-hidden` com scroll interno no conteúdo (`flex-1 overflow-y-auto`),
+    garantindo que nav e botões fiquem dentro do frame iPhone no desktop.
+    
+    - Home: embrulha conteúdo em div scrollável, remove spacer de 80px
+    - Calendario: FAB fixed → absolute (relativo ao container), pb-28 → pb-32
+    - Perfil: pb-32 → pb-40 (160px) para documentos visíveis, overflow-y-scroll → auto
+    - Diario: apenas nav corrigido
+    - Familia: pb-36 → pb-4, container do nav+botão convite removido de fixed
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit f677f2867aee31eb6f059f0c1e7c7d3452c1741a[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Apr 28 23:57:25 2026 -0300
+
+    fix: padding footer Perfil, remover placeholders Calendário e horário frame iPhone
+    
+    - Perfil.tsx: aumenta pb-24 para pb-32 (128px) evitando sobreposição do bottom nav na seção de documentos
+    - Calendario.tsx: remove placeholders de exemplo dos campos do modal de novo evento
+    - IPhoneFrame.tsx: remove horário da barra de status e hook useTime
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit 003ad65d5d23f265a32e36f8ce563636ca5f44b1[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Apr 28 23:48:14 2026 -0300
+
+    fix: modal de confirmação de exclusão no Calendário e ajuste do botão de convite na Família
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit aeddb28624ef565f57af0f168e907e86b92ff6d4[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Apr 28 23:32:12 2026 -0300
+
+    feat: remover dynamic island, tabela permissões, controle de papel na home e correção de scroll no frame
+    
+    - IPhoneFrame: remove dynamic island e adiciona transform:translateZ(0) para que elementos fixed fiquem ancorados ao frame no desktop
+    - Familia: remove tabela de permissões e array permissoes
+    - Home: busca papel do usuário e oculta "+ Criar evento" para participante_familiar
+    - Calendario: simplifica posicionamento do FAB de calc(50%-208px) para right-4
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit 48fdf77b0e90b65fb41e9136dad8f57230c7de08[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Apr 28 23:10:28 2026 -0300
+
+    fix: corrigir labels de vínculo, placeholders e nome completo no header
+    
+    - Cria utilitário src/lib/vinculos.ts com mapeamento centralizado de id codes para labels (suporta dados antigos com label e novos com código)
+    - Corrige exibição de vínculos em Familia, Home e Perfil: 'avop' não exibe mais 'Avop', usa labelVinculo() em todos os pontos
+    - Padroniza modal de convite em Familia para gravar id codes ('avo', 'avop') em vez de labels como ids
+    - Remove todos os placeholders de exemplo de preenchimento (Login, Cadastro, CadastroCrianca, Convites, Perfil)
+    - Exibe nome completo do usuário no header de boas-vindas da Home (remove .split(' ')[0])
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[33mcommit e3e7e8b2a1c8d30a210d17d76ea26f89e96bd196[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Apr 28 22:48:24 2026 -0300
+
+    feat: exclusao de eventos, frame iPhone, fundo desktop, permissoes e melhorias gerais
+
+[33mcommit b07740799daba32a226d98174b5c156efa28a694[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Wed Apr 22 23:06:09 2026 -0300
+
+    fix: permissões participante familiar e bloqueio múltiplas famílias
+
+[33mcommit f176678ff6dca08ce5f9a18e81c2f9028150c54b[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Wed Apr 15 22:42:10 2026 -0300
+
+    fix: corrigir rotas SPA na Vercel
+
+[33mcommit 6be31aebaaf51e144c4aa64736ff00e1919d7fc7[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Apr 5 21:41:08 2026 -0300
+
+    feat: validações de formulário em todas as telas
+
+[33mcommit 42821fcab6a1395651ad663b8f337285e2e681ab[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Apr 5 21:27:56 2026 -0300
+
+    feat: edição dos daods da criança no perfil
+
+[33mcommit c625672f32dff997ce8cefeefdc9719cdbf3d90c[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Apr 5 21:17:57 2026 -0300
+
+    feat: confirmação de presença de eventos
+
+[33mcommit fe020caefacb6ced9306cbe5a359ff8ea455b902[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Apr 5 21:06:42 2026 -0300
+
+    feat: fluxo de convite de membros via link
+
+[33mcommit 7d40aa8182d86e7d52afcb20ec0375cc45edabc3[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Thu Apr 2 00:16:36 2026 -0300
+
+    feat: tela familia com dados reais do banco
+
+[33mcommit d9cad56afeaa9c82eab3372c61689d5681247615[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Thu Apr 2 00:08:10 2026 -0300
+
+    feat: botão de logout na Home
+
+[33mcommit 19f42f6b0b2b2d2ef70b1e343903b8bfb0695c2a[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Thu Apr 2 00:00:44 2026 -0300
+
+    fix: calendário com navegação de meses e build corrigido
+
+[33mcommit 91ab3fa769550cdae8a089e24881fae011068c61[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Wed Apr 1 23:48:00 2026 -0300
+
+    feat: RLS ativo, redirecionamento de tela, navegação entre os meses no calendario
+
+[33mcommit 6b57209d951ca92bc91ec9ecdadc1f604e85760d[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Thu Mar 26 00:02:42 2026 -0300
+
+    feat: todas as telas conectadas ao Supabase com dados reais
+
+[33mcommit 09a9bfc56ca8c45b5f9abb41635c155478c8ee5c[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Wed Mar 25 01:21:57 2026 -0300
+
+    feat: cadastro da crianca integrado ao Supabase
+
+[33mcommit 5f18335095c74118911be18ae96f76aa6e54d662[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Mar 24 22:32:10 2026 -0300
+
+    feat: telas diario e familia - MVP completo
+
+[33mcommit 15afd933946615718f7e8cd47b116246dd6187e3[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Tue Mar 24 22:03:08 2026 -0300
+
+    feat: tela home
+
+[33mcommit 834af9eb2db2e174f8eca2037e3c4db4ab543269[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Mar 22 22:26:02 2026 -0300
+
+    feat: telas de cadastro e login
+
+[33mcommit b356aa89d105cd381ec536c26e8f61c63f89e970[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Mar 22 21:33:26 2026 -0300
+
+    feat: conecta Supabase ao projeto
+
+[33mcommit eb5c3410b08c5616e2a6d8a1c6824d0aa38bd4a8[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Mar 22 21:12:29 2026 -0300
+
+    fix: adiciona tailwindcss ao package.json
+
+[33mcommit 020a7f3215c7fa1a682327cbc82927e08c916ce7[m
+Author: Gustavo <gustavo.kanaa@gmail.com>
+Date:   Sun Mar 22 20:59:07 2026 -0300
+
+    feat: estrutura inicial do projeto
