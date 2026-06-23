@@ -25,8 +25,7 @@
             .single()
 
         if (!data) { setStatus('invalido'); return }
-        if (data.usado) { setStatus('usado'); return }
-        if (new Date(data.expires_at) < new Date()) { setStatus('invalido'); return }
+        if (data.status === 'usado') { setStatus('usado'); return }
 
         const { data: crianca } = await supabase
             .from('criancas')
@@ -109,7 +108,7 @@
         // Marca convite como usado
         await supabase
         .from('convites')
-        .update({ usado: true })
+        .update({ status: 'usado' })
         .eq('id', convite.id)
 
         navigate('/home')

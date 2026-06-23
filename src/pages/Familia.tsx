@@ -101,6 +101,21 @@ export default function Familia() {
     async function gerarConvite() {
         if (!criancaId) return
         setGerando(true)
+
+        if (papelConvite === 'responsavel_principal') {
+            const { count } = await supabase
+                .from('membros_familia')
+                .select('*', { count: 'exact', head: true })
+                .eq('crianca_id', criancaId)
+                .eq('papel', 'responsavel_principal')
+                .eq('ativo', true)
+            if ((count ?? 0) >= 2) {
+                setGerando(false)
+                mostrarToast('Já existem 2 Responsáveis Principais. Remova um antes de convidar outro.')
+                return
+            }
+        }
+
         const { data: userData } = await supabase.auth.getUser()
         const token = crypto.randomUUID()
         const { error: erroConvite } = await supabase.from('convites').insert({

@@ -5,6 +5,7 @@ import {
     IconSun, IconMoon, IconSunset2, IconTrophy, IconHeartRateMonitor, IconSparkles,
     IconHeart, IconMessageCircle, IconNotebook,
 } from '@tabler/icons-react'
+import { labelVinculo } from '../lib/vinculos'
 import BottomNav from '../components/BottomNav'
 
 const TAGS = [
@@ -54,6 +55,12 @@ export default function Diario() {
             const nome = user.user_metadata?.nome_completo || 'Responsável'
             setAutorNome(nome)
             setUserId(user.id)
+
+            const { data: reacoes } = await supabase
+                .from('diario_reacoes')
+                .select('post_id')
+                .eq('user_id', user.id)
+            if (reacoes) setCurtidos(new Set(reacoes.map(r => r.post_id as string)))
 
             const { data: membroData } = await supabase
                 .from('membros_familia')
@@ -120,20 +127,45 @@ export default function Diario() {
     }
 
     async function toggleCurtida(post: Post) {
+        if (!userId) return
         const jaCurtiu = curtidos.has(post.id)
-        const novasReacoes = jaCurtiu ? post.reacoes - 1 : post.reacoes + 1
 
-        // Atualiza UI imediatamente (optimistic update)
-        setCurtidos(prev => {
-            const novo = new Set(prev)
-            jaCurtiu ? novo.delete(post.id) : novo.add(post.id)
-            return novo
-        })
-        setPosts(prev => prev.map(p => p.id === post.id ? { ...p, reacoes: novasReacoes } : p))
+        // Optimistic update
+        const novoCurtidos = new Set(curtidos)
+        jaCurtiu ? novoCurtidos.delete(post.id) : novoCurtidos.add(post.id)
+        setCurtidos(novoCurtidos)
+        setPosts(prev => prev.map(p => p.id === post.id
+            ? { ...p, reacoes: jaCurtiu ? p.reacoes - 1 : p.reacoes + 1 }
+            : p
+        ))
+
+        if (jaCurtiu) {
+            await supabase
+                .from('diario_reacoes')
+                .delete()
+                .eq('user_id', userId)
+                .eq('post_id', post.id)
+        } else {
+            const { error } = await supabase
+                .from('diario_reacoes')
+                .insert({ user_id: userId, post_id: post.id })
+            if (error) {
+                // Rollback se já existia (violação de PK)
+                setCurtidos(curtidos)
+                setPosts(prev => prev.map(p => p.id === post.id ? { ...p, reacoes: post.reacoes } : p))
+                return
+            }
+        }
+
+        // Sincroniza contador real no post
+        const { count } = await supabase
+            .from('diario_reacoes')
+            .select('*', { count: 'exact', head: true })
+            .eq('post_id', post.id)
 
         await supabase
             .from('posts_diario')
-            .update({ reacoes: novasReacoes })
+            .update({ reacoes: count ?? 0 })
             .eq('id', post.id)
     }
 
@@ -259,7 +291,7 @@ export default function Diario() {
                                     </div>
                                     <div>
                                         <p className="text-sm font-semibold text-[#2A1F3D]">
-                                            {post.autor_nome} · {post.autor_vinculo}
+                                            {post.autor_nome} · {labelVinculo(post.autor_vinculo)}
                                         </p>
                                         <p className="text-[10px] text-[#8A7A9B]">
                                             {formatarTempo(post.created_at)} · {post.autor_papel === 'responsavel_principal' ? 'Responsável Principal' : 'Participante Familiar'}
