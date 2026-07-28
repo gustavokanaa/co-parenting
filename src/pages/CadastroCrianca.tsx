@@ -47,41 +47,29 @@ export default function CadastroCrianca() {
     const nomeCompleto = user.user_metadata?.nome_completo || 'Responsável'
     const vinculo = user.user_metadata?.vinculo || 'responsavel'
 
-    // Cria a criança
-    const { data: crianca, error: erroCrianca } = await supabase
-        .from('criancas')
-        .insert({
-        nome,
-        emoji,
-        data_nascimento: dataNascimento,
-        tipo_sanguineo: tipoSanguineo,
-        alergias,
-        medicamentos,
-        pediatra,
-        pediatra_telefone: pediatraTelefone,
-        escola,
-        serie,
-        periodo,
-        professora,
-        })
-        .select()
-        .single()
+    // Cria a criança e o vínculo do responsável na mesma transação
+    const { error: erroCrianca } = await supabase.rpc('criar_crianca_com_responsavel', {
+        p_nome: nome,
+        p_data_nascimento: dataNascimento,
+        p_emoji: emoji,
+        p_tipo_sanguineo: tipoSanguineo,
+        p_alergias: alergias,
+        p_medicamentos: medicamentos,
+        p_pediatra: pediatra,
+        p_pediatra_telefone: pediatraTelefone,
+        p_escola: escola,
+        p_serie: serie,
+        p_periodo: periodo,
+        p_professora: professora,
+        p_nome_responsavel: nomeCompleto,
+        p_vinculo: vinculo,
+    })
 
     if (erroCrianca) {
         setErro('Erro ao cadastrar criança. Tente novamente.')
         setLoading(false)
         return
     }
-
-    // Adiciona o usuário como Responsável Principal
-    await supabase.from('membros_familia').insert({
-        crianca_id: crianca.id,
-        user_id: user.id,
-        nome: nomeCompleto,
-        vinculo,
-        papel: 'responsavel_principal',
-        ativo: true,
-    })
 
     setLoading(false)
     navigate('/home')
