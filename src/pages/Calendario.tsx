@@ -109,17 +109,19 @@
 
         setCriancaId(membroData.crianca_id)
 
-        const { data: membroCompleto} = await supabase
-            .from('membros_familia')
-            .select('papel')
-            .eq('user_id', userData.user.id)
-            .eq('crianca_id', membroData.crianca_id)
-            .single()
+        // Queries independentes entre si (todas dependem só de crianca_id) → paralelas
+        const [{ data: membroCompleto }] = await Promise.all([
+            supabase
+                .from('membros_familia')
+                .select('papel')
+                .eq('user_id', userData.user.id)
+                .eq('crianca_id', membroData.crianca_id)
+                .single(),
+            carregarEventos(membroData.crianca_id, mes, ano),
+            carregarConfirmacoes(membroData.crianca_id, mes, ano),
+        ])
 
         if (membroCompleto) setPapel(membroCompleto.papel)
-
-        await carregarEventos(membroData.crianca_id, mes, ano)
-        await carregarConfirmacoes(membroData.crianca_id, mes, ano)
         }
         carregarDados()
     }, [navigate, mes, ano])

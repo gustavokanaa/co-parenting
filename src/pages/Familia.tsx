@@ -52,20 +52,22 @@ export default function Familia() {
         setCriancaId(criancaId) // ── NOVO ──
         setMeuPapel(membroAtual.papel)
 
-        const { data: criancaData } = await supabase
-            .from('criancas')
-            .select('nome')
-            .eq('id', criancaId)
-            .single()
+        // Independentes entre si (dependem só de criancaId) → paralelas
+        const [{ data: criancaData }, { data: membros }] = await Promise.all([
+            supabase
+                .from('criancas')
+                .select('nome')
+                .eq('id', criancaId)
+                .single(),
+            supabase
+                .from('membros_familia')
+                .select('id, nome, vinculo, papel, created_at, user_id')
+                .eq('crianca_id', criancaId)
+                .eq('ativo', true)
+                .order('created_at', { ascending: true }),
+        ])
 
         if (criancaData) setCriancaNome(criancaData.nome)
-
-        const { data: membros } = await supabase
-            .from('membros_familia')
-            .select('id, nome, vinculo, papel, created_at, user_id')
-            .eq('crianca_id', criancaId)
-            .eq('ativo', true)
-            .order('created_at', { ascending: true })
 
         if (membros) {
             const comVoce = membros.map(m => ({
