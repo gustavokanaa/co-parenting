@@ -3,10 +3,12 @@
     import { supabase } from '../lib/supabase'
     import { labelVinculo } from '../lib/vinculos'
     import BottomNav from '../components/BottomNav'
+    import { PerfilSkeleton } from '../components/Skeleton'
 
     interface Crianca {
     id: string
     nome: string
+    emoji: string
     data_nascimento: string
     tipo_sanguineo: string
     alergias: string
@@ -165,11 +167,7 @@
     }
 
     if (loading) {
-        return (
-        <div className="h-screen bg-[#FFF8F2] flex items-center justify-center max-w-md mx-auto">
-            <p className="text-[#9B7FD4] font-semibold">Carregando...</p>
-        </div>
-        )
+        return <PerfilSkeleton />
     }
 
     return (
@@ -178,7 +176,7 @@
         {/* Header */}
         <div className="bg-gradient-to-br from-[#2A1F3D] to-[#9B7FD4] px-6 pt-12 pb-8 flex flex-col items-center shrink-0">
             <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl border-2 border-white/30 mb-3">
-            🧒
+            {crianca?.emoji || '🧒'}
             </div>
             <h1 className="text-white text-2xl font-bold">{crianca?.nome}</h1>
             <p className="text-white/60 text-sm mt-1">
@@ -297,7 +295,7 @@
                     {campo('Alergias', 'alergias', '')}
                     {campo('Medicamentos em uso', 'medicamentos', '')}
                     {campo('Pediatra', 'pediatra', '')}
-                    {campo('Telefone do pediatra', 'pediatra_telefone', '')}
+                    {campo('Telefone do pediatra', 'pediatra_telefone', '(00) 00000-0000')}
                 </div>
                 )}
 

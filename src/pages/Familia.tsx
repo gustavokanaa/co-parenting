@@ -3,6 +3,7 @@
     import { supabase } from '../lib/supabase'
     import { VINCULOS, labelVinculo, emojiVinculo, corVinculo } from '../lib/vinculos'
     import BottomNav from '../components/BottomNav'
+    import { FamiliaSkeleton } from '../components/Skeleton'
 
     interface Membro {
     id: string
@@ -142,11 +143,7 @@ export default function Familia() {
     function getCorAvatar(vinculo: string) { return corVinculo(vinculo) }
 
     if (loading) {
-        return (
-        <div className="h-screen bg-[#FFF8F2] flex items-center justify-center max-w-md mx-auto">
-            <p className="text-[#9B7FD4] font-semibold">Carregando...</p>
-        </div>
-        )
+        return <FamiliaSkeleton />
     }
 
     return (

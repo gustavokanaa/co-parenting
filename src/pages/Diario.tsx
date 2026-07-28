@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import {
     IconSun, IconMoon, IconSunset2, IconTrophy, IconHeartRateMonitor, IconSparkles,
-    IconHeart, IconMessageCircle, IconNotebook, IconCamera,
+    IconHeart, IconMessageCircle, IconNotebook, IconCamera, IconTrash,
 } from '@tabler/icons-react'
 import { labelVinculo } from '../lib/vinculos'
 import BottomNav from '../components/BottomNav'
+import { DiarioSkeleton } from '../components/Skeleton'
 
 const TAGS = [
     { key: '☀️ Manhã',     icon: IconSun,               label: 'Manhã',     color: '#BA7517', bg: '#FAEEDA' },
@@ -19,6 +20,7 @@ const TAGS = [
 
 interface Post {
     id: string
+    autor_id: string
     autor_nome: string
     autor_vinculo: string
     autor_papel: string
@@ -49,6 +51,8 @@ export default function Diario() {
     const [textoResposta, setTextoResposta] = useState<Record<string, string>>({})
     const [temMaisPosts, setTemMaisPosts] = useState(false)
     const [carregandoMais, setCarregandoMais] = useState(false)
+    const [carregandoInicial, setCarregandoInicial] = useState(true)
+    const [modalExcluirPost, setModalExcluirPost] = useState<string | null>(null)
 
     useEffect(() => {
         async function carregarDados() {
@@ -93,6 +97,7 @@ export default function Diario() {
             ])
 
             if (criancaData) setCriancaNome(criancaData.nome)
+            setCarregandoInicial(false)
         }
         carregarDados()
     }, [navigate])
@@ -124,6 +129,17 @@ export default function Diario() {
             setTemMaisPosts(data.length === POSTS_POR_PAGINA)
         }
         setCarregandoMais(false)
+    }
+
+    function excluirPost(postId: string) {
+        setModalExcluirPost(postId)
+    }
+
+    async function confirmarExclusaoPost() {
+        if (!modalExcluirPost) return
+        await supabase.from('posts_diario').delete().eq('id', modalExcluirPost)
+        setPosts(prev => prev.filter(p => p.id !== modalExcluirPost))
+        setModalExcluirPost(null)
     }
 
     async function publicarPost() {
@@ -240,6 +256,10 @@ export default function Diario() {
         return partes[0].slice(0, 2).toUpperCase()
     }
 
+    if (carregandoInicial) {
+        return <DiarioSkeleton />
+    }
+
     return (
         <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto">
 
@@ -314,7 +334,16 @@ export default function Diario() {
                     {posts.map(post => {
                         const tagCfg = post.tag ? TAGS.find(t => t.key === post.tag) : null
                         return (
-                            <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                            <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm relative">
+                                {post.autor_id === userId && (
+                                    <button
+                                        onClick={() => excluirPost(post.id)}
+                                        title="Excluir post"
+                                        className="absolute top-3 right-3 p-1.5 rounded-full bg-[#EDE5F8] text-[#7B5BB4] hover:bg-[#FF7B54] hover:text-white transition-colors"
+                                    >
+                                        <IconTrash size={16} strokeWidth={2} />
+                                    </button>
+                                )}
                                 <div className="flex items-center gap-3 px-4 pt-4 pb-2">
                                     <div
                                         className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
@@ -325,7 +354,7 @@ export default function Diario() {
                                     >
                                         {getIniciais(post.autor_nome)}
                                     </div>
-                                    <div>
+                                    <div className="flex-1 min-w-0 pr-8">
                                         <p className="text-sm font-semibold text-[#2A1F3D]">
                                             {post.autor_nome} · {labelVinculo(post.autor_vinculo)}
                                         </p>
@@ -409,6 +438,35 @@ export default function Diario() {
                     </div>
                 )}
             </div>
+
+            {/* Modal de confirmação de exclusão de post */}
+            {modalExcluirPost && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-30 px-5">
+                    <div className="bg-[#FFF8F2] rounded-2xl p-6 w-full max-w-sm shadow-xl">
+                        <div className="flex flex-col items-center text-center gap-3">
+                            <IconTrash size={40} color="#9B7FD4" strokeWidth={1.5} />
+                            <h2 className="text-lg font-bold text-[#2A1F3D]">Excluir post?</h2>
+                            <p className="text-sm text-[#8A7A9B] leading-relaxed">
+                                Esta ação não pode ser desfeita. O registro será removido do diário para todos os membros da família.
+                            </p>
+                        </div>
+                        <div className="flex gap-3 mt-6">
+                            <button
+                                onClick={() => setModalExcluirPost(null)}
+                                className="flex-1 border-2 border-[#E8D5F0] text-[#8A7A9B] font-semibold py-4 rounded-full text-sm"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={confirmarExclusaoPost}
+                                className="flex-1 bg-[#9B7FD4] hover:bg-[#7B5BB4] text-white font-semibold py-4 rounded-full text-sm transition-colors"
+                            >
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <BottomNav />
 

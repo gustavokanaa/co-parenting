@@ -2,6 +2,7 @@
     import { useNavigate } from 'react-router-dom'
     import { supabase } from '../lib/supabase'
     import BottomNav from '../components/BottomNav'
+    import { CalendarioSkeleton } from '../components/Skeleton'
 
     const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
@@ -43,6 +44,7 @@
     const [diaSelecionado, setDiaSelecionado] = useState<number | null>(null)
     const [mostrarForm, setMostrarForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [carregandoInicial, setCarregandoInicial] = useState(true)
     const [papel, setPapel] = useState<String | null>(null)
     const [modalExcluir, setModalExcluir] = useState<string | null>(null)
     const [erroEvento, setErroEvento] = useState('')
@@ -122,6 +124,7 @@
         ])
 
         if (membroCompleto) setPapel(membroCompleto.papel)
+        setCarregandoInicial(false)
         }
         carregarDados()
     }, [navigate, mes, ano])
@@ -210,6 +213,10 @@
     const eventosFiltrados = diaSelecionado
         ? eventos.filter(e => new Date(e.data_evento + 'T00:00:00').getDate() === diaSelecionado)
         : eventos
+
+    if (carregandoInicial) {
+        return <CalendarioSkeleton />
+    }
 
     return (
         <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto relative">

@@ -2,6 +2,8 @@
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 
+const EMOJIS_CRIANCA = ['🧒', '👦', '👧', '👶', '🧑']
+
 export default function CadastroCrianca() {
     const navigate = useNavigate()
     const [step, setStep] = useState(1)
@@ -11,6 +13,7 @@ export default function CadastroCrianca() {
   // Step 1 — dados básicos
     const [nome, setNome] = useState('')
     const [dataNascimento, setDataNascimento] = useState('')
+    const [emoji, setEmoji] = useState('🧒')
 
   // Step 2 — saúde
     const [tipoSanguineo, setTipoSanguineo] = useState('')
@@ -49,6 +52,7 @@ export default function CadastroCrianca() {
         .from('criancas')
         .insert({
         nome,
+        emoji,
         data_nascimento: dataNascimento,
         tipo_sanguineo: tipoSanguineo,
         alergias,
@@ -117,6 +121,23 @@ export default function CadastroCrianca() {
             <div className="flex flex-col gap-4">
             <h2 className="text-lg font-bold text-[#2A1F3D]">Dados da criança</h2>
             <div>
+                <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-2">Ícone</p>
+                <div className="flex gap-2">
+                {EMOJIS_CRIANCA.map(e => (
+                    <button
+                    key={e}
+                    type="button"
+                    onClick={() => setEmoji(e)}
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl border-2 transition-all ${
+                        emoji === e ? 'border-[#9B7FD4] bg-[#EDE5F8]' : 'border-[#E8D5F0] bg-white'
+                    }`}
+                    >
+                    {e}
+                    </button>
+                ))}
+                </div>
+            </div>
+            <div>
                 <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">Nome completo</p>
                 <input
                 type="text"
@@ -148,7 +169,7 @@ export default function CadastroCrianca() {
                 { label: 'Alergias', value: alergias, set: setAlergias, placeholder: '' },
                 { label: 'Medicamentos em uso', value: medicamentos, set: setMedicamentos, placeholder: '' },
                 { label: 'Pediatra', value: pediatra, set: setPediatra, placeholder: '' },
-                { label: 'Telefone do pediatra', value: pediatraTelefone, set: setPediatraTelefone, placeholder: '' },
+                { label: 'Telefone do pediatra', value: pediatraTelefone, set: setPediatraTelefone, placeholder: '(00) 00000-0000' },
             ].map((field, i) => (
                 <div key={i}>
                 <p className="text-xs font-bold text-[#8A7A9B] uppercase tracking-widest mb-1">{field.label}</p>

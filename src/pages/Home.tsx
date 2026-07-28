@@ -3,11 +3,13 @@ import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import { labelVinculo } from '../lib/vinculos'
 import BottomNav from '../components/BottomNav'
+import { HomeSkeleton } from '../components/Skeleton'
 
 interface Crianca {
     id: string
     nome: string
     data_nascimento: string
+    emoji: string
 }
 
 interface Membro {
@@ -97,7 +99,7 @@ export default function Home() {
                     .single(),
                 supabase
                     .from('criancas')
-                    .select('id, nome, data_nascimento')
+                    .select('id, nome, data_nascimento, emoji')
                     .eq('id', criancaId)
                     .single(),
                 supabase
@@ -126,11 +128,7 @@ export default function Home() {
     }, [navigate])
 
     if (loading) {
-        return (
-            <div className="h-screen bg-[#FFF8F2] flex items-center justify-center max-w-md mx-auto">
-                <p className="text-[#9B7FD4] font-semibold">Carregando...</p>
-            </div>
-        )
+        return <HomeSkeleton />
     }
 
     return (
@@ -161,7 +159,7 @@ export default function Home() {
             {crianca && (
                 <div className="mx-5 mt-5 bg-gradient-to-br from-[#9B7FD4] to-[#7B5BB4] rounded-3xl p-5 flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-3xl flex-shrink-0">
-                        🧒
+                        {crianca.emoji || '🧒'}
                     </div>
                     <div>
                         <p className="text-white font-bold text-lg">{crianca.nome}</p>
