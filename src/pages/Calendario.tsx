@@ -401,8 +401,7 @@
                 </button>
                 <button
                     onClick={confirmarExclusao}
-                    className="flex-1 text-white font-semibold py-4 rounded-full text-sm"
-                    style={{ backgroundColor: '#FF7B54' }}
+                    className="flex-1 bg-[#9B7FD4] hover:bg-[#7B5BB4] text-white font-semibold py-4 rounded-full text-sm transition-colors"
                 >
                     Excluir
                 </button>
