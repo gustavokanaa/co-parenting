@@ -109,17 +109,19 @@
 
         setCriancaId(membroData.crianca_id)
 
-        const { data: membroCompleto} = await supabase
-            .from('membros_familia')
-            .select('papel')
-            .eq('user_id', userData.user.id)
-            .eq('crianca_id', membroData.crianca_id)
-            .single()
+        // Queries independentes entre si (todas dependem só de crianca_id) → paralelas
+        const [{ data: membroCompleto }] = await Promise.all([
+            supabase
+                .from('membros_familia')
+                .select('papel')
+                .eq('user_id', userData.user.id)
+                .eq('crianca_id', membroData.crianca_id)
+                .single(),
+            carregarEventos(membroData.crianca_id, mes, ano),
+            carregarConfirmacoes(membroData.crianca_id, mes, ano),
+        ])
 
         if (membroCompleto) setPapel(membroCompleto.papel)
-
-        await carregarEventos(membroData.crianca_id, mes, ano)
-        await carregarConfirmacoes(membroData.crianca_id, mes, ano)
         }
         carregarDados()
     }, [navigate, mes, ano])
@@ -399,8 +401,7 @@
                 </button>
                 <button
                     onClick={confirmarExclusao}
-                    className="flex-1 text-white font-semibold py-4 rounded-full text-sm"
-                    style={{ backgroundColor: '#FF7B54' }}
+                    className="flex-1 bg-[#9B7FD4] hover:bg-[#7B5BB4] text-white font-semibold py-4 rounded-full text-sm transition-colors"
                 >
                     Excluir
                 </button>

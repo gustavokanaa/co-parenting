@@ -80,44 +80,43 @@ export default function Home() {
             }
 
             const criancaId = membroData.crianca_id
+            const hoje = new Date().toISOString().split('T')[0]
 
-            const { data: membroCompleto } = await supabase
-                .from('membros_familia')
-                .select('papel')
-                .eq('user_id', user.id)
-                .eq('crianca_id', criancaId)
-                .single()
+            // Queries independentes entre si (todas dependem só de criancaId) → paralelas
+            const [
+                { data: membroCompleto },
+                { data: criancaData },
+                { data: membrosData },
+                { data: eventosData },
+            ] = await Promise.all([
+                supabase
+                    .from('membros_familia')
+                    .select('papel')
+                    .eq('user_id', user.id)
+                    .eq('crianca_id', criancaId)
+                    .single(),
+                supabase
+                    .from('criancas')
+                    .select('id, nome, data_nascimento')
+                    .eq('id', criancaId)
+                    .single(),
+                supabase
+                    .from('membros_familia')
+                    .select('nome, vinculo')
+                    .eq('crianca_id', criancaId)
+                    .eq('ativo', true),
+                supabase
+                    .from('eventos')
+                    .select('id, titulo, data_evento, hora_evento, quem_leva')
+                    .eq('crianca_id', criancaId)
+                    .gte('data_evento', hoje)
+                    .order('data_evento', { ascending: true })
+                    .limit(3),
+            ])
 
             if (membroCompleto) setPapel(membroCompleto.papel)
-
-            // Busca dados da criança
-            const { data: criancaData } = await supabase
-                .from('criancas')
-                .select('id, nome, data_nascimento')
-                .eq('id', criancaId)
-                .single()
-
             if (criancaData) setCrianca(criancaData)
-
-            // Busca membros da família
-            const { data: membrosData } = await supabase
-                .from('membros_familia')
-                .select('nome, vinculo')
-                .eq('crianca_id', criancaId)
-                .eq('ativo', true)
-
             if (membrosData) setMembros(membrosData)
-
-            // Busca próximos eventos
-            const hoje = new Date().toISOString().split('T')[0]
-            const { data: eventosData } = await supabase
-                .from('eventos')
-                .select('id, titulo, data_evento, hora_evento, quem_leva')
-                .eq('crianca_id', criancaId)
-                .gte('data_evento', hoje)
-                .order('data_evento', { ascending: true })
-                .limit(3)
-
             if (eventosData) setEventos(eventosData)
 
             setLoading(false)

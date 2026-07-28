@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import {
     IconSun, IconMoon, IconSunset2, IconTrophy, IconHeartRateMonitor, IconSparkles,
-    IconHeart, IconMessageCircle, IconNotebook,
+    IconHeart, IconMessageCircle, IconNotebook, IconCamera,
 } from '@tabler/icons-react'
 import { labelVinculo } from '../lib/vinculos'
 import BottomNav from '../components/BottomNav'
@@ -29,6 +29,8 @@ interface Post {
     created_at: string
 }
 
+const POSTS_POR_PAGINA = 20
+
 export default function Diario() {
     const navigate = useNavigate()
     const [posts, setPosts] = useState<Post[]>([])
@@ -45,6 +47,8 @@ export default function Diario() {
     const [curtidos, setCurtidos] = useState<Set<string>>(new Set())
     const [respondendo, setRespondendo] = useState<string | null>(null)
     const [textoResposta, setTextoResposta] = useState<Record<string, string>>({})
+    const [temMaisPosts, setTemMaisPosts] = useState(false)
+    const [carregandoMais, setCarregandoMais] = useState(false)
 
     useEffect(() => {
         async function carregarDados() {
@@ -56,19 +60,21 @@ export default function Diario() {
             setAutorNome(nome)
             setUserId(user.id)
 
-            const { data: reacoes } = await supabase
-                .from('diario_reacoes')
-                .select('post_id')
-                .eq('user_id', user.id)
+            // Independentes entre si (dependem só de user.id) → paralelas
+            const [{ data: reacoes }, { data: membroData }] = await Promise.all([
+                supabase
+                    .from('diario_reacoes')
+                    .select('post_id')
+                    .eq('user_id', user.id),
+                supabase
+                    .from('membros_familia')
+                    .select('crianca_id, vinculo, papel')
+                    .eq('user_id', user.id)
+                    .eq('ativo', true)
+                    .limit(1)
+                    .single(),
+            ])
             if (reacoes) setCurtidos(new Set(reacoes.map(r => r.post_id as string)))
-
-            const { data: membroData } = await supabase
-                .from('membros_familia')
-                .select('crianca_id, vinculo, papel')
-                .eq('user_id', user.id)
-                .eq('ativo', true)
-                .limit(1)
-                .single()
 
             if (!membroData) { navigate('/cadastro-crianca'); return }
 
@@ -76,15 +82,17 @@ export default function Diario() {
             setAutorPapel(membroData.papel)
             setCriancaId(membroData.crianca_id)
 
-            const { data: criancaData } = await supabase
-                .from('criancas')
-                .select('nome')
-                .eq('id', membroData.crianca_id)
-                .single()
+            // Independentes entre si (dependem só de crianca_id) → paralelas
+            const [{ data: criancaData }] = await Promise.all([
+                supabase
+                    .from('criancas')
+                    .select('nome')
+                    .eq('id', membroData.crianca_id)
+                    .single(),
+                carregarPosts(membroData.crianca_id),
+            ])
 
             if (criancaData) setCriancaNome(criancaData.nome)
-
-            await carregarPosts(membroData.crianca_id)
         }
         carregarDados()
     }, [navigate])
@@ -95,7 +103,27 @@ export default function Diario() {
             .select('*')
             .eq('crianca_id', cid)
             .order('created_at', { ascending: false })
-        if (data) setPosts(data)
+            .range(0, POSTS_POR_PAGINA - 1)
+        if (data) {
+            setPosts(data)
+            setTemMaisPosts(data.length === POSTS_POR_PAGINA)
+        }
+    }
+
+    async function carregarMaisPosts() {
+        if (!criancaId || carregandoMais) return
+        setCarregandoMais(true)
+        const { data } = await supabase
+            .from('posts_diario')
+            .select('*')
+            .eq('crianca_id', criancaId)
+            .order('created_at', { ascending: false })
+            .range(posts.length, posts.length + POSTS_POR_PAGINA - 1)
+        if (data) {
+            setPosts(prev => [...prev, ...data])
+            setTemMaisPosts(data.length === POSTS_POR_PAGINA)
+        }
+        setCarregandoMais(false)
     }
 
     async function publicarPost() {
@@ -253,7 +281,15 @@ export default function Diario() {
                     })}
                 </div>
 
-                <div className="flex justify-end mt-3">
+                <div className="flex justify-between items-center mt-3">
+                    <button
+                        disabled
+                        title="Em breve"
+                        className="flex items-center gap-1 text-xs font-semibold text-[#C5B8D8] px-3 py-2 rounded-full border border-[#E8D5F0] cursor-not-allowed"
+                    >
+                        <IconCamera size={14} strokeWidth={2} />
+                        Em breve
+                    </button>
                     <button
                         onClick={publicarPost}
                         disabled={!texto.trim() || loading}
@@ -361,6 +397,17 @@ export default function Diario() {
                         )
                     })}
                 </div>
+                {temMaisPosts && (
+                    <div className="flex justify-center mt-4">
+                        <button
+                            onClick={carregarMaisPosts}
+                            disabled={carregandoMais}
+                            className="text-xs font-semibold text-[#9B7FD4] bg-white border border-[#E8D5F0] px-4 py-2 rounded-full disabled:opacity-50"
+                        >
+                            {carregandoMais ? 'Carregando...' : 'Carregar mais'}
+                        </button>
+                    </div>
+                )}
             </div>
 
             <BottomNav />

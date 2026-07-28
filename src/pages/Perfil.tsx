@@ -71,20 +71,27 @@
 
         if (!membroData) { navigate('/cadastro-crianca'); return }
 
-        const { data: membroCompleto } = await supabase
-        .from('membros_familia')
-        .select('papel')
-        .eq('user_id', userData.user.id)
-        .eq('crianca_id', membroData.crianca_id)
-        .single()
+        // Independentes entre si (dependem só de crianca_id) → paralelas
+        const [{ data: membroCompleto }, { data: criancaData }, { data: membrosData }] = await Promise.all([
+        supabase
+            .from('membros_familia')
+            .select('papel')
+            .eq('user_id', userData.user.id)
+            .eq('crianca_id', membroData.crianca_id)
+            .single(),
+        supabase
+            .from('criancas')
+            .select('*')
+            .eq('id', membroData.crianca_id)
+            .single(),
+        supabase
+            .from('membros_familia')
+            .select('nome, vinculo')
+            .eq('crianca_id', membroData.crianca_id)
+            .eq('ativo', true),
+        ])
 
         if (membroCompleto) setPapel(membroCompleto.papel)
-
-        const { data: criancaData } = await supabase
-        .from('criancas')
-        .select('*')
-        .eq('id', membroData.crianca_id)
-        .single()
 
         if (criancaData) {
         setCrianca(criancaData)
@@ -102,12 +109,6 @@
             professora: criancaData.professora || '',
         })
         }
-
-        const { data: membrosData } = await supabase
-        .from('membros_familia')
-        .select('nome, vinculo')
-        .eq('crianca_id', membroData.crianca_id)
-        .eq('ativo', true)
 
         if (membrosData) setMembros(membrosData)
         setLoading(false)
