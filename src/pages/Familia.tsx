@@ -367,7 +367,7 @@ export default function Familia() {
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-30 px-5">
                 <div className="bg-[#FFF8F2] rounded-2xl p-6 w-full max-w-sm shadow-xl">
                     <div className="flex flex-col items-center text-center gap-3">
-                        <IconTrash size={40} color="#E07A5F" strokeWidth={1.5} />
+                        <IconTrash size={40} color="#9B7FD4" strokeWidth={1.5} />
                         <h2 className="text-lg font-bold text-[#2A1F3D]">Remover {modalExcluirMembro.nome}?</h2>
                         <p className="text-sm text-[#8A7A9B] leading-relaxed">
                             Esta ação não pode ser desfeita. {modalExcluirMembro.nome} perderá o acesso à família e não poderá mais visualizar ou publicar no diário.
@@ -384,7 +384,7 @@ export default function Familia() {
                         <button
                             onClick={confirmarExclusaoMembro}
                             disabled={excluindo}
-                            className="flex-1 bg-[#E07A5F] hover:bg-[#C96548] text-white font-semibold py-4 rounded-full text-sm transition-colors disabled:opacity-60"
+                            className="flex-1 bg-[#9B7FD4] hover:bg-[#7B5BB4] text-white font-semibold py-4 rounded-full text-sm transition-colors disabled:opacity-60"
                         >
                             {excluindo ? 'Removendo...' : 'Remover'}
                         </button>
