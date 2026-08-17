@@ -137,24 +137,46 @@ export default function Diario() {
         setCarregandoMais(false)
     }
 
-    // ── NOVO ── busca as respostas (posts com resposta_a preenchido) dos posts-pai informados
+    // ── NOVO ── busca TODA a thread (respostas diretas e indiretas) de cada post-pai informado,
+    // percorrendo a cadeia de resposta_a nível a nível (BFS), já que uma resposta pode
+    // apontar tanto para o post-pai quanto para outra resposta.
     async function carregarRespostas(postIds: string[]) {
         if (postIds.length === 0) return
-        const { data } = await supabase
-            .from('posts_diario')
-            .select('*')
-            .in('resposta_a', postIds)
-            .order('created_at', { ascending: true })
 
-        setRespostas(prev => {
-            const agrupado = { ...prev }
-            for (const id of postIds) agrupado[id] = []
-            for (const r of data || []) {
-                const pai = r.resposta_a as string
-                agrupado[pai] = [...(agrupado[pai] || []), r]
+        const raizPorId: Record<string, string> = {}
+        for (const id of postIds) raizPorId[id] = id
+
+        const agrupado: Record<string, Post[]> = {}
+        for (const id of postIds) agrupado[id] = []
+
+        let fronteira = postIds
+        while (fronteira.length > 0) {
+            const { data } = await supabase
+                .from('posts_diario')
+                .select('*')
+                .in('resposta_a', fronteira)
+                .order('created_at', { ascending: true })
+
+            if (!data || data.length === 0) break
+
+            const proximaFronteira: string[] = []
+            for (const r of data) {
+                const raiz = raizPorId[r.resposta_a as string]
+                if (!raiz) continue
+                agrupado[raiz].push(r)
+                raizPorId[r.id] = raiz
+                proximaFronteira.push(r.id)
             }
-            return agrupado
-        })
+            fronteira = proximaFronteira
+        }
+
+        // Respostas de níveis mais profundos são buscadas depois das diretas,
+        // então reordena cada thread por data de criação para exibição cronológica.
+        for (const raiz of Object.keys(agrupado)) {
+            agrupado[raiz].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+        }
+
+        setRespostas(prev => ({ ...prev, ...agrupado }))
     }
 
     function excluirPost(postId: string) {
@@ -166,12 +188,25 @@ export default function Diario() {
         const idExcluido = modalExcluirPost
         await supabase.from('posts_diario').delete().eq('id', idExcluido)
         setPosts(prev => prev.filter(p => p.id !== idExcluido))
-        // ── NOVO ── remove o item do mapa de respostas, seja ele um post-pai (cai em cascata no banco) ou uma resposta
+        // ── NOVO ── remove o item do mapa de respostas: se for um post-pai, a thread inteira cai
+        // em cascata no banco; se for uma resposta no meio da cadeia, remove também toda resposta
+        // encadeada nela (mesmo efeito do ON DELETE CASCADE, refletido aqui no estado local)
         setRespostas(prev => {
             const atualizado: Record<string, Post[]> = {}
-            for (const [paiId, lista] of Object.entries(prev)) {
-                if (paiId === idExcluido) continue
-                atualizado[paiId] = lista.filter(r => r.id !== idExcluido)
+            for (const [raizId, lista] of Object.entries(prev)) {
+                if (raizId === idExcluido) continue
+                const idsParaRemover = new Set([idExcluido])
+                let mudou = true
+                while (mudou) {
+                    mudou = false
+                    for (const r of lista) {
+                        if (r.resposta_a && idsParaRemover.has(r.resposta_a) && !idsParaRemover.has(r.id)) {
+                            idsParaRemover.add(r.id)
+                            mudou = true
+                        }
+                    }
+                }
+                atualizado[raizId] = lista.filter(r => !idsParaRemover.has(r.id))
             }
             return atualizado
         })
@@ -249,26 +284,34 @@ export default function Diario() {
             .eq('id', post.id)
     }
 
-    async function publicarResposta(postOriginal: Post) {
-        const texto = textoResposta[postOriginal.id]?.trim()
-        if (!texto || !criancaId || !userId) return
+    // ── NOVO ── alvo é o item sendo respondido (post-pai OU outra resposta); raizId é o id do
+    // post-pai da thread, usado para recarregar a thread inteira após publicar
+    async function publicarResposta(alvo: Post, raizId: string) {
+        const textoDigitado = textoResposta[alvo.id]?.trim()
+        if (!textoDigitado || !criancaId || !userId) return
 
-        // ── NOVO ── resposta é gravada com resposta_a apontando pro post-pai, sem prefixo de seta/nome no texto
+        // quando o alvo já é uma resposta (faz parte da cadeia), prefixa com @nome de quem a escreveu,
+        // igual ao Instagram — respondendo direto ao post-pai não leva menção
+        const alvoEhResposta = alvo.resposta_a !== null
+        const textoFinal = alvoEhResposta
+            ? `@${alvo.autor_nome.split(' ')[0]} ${textoDigitado}`
+            : textoDigitado
+
         const { error } = await supabase.from('posts_diario').insert({
             crianca_id: criancaId,
             autor_id: userId,
             autor_nome: autorNome,
             autor_vinculo: autorVinculo,
             autor_papel: autorPapel,
-            texto,
+            texto: textoFinal,
             tag: null,
-            resposta_a: postOriginal.id,
+            resposta_a: alvo.id,
         })
 
         if (!error) {
             setRespondendo(null)
-            setTextoResposta(prev => ({ ...prev, [postOriginal.id]: '' }))
-            await carregarRespostas([postOriginal.id])
+            setTextoResposta(prev => ({ ...prev, [alvo.id]: '' }))
+            await carregarRespostas([raizId])
         }
     }
 
@@ -292,6 +335,36 @@ export default function Diario() {
         const partes = nome.trim().split(' ')
         if (partes.length >= 2) return partes[0][0].toUpperCase() + partes[1][0].toUpperCase()
         return partes[0].slice(0, 2).toUpperCase()
+    }
+
+    // ── NOVO ── caixa de "responder", reaproveitada tanto para o post-pai quanto para qualquer
+    // resposta da thread (indent alinha a caixa ao mesmo recuo das respostas)
+    function renderCaixaResposta(alvo: Post, raizId: string, indent: boolean) {
+        return (
+            <div className={indent ? 'pl-8 pr-4 pb-3 pt-1' : 'px-4 pb-4 pt-1'}>
+                <textarea
+                    value={textoResposta[alvo.id] || ''}
+                    onChange={e => setTextoResposta(prev => ({ ...prev, [alvo.id]: e.target.value }))}
+                    placeholder={`Responder para ${alvo.autor_nome.split(' ')[0]}...`}
+                    className="w-full text-sm text-[#2A1F3D] placeholder-[#C5B8D8] outline-none resize-none h-14 bg-[#FAF6FF] rounded-xl px-3 py-2 border border-[#E8D5F0]"
+                />
+                <div className="flex justify-end gap-2 mt-2">
+                    <button
+                        onClick={() => setRespondendo(null)}
+                        className="text-xs text-[#8A7A9B] px-3 py-1.5"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        onClick={() => publicarResposta(alvo, raizId)}
+                        disabled={!textoResposta[alvo.id]?.trim()}
+                        className="bg-[#9B7FD4] text-white text-xs font-semibold px-4 py-1.5 rounded-full disabled:opacity-40"
+                    >
+                        Publicar
+                    </button>
+                </div>
+            </div>
+        )
     }
 
     if (carregandoInicial) {
@@ -435,67 +508,56 @@ export default function Diario() {
                                     </button>
                                 </div>
 
-                                {/* ── NOVO ── respostas aninhadas, recuadas abaixo do post original (estilo comentários do Instagram) */}
+                                {/* ── NOVO ── thread inteira (respostas diretas e encadeadas), todas no mesmo nível de recuo,
+                                     recuadas abaixo do post original (estilo comentários do Instagram) */}
                                 {(respostas[post.id] || []).length > 0 && (
                                     <div className="flex flex-col gap-3 px-4 pb-3 pt-1 border-t border-[#E8D5F0]">
                                         {respostas[post.id].map(resposta => (
-                                            <div key={resposta.id} className="flex items-start gap-2 pl-4 border-l-2 border-[#E8D5F0]">
-                                                <div
-                                                    className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
-                                                    style={{
-                                                        background: getCorAvatar(resposta.autor_papel),
-                                                        color: resposta.autor_papel === 'responsavel_principal' ? '#B85C38' : '#7B5B9E',
-                                                    }}
-                                                >
-                                                    {getIniciais(resposta.autor_nome)}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="text-xs leading-snug">
-                                                        <span className="font-semibold text-[#2A1F3D]">{resposta.autor_nome}</span>
-                                                        {' '}
-                                                        <span className="text-[#4A3A6E]">{resposta.texto}</span>
-                                                    </p>
-                                                    <p className="text-[10px] text-[#8A7A9B] mt-0.5">{formatarTempo(resposta.created_at)}</p>
-                                                </div>
-                                                {resposta.autor_id === userId && (
-                                                    <button
-                                                        onClick={() => excluirPost(resposta.id)}
-                                                        title="Excluir resposta"
-                                                        className="p-1 rounded-full text-[#8A7A9B] hover:text-[#FF7B54] transition-colors flex-shrink-0"
+                                            <div key={resposta.id}>
+                                                <div className="flex items-start gap-2 pl-4 border-l-2 border-[#E8D5F0]">
+                                                    <div
+                                                        className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
+                                                        style={{
+                                                            background: getCorAvatar(resposta.autor_papel),
+                                                            color: resposta.autor_papel === 'responsavel_principal' ? '#B85C38' : '#7B5B9E',
+                                                        }}
                                                     >
-                                                        <IconTrash size={12} strokeWidth={2} />
-                                                    </button>
-                                                )}
+                                                        {getIniciais(resposta.autor_nome)}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs leading-snug">
+                                                            <span className="font-semibold text-[#2A1F3D]">{resposta.autor_nome}</span>
+                                                            {' '}
+                                                            <span className="text-[#4A3A6E]">{resposta.texto}</span>
+                                                        </p>
+                                                        <div className="flex items-center gap-3 mt-0.5">
+                                                            <p className="text-[10px] text-[#8A7A9B]">{formatarTempo(resposta.created_at)}</p>
+                                                            <button
+                                                                onClick={() => setRespondendo(respondendo === resposta.id ? null : resposta.id)}
+                                                                className={`text-[10px] font-semibold transition-colors ${respondendo === resposta.id ? 'text-[#9B7FD4]' : 'text-[#8A7A9B]'}`}
+                                                            >
+                                                                Responder
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {resposta.autor_id === userId && (
+                                                        <button
+                                                            onClick={() => excluirPost(resposta.id)}
+                                                            title="Excluir resposta"
+                                                            className="p-1 rounded-full text-[#8A7A9B] hover:text-[#FF7B54] transition-colors flex-shrink-0"
+                                                        >
+                                                            <IconTrash size={12} strokeWidth={2} />
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                                {respondendo === resposta.id && renderCaixaResposta(resposta, post.id, true)}
                                             </div>
                                         ))}
                                     </div>
                                 )}
 
-                                {respondendo === post.id && (
-                                    <div className="px-4 pb-4 pt-1">
-                                        <textarea
-                                            value={textoResposta[post.id] || ''}
-                                            onChange={e => setTextoResposta(prev => ({ ...prev, [post.id]: e.target.value }))}
-                                            placeholder={`Responder para ${post.autor_nome.split(' ')[0]}...`}
-                                            className="w-full text-sm text-[#2A1F3D] placeholder-[#C5B8D8] outline-none resize-none h-14 bg-[#FAF6FF] rounded-xl px-3 py-2 border border-[#E8D5F0]"
-                                        />
-                                        <div className="flex justify-end gap-2 mt-2">
-                                            <button
-                                                onClick={() => setRespondendo(null)}
-                                                className="text-xs text-[#8A7A9B] px-3 py-1.5"
-                                            >
-                                                Cancelar
-                                            </button>
-                                            <button
-                                                onClick={() => publicarResposta(post)}
-                                                disabled={!textoResposta[post.id]?.trim()}
-                                                className="bg-[#9B7FD4] text-white text-xs font-semibold px-4 py-1.5 rounded-full disabled:opacity-40"
-                                            >
-                                                Publicar
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
+                                {respondendo === post.id && renderCaixaResposta(post, post.id, false)}
                             </div>
                         )
                     })}
