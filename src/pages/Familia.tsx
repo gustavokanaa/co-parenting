@@ -4,6 +4,7 @@
     import { VINCULOS, labelVinculo, emojiVinculo, corVinculo } from '../lib/vinculos'
     import BottomNav from '../components/BottomNav'
     import { FamiliaSkeleton } from '../components/Skeleton'
+    import { IconTrash } from '@tabler/icons-react' // ── NOVO ──
 
     interface Membro {
     id: string
@@ -32,6 +33,11 @@ export default function Familia() {
     const [gerando, setGerando] = useState(false)
     const [toastMsg, setToastMsg] = useState('')
     const [toastTipo, setToastTipo] = useState<'erro' | 'sucesso'>('erro')
+    // ── FIM NOVO ──────────────────────────────────────────────────────
+
+    // ── NOVO — exclusão de participante ─────────────────────────────────
+    const [modalExcluirMembro, setModalExcluirMembro] = useState<Membro | null>(null)
+    const [excluindo, setExcluindo] = useState(false)
     // ── FIM NOVO ──────────────────────────────────────────────────────
 
     useEffect(() => {
@@ -139,6 +145,33 @@ export default function Familia() {
     }
     // ── FIM NOVO ──────────────────────────────────────────────────────
 
+    // ── NOVO — exclusão de participante ─────────────────────────────────
+    function excluirMembro(membro: Membro) {
+        setModalExcluirMembro(membro)
+    }
+
+    async function confirmarExclusaoMembro() {
+        if (!modalExcluirMembro) return
+        setExcluindo(true)
+
+        const { error } = await supabase
+            .from('membros_familia')
+            .delete()
+            .eq('id', modalExcluirMembro.id)
+
+        if (error) {
+            setExcluindo(false)
+            mostrarToast('Erro ao remover participante. Tente novamente.')
+            return
+        }
+
+        setParticipantes(prev => prev.filter(p => p.id !== modalExcluirMembro.id))
+        setExcluindo(false)
+        setModalExcluirMembro(null)
+        mostrarToast('Participante removido da família.', 'sucesso')
+    }
+    // ── FIM NOVO ──────────────────────────────────────────────────────
+
     function getEmoji(vinculo: string) { return emojiVinculo(vinculo) }
     function getCorAvatar(vinculo: string) { return corVinculo(vinculo) }
 
@@ -234,6 +267,17 @@ export default function Familia() {
                         <p className="text-xs text-[#9B7FD4] font-medium">{labelVinculo(m.vinculo)} · Participante Familiar</p>
                         <p className="text-[10px] text-[#8A7A9B] mt-0.5">Desde {m.desde}</p>
                     </div>
+                    {/* ── NOVO — excluir participante (somente Responsável Principal) ── */}
+                    {meuPapel === 'responsavel_principal' && (
+                        <button
+                            onClick={() => excluirMembro(m)}
+                            title="Remover participante"
+                            className="p-1.5 rounded-full bg-[#F5EDE3] text-[#8B6A3E] hover:bg-[#E07A5F] hover:text-white transition-colors flex-shrink-0"
+                        >
+                            <IconTrash size={16} strokeWidth={2} />
+                        </button>
+                    )}
+                    {/* ── FIM NOVO ── */}
                     </div>
                 ))}
                 </div>
@@ -311,6 +355,38 @@ export default function Familia() {
                 </>
                 )}
             </div>
+            </div>
+        )}
+        {/* ── FIM NOVO ──────────────────────────────────────────────── */}
+
+        {/* ── NOVO — Modal de confirmação de exclusão de participante ── */}
+        {modalExcluirMembro && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-30 px-5">
+                <div className="bg-[#FFF8F2] rounded-2xl p-6 w-full max-w-sm shadow-xl">
+                    <div className="flex flex-col items-center text-center gap-3">
+                        <IconTrash size={40} color="#E07A5F" strokeWidth={1.5} />
+                        <h2 className="text-lg font-bold text-[#2A1F3D]">Remover {modalExcluirMembro.nome}?</h2>
+                        <p className="text-sm text-[#8A7A9B] leading-relaxed">
+                            Esta ação não pode ser desfeita. {modalExcluirMembro.nome} perderá o acesso à família e não poderá mais visualizar ou publicar no diário.
+                        </p>
+                    </div>
+                    <div className="flex gap-3 mt-6">
+                        <button
+                            onClick={() => setModalExcluirMembro(null)}
+                            disabled={excluindo}
+                            className="flex-1 border-2 border-[#E8D5F0] text-[#8A7A9B] font-semibold py-4 rounded-full text-sm disabled:opacity-60"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={confirmarExclusaoMembro}
+                            disabled={excluindo}
+                            className="flex-1 bg-[#E07A5F] hover:bg-[#C96548] text-white font-semibold py-4 rounded-full text-sm transition-colors disabled:opacity-60"
+                        >
+                            {excluindo ? 'Removendo...' : 'Remover'}
+                        </button>
+                    </div>
+                </div>
             </div>
         )}
         {/* ── FIM NOVO ──────────────────────────────────────────────── */}
