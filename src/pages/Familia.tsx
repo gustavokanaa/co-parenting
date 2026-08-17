@@ -154,14 +154,17 @@ export default function Familia() {
         if (!modalExcluirMembro) return
         setExcluindo(true)
 
-        const { error } = await supabase
+        // .select() força erro/retorno vazio explícito se a RLS bloquear o delete
+        // (sem isso, uma exclusão barrada pela policy retorna sucesso com 0 linhas)
+        const { data, error } = await supabase
             .from('membros_familia')
             .delete()
             .eq('id', modalExcluirMembro.id)
+            .select()
 
-        if (error) {
+        if (error || !data || data.length === 0) {
             setExcluindo(false)
-            mostrarToast('Erro ao remover participante. Tente novamente.')
+            mostrarToast('Não foi possível remover. Verifique se você ainda é Responsável Principal desta criança.')
             return
         }
 
