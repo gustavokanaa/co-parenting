@@ -29,6 +29,7 @@ interface Post {
     tem_foto: boolean
     reacoes: number
     created_at: string
+    resposta_a: string | null
 }
 
 const POSTS_POR_PAGINA = 20
@@ -49,6 +50,7 @@ export default function Diario() {
     const [curtidos, setCurtidos] = useState<Set<string>>(new Set())
     const [respondendo, setRespondendo] = useState<string | null>(null)
     const [textoResposta, setTextoResposta] = useState<Record<string, string>>({})
+    const [respostas, setRespostas] = useState<Record<string, Post[]>>({})
     const [temMaisPosts, setTemMaisPosts] = useState(false)
     const [carregandoMais, setCarregandoMais] = useState(false)
     const [carregandoInicial, setCarregandoInicial] = useState(true)
@@ -107,11 +109,13 @@ export default function Diario() {
             .from('posts_diario')
             .select('*')
             .eq('crianca_id', cid)
+            .is('resposta_a', null)
             .order('created_at', { ascending: false })
             .range(0, POSTS_POR_PAGINA - 1)
         if (data) {
             setPosts(data)
             setTemMaisPosts(data.length === POSTS_POR_PAGINA)
+            await carregarRespostas(data.map(p => p.id))
         }
     }
 
@@ -122,13 +126,35 @@ export default function Diario() {
             .from('posts_diario')
             .select('*')
             .eq('crianca_id', criancaId)
+            .is('resposta_a', null)
             .order('created_at', { ascending: false })
             .range(posts.length, posts.length + POSTS_POR_PAGINA - 1)
         if (data) {
             setPosts(prev => [...prev, ...data])
             setTemMaisPosts(data.length === POSTS_POR_PAGINA)
+            await carregarRespostas(data.map(p => p.id))
         }
         setCarregandoMais(false)
+    }
+
+    // ── NOVO ── busca as respostas (posts com resposta_a preenchido) dos posts-pai informados
+    async function carregarRespostas(postIds: string[]) {
+        if (postIds.length === 0) return
+        const { data } = await supabase
+            .from('posts_diario')
+            .select('*')
+            .in('resposta_a', postIds)
+            .order('created_at', { ascending: true })
+
+        setRespostas(prev => {
+            const agrupado = { ...prev }
+            for (const id of postIds) agrupado[id] = []
+            for (const r of data || []) {
+                const pai = r.resposta_a as string
+                agrupado[pai] = [...(agrupado[pai] || []), r]
+            }
+            return agrupado
+        })
     }
 
     function excluirPost(postId: string) {
@@ -137,8 +163,18 @@ export default function Diario() {
 
     async function confirmarExclusaoPost() {
         if (!modalExcluirPost) return
-        await supabase.from('posts_diario').delete().eq('id', modalExcluirPost)
-        setPosts(prev => prev.filter(p => p.id !== modalExcluirPost))
+        const idExcluido = modalExcluirPost
+        await supabase.from('posts_diario').delete().eq('id', idExcluido)
+        setPosts(prev => prev.filter(p => p.id !== idExcluido))
+        // ── NOVO ── remove o item do mapa de respostas, seja ele um post-pai (cai em cascata no banco) ou uma resposta
+        setRespostas(prev => {
+            const atualizado: Record<string, Post[]> = {}
+            for (const [paiId, lista] of Object.entries(prev)) {
+                if (paiId === idExcluido) continue
+                atualizado[paiId] = lista.filter(r => r.id !== idExcluido)
+            }
+            return atualizado
+        })
         setModalExcluirPost(null)
     }
 
@@ -217,20 +253,22 @@ export default function Diario() {
         const texto = textoResposta[postOriginal.id]?.trim()
         if (!texto || !criancaId || !userId) return
 
+        // ── NOVO ── resposta é gravada com resposta_a apontando pro post-pai, sem prefixo de seta/nome no texto
         const { error } = await supabase.from('posts_diario').insert({
             crianca_id: criancaId,
             autor_id: userId,
             autor_nome: autorNome,
             autor_vinculo: autorVinculo,
             autor_papel: autorPapel,
-            texto: `↩ ${postOriginal.autor_nome.split(' ')[0]}: ${texto}`,
+            texto,
             tag: null,
+            resposta_a: postOriginal.id,
         })
 
         if (!error) {
             setRespondendo(null)
             setTextoResposta(prev => ({ ...prev, [postOriginal.id]: '' }))
-            await carregarPosts(criancaId)
+            await carregarRespostas([postOriginal.id])
         }
     }
 
@@ -396,6 +434,42 @@ export default function Diario() {
                                         <IconMessageCircle size={14} strokeWidth={1.5} /> Responder
                                     </button>
                                 </div>
+
+                                {/* ── NOVO ── respostas aninhadas, recuadas abaixo do post original (estilo comentários do Instagram) */}
+                                {(respostas[post.id] || []).length > 0 && (
+                                    <div className="flex flex-col gap-3 px-4 pb-3 pt-1 border-t border-[#E8D5F0]">
+                                        {respostas[post.id].map(resposta => (
+                                            <div key={resposta.id} className="flex items-start gap-2 pl-4 border-l-2 border-[#E8D5F0]">
+                                                <div
+                                                    className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
+                                                    style={{
+                                                        background: getCorAvatar(resposta.autor_papel),
+                                                        color: resposta.autor_papel === 'responsavel_principal' ? '#B85C38' : '#7B5B9E',
+                                                    }}
+                                                >
+                                                    {getIniciais(resposta.autor_nome)}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-xs leading-snug">
+                                                        <span className="font-semibold text-[#2A1F3D]">{resposta.autor_nome}</span>
+                                                        {' '}
+                                                        <span className="text-[#4A3A6E]">{resposta.texto}</span>
+                                                    </p>
+                                                    <p className="text-[10px] text-[#8A7A9B] mt-0.5">{formatarTempo(resposta.created_at)}</p>
+                                                </div>
+                                                {resposta.autor_id === userId && (
+                                                    <button
+                                                        onClick={() => excluirPost(resposta.id)}
+                                                        title="Excluir resposta"
+                                                        className="p-1 rounded-full text-[#8A7A9B] hover:text-[#FF7B54] transition-colors flex-shrink-0"
+                                                    >
+                                                        <IconTrash size={12} strokeWidth={2} />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
 
                                 {respondendo === post.id && (
                                     <div className="px-4 pb-4 pt-1">
