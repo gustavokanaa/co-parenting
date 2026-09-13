@@ -10,6 +10,7 @@ import CadastroCrianca from '../pages/CadastroCrianca'
 import Convite from '../pages/Convites'
 import EsqueciSenha from '../pages/EsqueciSenha'
 import RedefinirSenha from '../pages/RedefinirSenha'
+import PerfilUsuario from '../pages/PerfilUsuario'
 
 export default function AppRoutes() {
     return (
@@ -23,6 +24,7 @@ export default function AppRoutes() {
         <Route path="/home" element={<Home />} />
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/meu-perfil" element={<PerfilUsuario />} />
         <Route path="/diario" element={<Diario />} />
         <Route path="/familia" element={<Familia />} />
         <Route path="/cadastro-crianca" element={<CadastroCrianca />} />

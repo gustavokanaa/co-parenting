@@ -4,6 +4,7 @@
     import { labelVinculo } from '../lib/vinculos'
     import BottomNav from '../components/BottomNav'
     import { PerfilSkeleton } from '../components/Skeleton'
+    import { IconSettings } from '@tabler/icons-react' // ── NOVO ──
 
     interface Crianca {
     id: string
@@ -174,7 +175,16 @@
         <div className="h-screen overflow-hidden bg-[#FFF8F2] flex flex-col max-w-md mx-auto">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#2A1F3D] to-[#9B7FD4] px-6 pt-12 pb-8 flex flex-col items-center shrink-0">
+        <div className="bg-gradient-to-br from-[#2A1F3D] to-[#9B7FD4] px-6 pt-12 pb-8 flex flex-col items-center shrink-0 relative">
+            {/* ── NOVO — acesso ao perfil do usuário logado ── */}
+            <button
+                onClick={() => navigate('/meu-perfil')}
+                title="Meu perfil"
+                className="absolute top-12 right-6 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-all"
+            >
+                <IconSettings size={18} strokeWidth={1.75} />
+            </button>
+            {/* ── FIM NOVO ── */}
             <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-4xl border-2 border-white/30 mb-3">
             {crianca?.emoji || '🧒'}
             </div>
